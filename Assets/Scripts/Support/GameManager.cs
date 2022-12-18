@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
             Invoke("ShowWinUI", 1.4f);
           
             currentState = GameState.Win;
-
+            confetti.SetActive(true);
             PlayerPrefs.SetInt("level", currentLevel + 1);
             currentLevel++;
 

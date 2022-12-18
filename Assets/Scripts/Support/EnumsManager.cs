@@ -53,9 +53,15 @@ public enum PlayerType
     Pro
 }
 
+public enum TileType
+{
+    Black,
+    Red,
+    Green
+}
+
 public enum TileState
 {
-
     New,
     Wall,
     Cat
