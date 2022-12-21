@@ -42,6 +42,13 @@ public class UIManager : MonoBehaviour
 
 
 
+    [Header("Objective Boxes")]
+    [SerializeField] Image burgerFill;
+    [SerializeField] Image pizzaFill;
+    [SerializeField] Image donutFill;
+
+
+
     #endregion
 
     #region MonoBehaviour Functions
@@ -127,6 +134,24 @@ public class UIManager : MonoBehaviour
         levelReward.text ="+"+ v + "";
     }
 
+    public void UpdateObjective(HexType ht, float fillAmt)
+    {
+        switch (ht)
+        {
+            case HexType.A:
+                pizzaFill.fillAmount = fillAmt;
+                break;
+
+            case HexType.B:
+                burgerFill.fillAmount = fillAmt;
+                break;
+
+            case HexType.C:
+                donutFill.fillAmount = fillAmt;
+                break;
+
+        }
+    }
     #region Give Rewards
 
     #endregion

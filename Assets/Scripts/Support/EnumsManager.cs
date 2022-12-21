@@ -54,12 +54,30 @@ public enum PlayerType
 }
 
 public enum TileType
-{
-    Black,
-    Red,
-    Green
+{    
+    Empty,
+    Occupied
 }
 
+public enum HexType
+{
+    None,
+    A,
+    B,
+    C
+}
+public enum HexDirection
+{
+    NE, E, SE, SW, W, NW
+}
+public static class HexDirectionExtensions
+{
+
+    public static HexDirection Opposite(this HexDirection direction)
+    {
+        return (int)direction < 3 ? (direction + 3) : (direction - 3);
+    }
+}
 public enum TileState
 {
     New,
