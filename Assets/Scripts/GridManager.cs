@@ -176,6 +176,7 @@ public class GridManager : MonoBehaviour
 	public void DeselectTile()
     {        
 		selectedTile = null;
+		enteredTile = null;
 		CleanSelection();
     }
 
@@ -202,22 +203,26 @@ public class GridManager : MonoBehaviour
 											if (t.hexes[0].hexType == n.hexes[0].hexType)
 											{
 												t.ShiftHexesToTile(n);
-												//Check if tile has hexes, if so, teleport all to this tile
-												//  tile.transform.DOMove(new Vector3(transform.position.x, t.transform.position.y * (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f);
 											}
 										}
 									}
 								}
 								n.ShiftHexesToTile(tile);
-								//Check if tile has hexes, if so, teleport all to this tile
-								//  tile.transform.DOMove(new Vector3(transform.position.x, t.transform.position.y * (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f);
 							}
 						}
 					}
 				}
-            }
-			
+            }			
 		}
+
+		foreach(Tile t in cells)
+        {
+            if (t.hexes.Count >= 5)
+            {
+				t.SellHexes();
+            }
+        }
+
 	}
 	public void CleanSelection()
     {
@@ -235,8 +240,6 @@ public class GridManager : MonoBehaviour
 		CleanSelection();
 		bool isPossible = false;
 		List<Tile> tempSelect = new List<Tile>();
-		//Check if neighbor positions of selected tiles is empty on entered tile
-		//Change tile state after placing - use highlighting and all, without undo
 		if (enteredTile.GetState() == TileType.Empty)
 		{
 			foreach (int i in selectedTile.GetNeighborIndex())

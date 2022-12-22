@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 public class UIManager : MonoBehaviour
 {
     #region Properties
@@ -139,18 +140,40 @@ public class UIManager : MonoBehaviour
         switch (ht)
         {
             case HexType.A:
-                pizzaFill.fillAmount = fillAmt;
+                pizzaFill.DOFillAmount(fillAmt, 0.7f);
                 break;
 
             case HexType.B:
-                burgerFill.fillAmount = fillAmt;
+                burgerFill.DOFillAmount(fillAmt, 0.7f);
                 break;
 
             case HexType.C:
-                donutFill.fillAmount = fillAmt;
+                donutFill.DOFillAmount(fillAmt, 0.7f);
                 break;
 
         }
+    }
+
+    public Vector3 GetItemPos(HexType ht)
+    {
+        Vector3 p = Vector3.zero;
+        switch (ht)
+        {
+            case HexType.A:
+                p= Camera.main.ScreenToWorldPoint(pizzaFill.transform.position);
+                break;
+
+            case HexType.B:
+                p = Camera.main.ScreenToWorldPoint(burgerFill.transform.position);
+
+                break;
+
+            case HexType.C:
+                p = Camera.main.ScreenToWorldPoint(donutFill.transform.position);
+                break;
+
+        }
+        return p;
     }
     #region Give Rewards
 

@@ -49,6 +49,10 @@ public class SelectionManager : MonoBehaviour
         g.transform.SetParent(t);
         spawnedTiles.Add(g);
         spawnIndex++;
+        if(spawnIndex == tiles.Count)
+        {
+            spawnIndex = 0;
+        }
     }
 
     public void RemoveTile(GameObject g)

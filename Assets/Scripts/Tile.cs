@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
+[System.Serializable]
+public class Food
+{
+    public Transform item;
+    public HexType ht;
+}
+
+[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
     [Header("Attributes")]
@@ -11,18 +20,23 @@ public class Tile : MonoBehaviour
 
     [SerializeField] TileType state;
     [SerializeField] public HexType hexType;
+    public Vector3 origPos;
 
 
     [Header("Component References")]
     [SerializeField] public List<Tile> hexes;
     [SerializeField] public List<Tile> neighbors;
     [SerializeField] SpriteRenderer hexSprite;
+    [SerializeField] MeshRenderer hexMesh;
+
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        origPos = transform.position;
     }
 
     // Update is called once per frame
@@ -46,6 +60,8 @@ public class Tile : MonoBehaviour
             else
             {
                 canPlace = false;
+                GridManager.Instance.SetEnteredTile(null);
+
             }
         }
     }
@@ -185,11 +201,14 @@ public class Tile : MonoBehaviour
     public void Highlight(Color c)
     {
         hexSprite.color = c;
+        hexMesh.material.color = c;
     }
 
     public void DeHighlight()
     {
         hexSprite.color = Color.white;
+        hexMesh.material.color = Color.white;
+
     }
 
 
@@ -222,6 +241,32 @@ public class Tile : MonoBehaviour
         hexes.Remove(h);
     }
 
+    public void SellHexes()
+    {
+        //Remove all hexes - teleport vfx to ui space
+        //After empty, change tile type to empty
+        var sequence = DOTween.Sequence();
+
+        hexType = hexes[0].hexType;
+        foreach (Tile h in hexes)
+        {
+            sequence.Append(h.transform.DOMove(UIManager.Instance.GetItemPos(hexType), 0.2f));
+            LevelManager.Instance.AddItem(hexType);
+
+        }
+
+        sequence.OnComplete(() =>
+        {
+            foreach (Tile h in hexes)
+            {
+                Destroy(h.gameObject);
+            }
+        });
+        hexes.Clear();
+        
+        UpdateState(TileType.Empty);
+
+    }
     public TileType GetState()
     {
         return state;
