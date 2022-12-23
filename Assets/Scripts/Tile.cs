@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using System.Threading.Tasks;
 [System.Serializable]
 public class Food
 {
@@ -21,6 +21,8 @@ public class Tile : MonoBehaviour
     [SerializeField] TileType state;
     [SerializeField] public HexType hexType;
     public Vector3 origPos;
+    public Color origColor;
+
 
 
     [Header("Component References")]
@@ -28,6 +30,8 @@ public class Tile : MonoBehaviour
     [SerializeField] public List<Tile> neighbors;
     [SerializeField] SpriteRenderer hexSprite;
     [SerializeField] MeshRenderer hexMesh;
+    [SerializeField] GameObject baseHex = null;
+
 
 
 
@@ -37,6 +41,11 @@ public class Tile : MonoBehaviour
     void Start()
     {
         origPos = transform.position;
+        if(hexMesh!=null)
+        origColor = hexMesh.material.color;
+        if(baseHex!=null)
+        baseHex.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -77,13 +86,13 @@ public class Tile : MonoBehaviour
     {
         List<Tile> tempSelect = new List<Tile>();
 
-        this.AddHex(st);
+        this.AddHex(st,true);
         tempSelect.Add(this);
         foreach (int i in st.GetNeighborIndex())
         {
             if (this.GetNeighbor(i) != null && this.GetNeighbor(i).GetState() == TileType.Empty)
             {
-                this.GetNeighbor(i).AddHex(st.GetNeighbor(i));
+                this.GetNeighbor(i).AddHex(st.GetNeighbor(i),true);
                 tempSelect.Add(this.GetNeighbor(i));
                 if (st.GetNeighbor(i).GetNeighborIndex().Count > 0)
                 {
@@ -91,7 +100,7 @@ public class Tile : MonoBehaviour
                     {
                         if (this.GetNeighbor(i).GetNeighbor(x) != null && this.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
                         {
-                            this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x));
+                            this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x),true);
                             tempSelect.Add(this.GetNeighbor(i).GetNeighbor(x));
                         }
 
@@ -107,27 +116,49 @@ public class Tile : MonoBehaviour
 
     public void ShiftHexesToTile(Tile t)
     {
-        foreach(Tile h in hexes)
+        var sequence = DOTween.Sequence();
+        for(int i = hexes.Count-1; i>=0; i--)
         {
-            t.AddHex(h);
-            h.transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + (1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f);
+            t.AddHex(hexes[i],false);
+            sequence.AppendInterval(0.05f).Append(hexes[i].transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + (1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f));
+            SoundManager.Instance.Play(Sound.Pop);
+
         }
-        hexes.Clear();
-        if (hexes.Count == 0)
+        sequence.OnComplete(()=>
         {
-            UpdateState(TileType.Empty);
-        }
+
+            hexes.Clear();
+            baseHex.SetActive(false);
+            if (hexes.Count == 0)
+            {
+                UpdateState(TileType.Empty);
+            }
+            if (t.hexes.Count >= 5)
+            {
+                t.SellHexes();
+            }
+        });
+        
     }
     
 
-    public void AddHex(Tile t)
+    public void AddHex(Tile t, bool move)
     {
         //hexType = t.hexType;
         hexes.Add(t);
-        t.transform.DOMove(new Vector3(transform.position.x, t.transform.position.y, transform.position.z), 0.2f);       
+            
+        if (move)
+        {
+            t.transform.DOMove(new Vector3(transform.position.x, transform.position.y + (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f).OnComplete(() =>
+            {
+                SoundManager.Instance.Play(Sound.Pop);
+            });
+            t.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+        }
         if (hexes.Count > 0)
         {
             UpdateState(TileType.Occupied);
+            baseHex.SetActive(true);
         }        
     }
 
@@ -200,14 +231,14 @@ public class Tile : MonoBehaviour
 
     public void Highlight(Color c)
     {
-        hexSprite.color = c;
+        //hexSprite.color = c;
         hexMesh.material.color = c;
     }
 
     public void DeHighlight()
     {
-        hexSprite.color = Color.white;
-        hexMesh.material.color = Color.white;
+      // hexSprite.color = Color.white;
+        hexMesh.material.color = origColor;
 
     }
 
@@ -244,29 +275,38 @@ public class Tile : MonoBehaviour
     public void SellHexes()
     {
         //Remove all hexes - teleport vfx to ui space
-        //After empty, change tile type to empty
         var sequence = DOTween.Sequence();
 
         hexType = hexes[0].hexType;
-        foreach (Tile h in hexes)
+
+        for (int i = hexes.Count - 1; i >= 0; i--)
         {
-            sequence.Append(h.transform.DOMove(UIManager.Instance.GetItemPos(hexType), 0.2f));
+            sequence.AppendInterval(0.15f).Append(hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(hexType), 0.3f));
             LevelManager.Instance.AddItem(hexType);
-
         }
-
         sequence.OnComplete(() =>
         {
             foreach (Tile h in hexes)
             {
                 Destroy(h.gameObject);
             }
+
+
         });
+        if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
+        {
+            GameManager.Instance.WinLevel();
+        }
+        
+        
         hexes.Clear();
         
         UpdateState(TileType.Empty);
+        baseHex.SetActive(false);
 
     }
+
+   
     public TileType GetState()
     {
         return state;
@@ -277,10 +317,10 @@ public class Tile : MonoBehaviour
         switch (t)
         {
             case TileType.Occupied:
-                Highlight(ColorManager.Instance.GetHexColor(hexes[0].hexType));
+                Highlight(origColor);
                 break;
             case TileType.Empty:
-                Highlight(Color.white);
+                Highlight(origColor);
                 break;
 
 

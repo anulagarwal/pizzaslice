@@ -5,14 +5,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [Header("Attributes")]
-    [SerializeField] int maxBurgers;
-    [SerializeField] int currentBurgers;
+    [SerializeField] public int maxBurgers;
+    [SerializeField] public int currentBurgers;
 
-    [SerializeField] int maxPizza;
-    [SerializeField] int currentPizza;
+    [SerializeField] public int maxPizza;
+    [SerializeField] public int currentPizza;
 
-    [SerializeField] int maxDonut;
-    [SerializeField] int currentDonut;
+    [SerializeField] public int maxDonut;
+    [SerializeField] public int currentDonut;
 
     public static LevelManager Instance = null;
 
@@ -81,7 +81,6 @@ public class LevelManager : MonoBehaviour
 
         if(currentBurgers >= maxBurgers && currentDonut >= maxDonut && currentPizza >= maxPizza)
         {
-            GameManager.Instance.WinLevel();            
             //Disable all inputs
         }
     }

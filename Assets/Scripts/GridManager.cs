@@ -16,6 +16,8 @@ public class GridManager : MonoBehaviour
 	[SerializeField] Tile selectedTile;
 	[SerializeField] Tile enteredTile;
 	[SerializeField] public float yOffsetTile;
+	[SerializeField] public float upScaleValue;
+
 
 	[SerializeField] List<Tile> tempTiles;
 	public static GridManager Instance = null;
@@ -168,7 +170,7 @@ public class GridManager : MonoBehaviour
     {
 		if (enteredTile.CanBePlace())
 		{
-			tempTiles= enteredTile.PlaceHexes(selectedTile);
+			tempTiles = enteredTile.PlaceHexes(selectedTile);
 			return true;
 		}
 		return false;
@@ -200,7 +202,7 @@ public class GridManager : MonoBehaviour
 									{
 										if (t.hexes.Count > 0 && n.hexes.Count>0)
 										{
-											if (t.hexes[0].hexType == n.hexes[0].hexType)
+											if (t.hexes[0].hexType == n.hexes[0].hexType && t != tile)
 											{
 												t.ShiftHexesToTile(n);
 											}
@@ -219,7 +221,7 @@ public class GridManager : MonoBehaviour
         {
             if (t.hexes.Count >= 5)
             {
-				t.SellHexes();
+				//t.SellHexes();
             }
         }
 
@@ -242,6 +244,7 @@ public class GridManager : MonoBehaviour
 		List<Tile> tempSelect = new List<Tile>();
 		if (enteredTile.GetState() == TileType.Empty)
 		{
+			isPossible = true;
 			foreach (int i in selectedTile.GetNeighborIndex())
 			{
 				if (enteredTile.GetNeighbor(i) != null && enteredTile.GetNeighbor(i).GetState() == TileType.Empty)

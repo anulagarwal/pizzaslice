@@ -19,6 +19,10 @@ public class SelectionTile : Tile
     {
         origPos = transform.position;
         canMove = true;
+        foreach (Tile t in GetComponentsInChildren<Tile>())
+        {
+//            t.Highlight(ColorManager.Instance.GetHexColor(t.hexType));
+        }
     }
 
     private void Update()

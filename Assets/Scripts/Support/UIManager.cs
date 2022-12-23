@@ -45,10 +45,16 @@ public class UIManager : MonoBehaviour
 
     [Header("Objective Boxes")]
     [SerializeField] Image burgerFill;
+    [SerializeField] Transform burgerPos;
+
     [SerializeField] Image pizzaFill;
+    [SerializeField] Transform pizzaPos;
+
     [SerializeField] Image donutFill;
+    [SerializeField] Transform donutPos;
 
 
+    Sequence goalSequence;
 
     #endregion
 
@@ -65,6 +71,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         //SwitchControls(Controls.Touch);
+        goalSequence = DOTween.Sequence();
     }
     #endregion
 
@@ -140,15 +147,15 @@ public class UIManager : MonoBehaviour
         switch (ht)
         {
             case HexType.A:
-                pizzaFill.DOFillAmount(fillAmt, 0.7f);
+                goalSequence.AppendInterval(1.5f).Append(pizzaFill.DOFillAmount(fillAmt, 2f));
                 break;
 
             case HexType.B:
-                burgerFill.DOFillAmount(fillAmt, 0.7f);
+                goalSequence.AppendInterval(1.5f).Append(burgerFill.DOFillAmount(fillAmt, 2f));
                 break;
 
             case HexType.C:
-                donutFill.DOFillAmount(fillAmt, 0.7f);
+                goalSequence.AppendInterval(1.5f).Append(donutFill.DOFillAmount(fillAmt, 2f));
                 break;
 
         }
@@ -160,16 +167,16 @@ public class UIManager : MonoBehaviour
         switch (ht)
         {
             case HexType.A:
-                p= Camera.main.ScreenToWorldPoint(pizzaFill.transform.position);
+                p=  pizzaPos.position;
                 break;
 
             case HexType.B:
-                p = Camera.main.ScreenToWorldPoint(burgerFill.transform.position);
+                p = burgerPos.position;
 
                 break;
 
             case HexType.C:
-                p = Camera.main.ScreenToWorldPoint(donutFill.transform.position);
+                p = donutPos.position;
                 break;
 
         }
