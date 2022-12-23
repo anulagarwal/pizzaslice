@@ -993,6 +993,10 @@ PrefabInstance:
       propertyPath: origPos.z
       value: -0.6460003
       objectReference: {fileID: 0}
+    - target: {fileID: 2345348991451034662, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5181803828781258347, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
       propertyPath: origPos.x
       value: -0.7144
