@@ -14,6 +14,9 @@ public class SelectionTile : Tile
 
     [Header("Component References")]
     [SerializeField] Tile primaryTile;
+    [SerializeField] GameObject selector;
+
+
 
     private void Start()
     {
@@ -58,6 +61,7 @@ public class SelectionTile : Tile
         {
             downPos = Input.mousePosition;
             GridManager.Instance.SetSelectedTile(primaryTile);
+            selector.SetActive(true);
         }
     }
 
@@ -65,20 +69,24 @@ public class SelectionTile : Tile
     {
         if (GridManager.Instance.GetSelectionTile() == primaryTile && GridManager.Instance.GetEnteredTile()!=null && Vector2.Distance(downPos, Input.mousePosition) > minDistance && canMove)
         {
+            
+
             if (GridManager.Instance.PlaceTile())
             {
                 SelectionManager.Instance.RemoveTile(gameObject);
                 GridManager.Instance.CheckForStack();
+                Destroy(selector);
+                GetComponent<BoxCollider>().enabled = false;
             }
             else
             {
                 transform.DOMove(origPos, 0.25f);
             }
 
-
+            selector.SetActive(false);
+            GridManager.Instance.DeselectTile();
             //If can place, destroy this from selection manager and spawn new
 
-            GridManager.Instance.DeselectTile();
             //transform.position = origPos;
 
         }

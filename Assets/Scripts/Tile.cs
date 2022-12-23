@@ -55,7 +55,7 @@ public class Tile : MonoBehaviour
         //if mouse button (left hand side) pressed instantiate a raycast
         if (Input.GetMouseButton(0) && GridManager.Instance.GetSelectionTile()!=null)
         {
-            //create a ray cast and set it to the mouses cursor position in game
+           /* //create a ray cast and set it to the mouses cursor position in game
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -70,8 +70,7 @@ public class Tile : MonoBehaviour
             {
                 canPlace = false;
                 GridManager.Instance.SetEnteredTile(null);
-
-            }
+            }*/
         }
     }
 
@@ -82,6 +81,10 @@ public class Tile : MonoBehaviour
         return canPlace;
     }
 
+    public void SetCanPlace(bool v)
+    {
+        canPlace = v;
+    }
     public List<Tile> PlaceHexes(Tile st)
     {
         List<Tile> tempSelect = new List<Tile>();
@@ -128,25 +131,26 @@ public class Tile : MonoBehaviour
         {
 
             hexes.Clear();
-            baseHex.SetActive(false);
-            if (hexes.Count == 0)
-            {
-                UpdateState(TileType.Empty);
-            }
+           // baseHex.SetActive(false);
+            
+                print("selll1");
+
             if (t.hexes.Count >= 5)
             {
+                print("selll");
                 t.SellHexes();
             }
         });
-        
+                UpdateState(TileType.Empty);
+
     }
-    
+
 
     public void AddHex(Tile t, bool move)
     {
         //hexType = t.hexType;
         hexes.Add(t);
-            
+        t.transform.parent = transform;
         if (move)
         {
             t.transform.DOMove(new Vector3(transform.position.x, transform.position.y + (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f).OnComplete(() =>
@@ -158,7 +162,7 @@ public class Tile : MonoBehaviour
         if (hexes.Count > 0)
         {
             UpdateState(TileType.Occupied);
-            baseHex.SetActive(true);
+//            baseHex.SetActive(true);
         }        
     }
 
@@ -239,7 +243,6 @@ public class Tile : MonoBehaviour
     {
       // hexSprite.color = Color.white;
         hexMesh.material.color = origColor;
-
     }
 
 
@@ -326,4 +329,6 @@ public class Tile : MonoBehaviour
 
         }
     }
+
+   
 }

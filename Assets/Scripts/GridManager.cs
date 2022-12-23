@@ -151,6 +151,10 @@ public class GridManager : MonoBehaviour
     public void SetEnteredTile(Tile t)
     {
 		enteredTile = t;
+        if (t = null)
+        {
+			CleanSelection();
+        }
     }
 
 	public Tile GetEnteredTile()
