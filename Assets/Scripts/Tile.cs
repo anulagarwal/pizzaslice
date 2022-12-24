@@ -135,7 +135,7 @@ public class Tile : MonoBehaviour
         for(int i = hexes.Count-1; i>=0; i--)
         {
             t.AddHex(hexes[i],false);
-            sequence.AppendInterval(0.05f).Append(hexes[i].transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + (1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f));
+            sequence.AppendInterval(0.05f).Append(hexes[i].transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + GridManager.Instance.baseYOffset +(1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f));
             VibrationManager.Instance.PlayHaptic();
             SoundManager.Instance.Play(Sound.Pop);
         }
@@ -172,7 +172,7 @@ public class Tile : MonoBehaviour
         t.transform.parent = transform;
         if (move)
         {
-            t.transform.DOMove(new Vector3(transform.position.x, transform.position.y + (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f).OnComplete(() =>
+            t.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f).OnComplete(() =>
             {
                 SoundManager.Instance.Play(Sound.Pop);
             });

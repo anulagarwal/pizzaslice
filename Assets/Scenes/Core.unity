@@ -879,9 +879,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tips:
-  - aaa
-  - bbb
-  waitTime: 2
+  - Use the single plates to move other dishes that are blocking!
+  waitTime: 0.1
   tipText: {fileID: 627063936}
   sh: {fileID: 1744793808}
 --- !u!1 &1771976918
@@ -1027,6 +1026,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6265432051398817957, guid: fe8a79825ef534997a2298fde50d9c6e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6265432051398817958, guid: fe8a79825ef534997a2298fde50d9c6e, type: 3}
       propertyPath: m_RootOrder
       value: 6

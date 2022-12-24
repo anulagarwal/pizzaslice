@@ -47,6 +47,10 @@ namespace Momo
 
             //Check if app opened on a new day - check when was last time opened
             //If opened on a new day, track day and level number
+            MaxSdk.SetSdkKey("TMz8cpx6TOmmFb5Krb8TvSP3p1yx_iTxJeBg0OwWbTrb5iT6RPm0vAzF5dcp6ARaCGl0TEZyMb4UQQASIewAQW");
+            MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
+            MaxSdk.SetVerboseLogging(true);
+            MaxSdk.InitializeSdk();
 
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);

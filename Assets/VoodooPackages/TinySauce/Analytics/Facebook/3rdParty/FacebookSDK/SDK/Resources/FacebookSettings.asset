@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 1835273086643096
+  - 22d4a4870db89229bd51d5377b63afcf
   appIds:
-  - 1835273086643096
+  - 562994818534908
   appLabels:
   - Pancake Stack 3D
   cookie: 1

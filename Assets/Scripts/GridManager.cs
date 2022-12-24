@@ -16,6 +16,8 @@ public class GridManager : MonoBehaviour
 	[SerializeField] Tile selectedTile;
 	[SerializeField] Tile enteredTile;
 	[SerializeField] public float yOffsetTile;
+	[SerializeField] public float baseYOffset;
+
 	[SerializeField] public float upScaleValue;
 
 	public Sequence seq;

@@ -323,7 +323,8 @@ MonoBehaviour:
   cellPrefab: {fileID: 8129483209377342727, guid: 0d0df008ebc3c4a70826ae54dd821967, type: 3}
   selectedTile: {fileID: 0}
   enteredTile: {fileID: 0}
-  yOffsetTile: 0.5
+  yOffsetTile: 0.2
+  baseYOffset: 0.3
   upScaleValue: 0.6
   tempTiles: []
 --- !u!4 &248312894
@@ -1458,27 +1459,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.42
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.74
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.9
+      value: -8.74
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.804583
+      value: 0.8324864
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.59384024
+      value: 0.5540455
       objectReference: {fileID: 0}
     - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 72.86
+      value: 67.29
       objectReference: {fileID: 0}
     - target: {fileID: 3267584594690214022, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_RootOrder
