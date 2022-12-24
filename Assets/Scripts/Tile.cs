@@ -17,6 +17,8 @@ public class Tile : MonoBehaviour
     [SerializeField] int maxHex;
     public HexCoordinates coordinates;
     public bool canPlace = false;
+    public bool isHex = false;
+
 
     [SerializeField] TileType state;
     [SerializeField] public HexType hexType;
@@ -43,8 +45,14 @@ public class Tile : MonoBehaviour
         origPos = transform.position;
         if(hexMesh!=null)
         origColor = hexMesh.material.color;
-        if(baseHex!=null)
-        baseHex.SetActive(false);
+        if (baseHex != null && !isHex)
+        {
+            baseHex.SetActive(false);
+        }
+        else if(baseHex != null && isHex)
+        {
+            baseHex.SetActive(true);
+        }
 
     }
 
@@ -97,6 +105,8 @@ public class Tile : MonoBehaviour
             {
                 this.GetNeighbor(i).AddHex(st.GetNeighbor(i),true);
                 tempSelect.Add(this.GetNeighbor(i));
+                VibrationManager.Instance.PlayHaptic();
+
                 if (st.GetNeighbor(i).GetNeighborIndex().Count > 0)
                 {
                     foreach (int x in st.GetNeighbor(i).GetNeighborIndex())
@@ -105,6 +115,8 @@ public class Tile : MonoBehaviour
                         {
                             this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x),true);
                             tempSelect.Add(this.GetNeighbor(i).GetNeighbor(x));
+                            VibrationManager.Instance.PlayHaptic();
+
                         }
 
                     }
@@ -124,8 +136,13 @@ public class Tile : MonoBehaviour
         {
             t.AddHex(hexes[i],false);
             sequence.AppendInterval(0.05f).Append(hexes[i].transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + (1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f));
+            VibrationManager.Instance.PlayHaptic();
             SoundManager.Instance.Play(Sound.Pop);
+        }
 
+        if(baseHex!=null && isHex)
+        {
+            baseHex.SetActive(false);
         }
         sequence.OnComplete(()=>
         {
@@ -133,11 +150,9 @@ public class Tile : MonoBehaviour
             hexes.Clear();
            // baseHex.SetActive(false);
             
-                print("selll1");
 
             if (t.hexes.Count >= 5)
             {
-                print("selll");
                 t.SellHexes();
             }
         });
@@ -150,6 +165,10 @@ public class Tile : MonoBehaviour
     {
         //hexType = t.hexType;
         hexes.Add(t);
+        if (t.isHex)
+        {
+            t.baseHex.SetActive(false);
+        }
         t.transform.parent = transform;
         if (move)
         {
@@ -285,6 +304,8 @@ public class Tile : MonoBehaviour
         for (int i = hexes.Count - 1; i >= 0; i--)
         {
             sequence.AppendInterval(0.15f).Append(hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(hexType), 0.3f));
+            VibrationManager.Instance.PlayHaptic();
+
             LevelManager.Instance.AddItem(hexType);
         }
         sequence.OnComplete(() =>
@@ -321,9 +342,17 @@ public class Tile : MonoBehaviour
         {
             case TileType.Occupied:
                 Highlight(origColor);
+                if (baseHex != null && !isHex)
+                {
+                    baseHex.SetActive(true);
+                }
                 break;
             case TileType.Empty:
                 Highlight(origColor);
+                if (baseHex != null && !isHex)
+                {
+                    baseHex.SetActive(false);
+                }
                 break;
 
 

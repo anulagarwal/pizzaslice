@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class GridManager : MonoBehaviour
 {
 	[Header("Grid Generator Attributes")]
@@ -18,7 +18,7 @@ public class GridManager : MonoBehaviour
 	[SerializeField] public float yOffsetTile;
 	[SerializeField] public float upScaleValue;
 
-
+	public Sequence seq;
 	[SerializeField] List<Tile> tempTiles;
 	public static GridManager Instance = null;
 

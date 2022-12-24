@@ -52,6 +52,7 @@ MonoBehaviour:
     x: 0
     z: 0
   canPlace: 0
+  isHex: 1
   state: 0
   hexType: 2
   origPos: {x: -0.7, y: 0.08800003, z: -0.34000018}
@@ -66,7 +67,7 @@ MonoBehaviour:
   - {fileID: 0}
   hexSprite: {fileID: 0}
   hexMesh: {fileID: 0}
-  baseHex: {fileID: 0}
+  baseHex: {fileID: 4280641882882563755}
 --- !u!1 &220581059046902659
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +186,7 @@ MonoBehaviour:
     x: 0
     z: 0
   canPlace: 0
+  isHex: 0
   state: 0
   hexType: 1
   origPos: {x: -0.7, y: -0.37999994, z: -0.34000018}
@@ -379,6 +381,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
+--- !u!1 &4280641882882563755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4091020705239688314, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
+  m_PrefabInstance: {fileID: 261732922628487889}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7527638052403602337 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7770493143978432880, guid: f32ba083549d64f79bf67ede9591f480, type: 3}

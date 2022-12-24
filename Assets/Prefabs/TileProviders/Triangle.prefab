@@ -53,10 +53,11 @@ MonoBehaviour:
     x: 0
     z: 0
   canPlace: 0
+  isHex: 1
   state: 0
   hexType: 2
   origPos: {x: -0.34, y: 0.08800003, z: -0.5650002}
-  origColor: {r: 0.2640575, g: 0.24203454, b: 0.46226418, a: 1}
+  origColor: {r: 1, g: 1, b: 1, a: 1}
   hexes: []
   neighbors:
   - {fileID: 0}
@@ -67,7 +68,7 @@ MonoBehaviour:
   - {fileID: 0}
   hexSprite: {fileID: 0}
   hexMesh: {fileID: 3744464743002185779}
-  baseHex: {fileID: 0}
+  baseHex: {fileID: 3744464743002185775}
 --- !u!1 &220581059046902659
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,6 +189,7 @@ MonoBehaviour:
     x: 0
     z: 0
   canPlace: 0
+  isHex: 0
   state: 1
   hexType: 1
   origPos: {x: -0.7, y: -0.37999994, z: -0.34000018}
@@ -359,6 +361,7 @@ MonoBehaviour:
     x: 0
     z: 0
   canPlace: 0
+  isHex: 1
   state: 1
   hexType: 1
   origPos: {x: -1.06, y: 0.08800003, z: -0.5650002}
@@ -373,7 +376,7 @@ MonoBehaviour:
   - {fileID: 0}
   hexSprite: {fileID: 0}
   hexMesh: {fileID: 8056202196533740986}
-  baseHex: {fileID: 0}
+  baseHex: {fileID: 7402844530206252924}
 --- !u!1001 &104036470001759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -529,6 +532,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b02630253388ebf4aa342ac99b1f11e2, type: 3}
       propertyPath: m_Name
       value: Pizza_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b02630253388ebf4aa342ac99b1f11e2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -845,6 +852,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plate.002
       objectReference: {fileID: 0}
+    - target: {fileID: 4091020705239688314, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6929687449044195910, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -911,6 +922,11 @@ PrefabInstance:
 --- !u!4 &3867536621469835894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7770493143978432880, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
+  m_PrefabInstance: {fileID: 6807778288823925510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7402844530206252924 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4091020705239688314, guid: f32ba083549d64f79bf67ede9591f480, type: 3}
   m_PrefabInstance: {fileID: 6807778288823925510}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6889677444495007846
@@ -997,6 +1013,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4279958562236472616, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181803828781258347, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
+      propertyPath: isHex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181803828781258347, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
+      propertyPath: baseHex
+      value: 
+      objectReference: {fileID: 7275699901669473614}
     - target: {fileID: 5181803828781258347, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
       propertyPath: origPos.x
       value: -0.7144
@@ -1032,6 +1060,11 @@ MonoBehaviour:
 --- !u!4 &6670574782063242212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 220581059046902658, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
+  m_PrefabInstance: {fileID: 6889677444495007846}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7275699901669473614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4279958562236472616, guid: fc50873fdd56b4eedbaad1f116e27a67, type: 3}
   m_PrefabInstance: {fileID: 6889677444495007846}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8583170008125778433
@@ -1077,6 +1110,10 @@ PrefabInstance:
     - target: {fileID: 4965932712675314222, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
       propertyPath: m_Name
       value: Hex (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965932712675314222, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4965932712675314225, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
       propertyPath: m_RootOrder
@@ -1150,6 +1187,11 @@ PrefabInstance:
     - {fileID: 4965932712675314223, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
+--- !u!1 &3744464743002185775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4965932712675314222, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
+  m_PrefabInstance: {fileID: 8583170008125778433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3744464743002185776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4965932712675314225, guid: 7296e9507029743f0b9c3472ab03a3cf, type: 3}
