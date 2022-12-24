@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
 using DevToDev.Analytics;
-
-
+using LionStudios.Suite.Analytics;
+using LionStudios.Suite.Debugging;
 namespace Momo
 {
     
@@ -51,6 +51,9 @@ namespace Momo
             MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
             MaxSdk.SetVerboseLogging(true);
             MaxSdk.InitializeSdk();
+
+            LionAnalytics.GameStart();
+            LionDebugger.Hide();
 
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);
@@ -100,17 +103,21 @@ namespace Momo
         public void StartLevel(int levelNumber)
         {
             TinySauce.OnGameStarted(levelNumber + "");
+            LionAnalytics.LevelStart(levelNumber, 0, 0);
+
             level = levelNumber;
         }
 
         public void WinLevel()
         {
             TinySauce.OnGameFinished(true,0);
+            LionAnalytics.LevelComplete(level, 0, 0, null);
         }
 
         public void LoseLevel()
         {
-            TinySauce.OnGameFinished(false, 0);           
+            TinySauce.OnGameFinished(false, 0);
+            LionAnalytics.LevelFail(level, 0, 0);
         }
 
         public void TrackSession(SessionData sd)

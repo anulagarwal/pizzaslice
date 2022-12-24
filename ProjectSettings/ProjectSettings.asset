@@ -814,8 +814,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: VS_ATT;MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED;gameanalytics_max_enabled
-    iPhone: gameanalytics_max_enabled
+    Android: VS_ATT;MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED;gameanalytics_max_enabled;LK_HAS_LION_ANALYTICS
+    iPhone: gameanalytics_max_enabled;LK_HAS_LION_ANALYTICS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
