@@ -21,7 +21,7 @@ public class GridManager : MonoBehaviour
 	[SerializeField] public float upScaleValue;
 
 	public Sequence seq;
-	[SerializeField] List<Tile> tempTiles;
+	[SerializeField] public List<Tile> tempTiles;
 	public static GridManager Instance = null;
 
 
@@ -176,7 +176,9 @@ public class GridManager : MonoBehaviour
     {
 		if (enteredTile.CanBePlace())
 		{
-			tempTiles = enteredTile.PlaceHexes(selectedTile);
+
+			 enteredTile.PlaceHexes(selectedTile);
+			//tempTiles = enteredTile.CalculatePlacedHexes(selectedTile);
 			return true;
 		}
 		return false;
@@ -188,7 +190,7 @@ public class GridManager : MonoBehaviour
 		CleanSelection();
     }
 
-	public void CheckForStack()
+	public async void CheckForStack()
     {
 		foreach (Tile tile in tempTiles)
 		{
@@ -201,6 +203,29 @@ public class GridManager : MonoBehaviour
 						{
 							if (n.hexes[0].hexType == tile.hexes[0].hexType)
 							{
+								for (int i = n.hexes.Count - 1; i >= 0; i--)
+								{
+									tile.AddHex(n.hexes[i], false);
+									await n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count+1) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.2f).AsyncWaitForCompletion();
+
+									VibrationManager.Instance.PlayHaptic();
+									SoundManager.Instance.Play(Sound.Pop);
+								}
+								n.ShiftHexesToTile(tile);
+
+								if (tile.hexes.Count >= 5)
+								{
+									for (int i = tile.hexes.Count - 1; i >= 0; i--)
+									{
+										VibrationManager.Instance.PlayHaptic();
+										LevelManager.Instance.AddItem(tile.hexType);
+										await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexType), 0.3f).OnComplete(() => {
+											Destroy(tile.hexes[i].gameObject);
+										}).AsyncWaitForCompletion();
+										
+									}
+									tile.SellHexes();
+								}
 
 								foreach (Tile t in n.neighbors)
 								{
@@ -210,12 +235,38 @@ public class GridManager : MonoBehaviour
 										{
 											if (t.hexes[0].hexType == n.hexes[0].hexType && t != tile)
 											{
+
+												for (int i = t.hexes.Count - 1; i >= 0; i--)
+												{
+													n.AddHex(t.hexes[i], false);
+													await t.hexes[i].transform.DOMove(new Vector3(n.transform.position.x, n.transform.position.y + GridManager.Instance.baseYOffset + (1 * (n.hexes.Count+1) * GridManager.Instance.yOffsetTile), n.transform.position.z), 0.2f).AsyncWaitForCompletion();
+
+													VibrationManager.Instance.PlayHaptic();
+													SoundManager.Instance.Play(Sound.Pop);
+												}
+
+
 												t.ShiftHexesToTile(n);
+
+												if (n.hexes.Count >= 5)
+												{
+													for (int i = n.hexes.Count - 1; i >= 0; i--)
+													{
+														VibrationManager.Instance.PlayHaptic();
+														LevelManager.Instance.AddItem(n.hexType);
+														await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexType), 0.3f).OnComplete(()=> {
+															Destroy(n.hexes[i].gameObject);
+														}).AsyncWaitForCompletion();														
+													}
+													n.SellHexes();
+												}
 											}
 										}
 									}
 								}
-								n.ShiftHexesToTile(tile);
+
+
+								
 							}
 						}
 					}

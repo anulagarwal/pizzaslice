@@ -74,7 +74,6 @@ public class SelectionTile : Tile
             if (GridManager.Instance.PlaceTile())
             {
                 SelectionManager.Instance.RemoveTile(gameObject);
-                GridManager.Instance.CheckForStack();
                 Destroy(selector);
                 GetComponent<BoxCollider>().enabled = false;
             }

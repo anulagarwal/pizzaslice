@@ -93,70 +93,87 @@ public class Tile : MonoBehaviour
     {
         canPlace = v;
     }
-    public List<Tile> PlaceHexes(Tile st)
+
+    public  void PlaceHex()
+    {
+    }
+
+    public async void A()
+    {
+
+    }
+    public async void PlaceHexes(Tile st)
     {
         List<Tile> tempSelect = new List<Tile>();
+        List<Task> task = new List<Task>();
 
-        this.AddHex(st,true);
+        GridManager.Instance.tempTiles.Clear();
+
+        await st.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count+1) * GridManager.Instance.yOffsetTile), transform.position.z), 0.1f).OnComplete(() => {
+
+            this.AddHex(st, true);
+        }).AsyncWaitForCompletion();
+        st.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+        VibrationManager.Instance.PlayHaptic();
+        SoundManager.Instance.Play(Sound.Pop);
+        GridManager.Instance.tempTiles.Add(this);
         tempSelect.Add(this);
         foreach (int i in st.GetNeighborIndex())
         {
             if (this.GetNeighbor(i) != null && this.GetNeighbor(i).GetState() == TileType.Empty)
             {
-                this.GetNeighbor(i).AddHex(st.GetNeighbor(i),true);
-                tempSelect.Add(this.GetNeighbor(i));
-                VibrationManager.Instance.PlayHaptic();
+                
+                
+                Tile b = st.GetNeighbor(i);
+                await b.transform.DOMove(new Vector3(GetNeighbor(i).transform.position.x, GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count +1) * GridManager.Instance.yOffsetTile), GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() => {
 
+                    this.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
+                }).AsyncWaitForCompletion();
+                b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+                VibrationManager.Instance.PlayHaptic();
+                SoundManager.Instance.Play(Sound.Pop);
+                GridManager.Instance.tempTiles.Add(this.GetNeighbor(i));
+
+               
                 if (st.GetNeighbor(i).GetNeighborIndex().Count > 0)
                 {
                     foreach (int x in st.GetNeighbor(i).GetNeighborIndex())
                     {
+
                         if (this.GetNeighbor(i).GetNeighbor(x) != null && this.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
                         {
-                            this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x),true);
-                            tempSelect.Add(this.GetNeighbor(i).GetNeighbor(x));
+                            Tile t = st.GetNeighbor(i).GetNeighbor(x);
+                            await t.transform.DOMove(new Vector3(this.GetNeighbor(i).GetNeighbor(x).transform.position.x, this.GetNeighbor(i).GetNeighbor(x).transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count+1) * GridManager.Instance.yOffsetTile), this.GetNeighbor(i).GetNeighbor(x).transform.position.z), 0.1f).OnComplete (()=> {
+                                this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x), true);
+                            }).AsyncWaitForCompletion();
+                            t.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+                            GridManager.Instance.tempTiles.Add(this.GetNeighbor(i).GetNeighbor(x));
                             VibrationManager.Instance.PlayHaptic();
-
+                            SoundManager.Instance.Play(Sound.Pop);
                         }
 
                     }
                 }
             }           
         }
-        return tempSelect;
-
-       // CheckForStack();
-        
+        GridManager.Instance.CheckForStack();
+            
+       // CheckForStack();        
     }
+
 
     public void ShiftHexesToTile(Tile t)
     {
-        var sequence = DOTween.Sequence();
-        for(int i = hexes.Count-1; i>=0; i--)
-        {
-            t.AddHex(hexes[i],false);
-            sequence.AppendInterval(0.05f).Append(hexes[i].transform.DOMove(new Vector3(t.transform.position.x, t.transform.position.y + GridManager.Instance.baseYOffset +(1 * t.hexes.Count * GridManager.Instance.yOffsetTile), t.transform.position.z), 0.2f));
-            VibrationManager.Instance.PlayHaptic();
-            SoundManager.Instance.Play(Sound.Pop);
-        }
-
+      
         if(baseHex!=null && isHex)
         {
             baseHex.SetActive(false);
         }
-        sequence.OnComplete(()=>
-        {
-
+      
             hexes.Clear();
            // baseHex.SetActive(false);
-            
-
-            if (t.hexes.Count >= 5)
-            {
-                t.SellHexes();
-            }
-        });
-                UpdateState(TileType.Empty);
+                     
+                UpdateState(TileType.Empty);      
 
     }
 
@@ -172,11 +189,7 @@ public class Tile : MonoBehaviour
         t.transform.parent = transform;
         if (move)
         {
-            t.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f).OnComplete(() =>
-            {
-                SoundManager.Instance.Play(Sound.Pop);
-            });
-            t.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+           
         }
         if (hexes.Count > 0)
         {
@@ -296,27 +309,7 @@ public class Tile : MonoBehaviour
 
     public void SellHexes()
     {
-        //Remove all hexes - teleport vfx to ui space
-        var sequence = DOTween.Sequence();
-
-        hexType = hexes[0].hexType;
-
-        for (int i = hexes.Count - 1; i >= 0; i--)
-        {
-            sequence.AppendInterval(0.15f).Append(hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(hexType), 0.3f));
-            VibrationManager.Instance.PlayHaptic();
-
-            LevelManager.Instance.AddItem(hexType);
-        }
-        sequence.OnComplete(() =>
-        {
-            foreach (Tile h in hexes)
-            {
-                Destroy(h.gameObject);
-            }
-
-
-        });
+        hexType = hexes[0].hexType;             
         if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
         {
             GameManager.Instance.WinLevel();
