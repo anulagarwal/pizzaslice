@@ -194,7 +194,8 @@ public class GridManager : MonoBehaviour
     {
 		foreach (Tile tile in tempTiles)
 		{
-            if (tile.hexes.Count > 0) {
+            if (tile.hexes.Count > 0)
+			{
 				foreach (Tile n in tile.GetNeighbors())
 				{
 					if (n != null)
@@ -211,21 +212,8 @@ public class GridManager : MonoBehaviour
 									VibrationManager.Instance.PlayHaptic();
 									SoundManager.Instance.Play(Sound.Pop);
 								}
-								n.ShiftHexesToTile(tile);
 
-								if (tile.hexes.Count >= 5)
-								{
-									for (int i = tile.hexes.Count - 1; i >= 0; i--)
-									{
-										VibrationManager.Instance.PlayHaptic();
-										LevelManager.Instance.AddItem(tile.hexType);
-										await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexType), 0.3f).OnComplete(() => {
-											Destroy(tile.hexes[i].gameObject);
-										}).AsyncWaitForCompletion();
-										
-									}
-									tile.SellHexes();
-								}
+								
 
 								foreach (Tile t in n.neighbors)
 								{
@@ -239,6 +227,7 @@ public class GridManager : MonoBehaviour
 												for (int i = t.hexes.Count - 1; i >= 0; i--)
 												{
 													n.AddHex(t.hexes[i], false);
+
 													await t.hexes[i].transform.DOMove(new Vector3(n.transform.position.x, n.transform.position.y + GridManager.Instance.baseYOffset + (1 * (n.hexes.Count+1) * GridManager.Instance.yOffsetTile), n.transform.position.z), 0.2f).AsyncWaitForCompletion();
 
 													VibrationManager.Instance.PlayHaptic();
@@ -248,30 +237,49 @@ public class GridManager : MonoBehaviour
 
 												t.ShiftHexesToTile(n);
 
-												if (n.hexes.Count >= 5)
-												{
-													for (int i = n.hexes.Count - 1; i >= 0; i--)
-													{
-														VibrationManager.Instance.PlayHaptic();
-														LevelManager.Instance.AddItem(n.hexType);
-														await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexType), 0.3f).OnComplete(()=> {
-															Destroy(n.hexes[i].gameObject);
-														}).AsyncWaitForCompletion();														
-													}
-													n.SellHexes();
-												}
+												
 											}
 										}
 									}
 								}
+								if (n.hexes.Count >= 5)
+								{
+									for (int i = n.hexes.Count - 1; i >= 0; i--)
+									{
+										VibrationManager.Instance.PlayHaptic();
+										LevelManager.Instance.AddItem(n.hexes[0].hexType);
+
+										await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexes[0].hexType), 0.3f).OnComplete(() => {
+											Destroy(n.hexes[i].gameObject);
+										}).AsyncWaitForCompletion();
+									}
+									n.SellHexes();
+								}
+
+								n.ShiftHexesToTile(tile);
 
 
-								
 							}
 						}
 					}
 				}
-            }			
+
+				if (tile.hexes.Count >= 5)
+				{
+					for (int i = tile.hexes.Count - 1; i >= 0; i--)
+					{
+						VibrationManager.Instance.PlayHaptic();
+						LevelManager.Instance.AddItem(tile.hexes[0].hexType);
+						await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexes[0].hexType), 0.3f).OnComplete(() => {
+							Destroy(tile.hexes[i].gameObject);
+						}).AsyncWaitForCompletion();
+
+					}
+					tile.SellHexes();
+				}
+
+			}
+			
 		}
 
 		foreach(Tile t in cells)

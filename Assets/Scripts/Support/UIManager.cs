@@ -168,15 +168,19 @@ public class UIManager : MonoBehaviour
         {
             case HexType.A:
                 p=  pizzaPos.position;
+                print(p);
                 break;
 
             case HexType.B:
                 p = burgerPos.position;
+                print(p);
 
                 break;
 
             case HexType.C:
                 p = donutPos.position;
+                print(p);
+
                 break;
 
         }
