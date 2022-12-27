@@ -40,7 +40,7 @@ public class SelectionTile : Tile
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z + 1f);
                 }
             }
         }
@@ -119,27 +119,52 @@ public class SelectionTile : Tile
         Tile t1, t2, t3;
         t1 = primaryTile;
         t2 = t1.neighbors[t1.GetNeighborIndex()[0]];
-        t3 = t2.neighbors[t2.GetNeighborIndex()[0]];
-        canMove = false;
-        primaryTile = t3;
-        GridManager.Instance.SetSelectedTile(primaryTile);
-        tempPos = t3.transform.position;
-
-        t3.neighbors[t1.GetNeighborIndex()[0]] = t1;
-        //move t3 to t1
-        t3.transform.DOMove(t1.transform.position,0.3f);
-
-        t1.neighbors[t1.GetNeighborIndex()[0]] = null;
-        t1.neighbors[t2.GetNeighborIndex()[0]] = t2;
-        //move t1 to t2
-        t1.transform.DOMove(t2.transform.position, 0.3f);
-
-        t2.neighbors[t2.GetNeighborIndex()[0]] = null;
-        t2.transform.DOMove(tempPos, 0.3f).OnComplete(() =>
+        if (t2.GetNeighborIndex().Count > 0)
         {
-            canMove = true;
+            t3 = t2.neighbors[t2.GetNeighborIndex()[0]];
+            canMove = false;
+            primaryTile = t3;
+            GridManager.Instance.SetSelectedTile(primaryTile);
+            tempPos = t3.transform.position;
 
-        });
+            t3.neighbors[t1.GetNeighborIndex()[0]] = t1;
+            //move t3 to t1
+            t3.transform.DOMove(t1.transform.position, 0.3f);
+
+            t1.neighbors[t1.GetNeighborIndex()[0]] = null;
+            t1.neighbors[t2.GetNeighborIndex()[0]] = t2;
+            //move t1 to t2
+            t1.transform.DOMove(t2.transform.position, 0.3f);
+
+            t2.neighbors[t2.GetNeighborIndex()[0]] = null;
+            t2.transform.DOMove(tempPos, 0.3f).OnComplete(() =>
+            {
+                canMove = true;
+
+            });
+        }
+        else
+        {
+          
+            canMove = false;
+            primaryTile = t2;
+            GridManager.Instance.SetSelectedTile(primaryTile);
+            tempPos = t2.transform.position;
+          
+            t2.neighbors[t1.GetNeighborIndex()[0]] = t1;
+            //move t1 to t2
+            t2.transform.DOMove(t1.transform.position, 0.3f);
+
+
+            t1.neighbors[t1.GetNeighborIndex()[0]] = null;
+            t1.transform.DOMove(tempPos, 0.3f).OnComplete(() =>
+            {
+                canMove = true;
+
+            });
+
+        }
+        
       
     }
 

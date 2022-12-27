@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt("level", 1);       
         UIManager.Instance.UpdateLevel(currentLevel);
         currentState = GameState.Main;
+        StartLevel();
     }
 
     #endregion

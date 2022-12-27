@@ -33,6 +33,6 @@ public class VibrationManager : MonoBehaviour {
 
     public void PlayHaptic()
     {
-        HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
     }
 }

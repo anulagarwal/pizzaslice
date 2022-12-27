@@ -31,9 +31,9 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UIManager.Instance.UpdateObjective(HexType.A, 0);
-        UIManager.Instance.UpdateObjective(HexType.B, 0);
-        UIManager.Instance.UpdateObjective(HexType.C, 0);
+        UIManager.Instance.UpdateObjective(HexType.A, 0, maxPizza);
+        UIManager.Instance.UpdateObjective(HexType.B, 0, maxBurgers);
+        UIManager.Instance.UpdateObjective(HexType.C, 0, maxDonut);
     }
 
     // Update is called once per frame
@@ -59,9 +59,9 @@ public class LevelManager : MonoBehaviour
                 break;
         }
 
-        UIManager.Instance.UpdateObjective(HexType.A, (float)currentPizza/(float)maxPizza);
-        UIManager.Instance.UpdateObjective(HexType.B, (float)currentDonut / (float)maxDonut);
-        UIManager.Instance.UpdateObjective(HexType.C, (float)currentBurgers / (float)maxBurgers);
+        UIManager.Instance.UpdateObjective(HexType.A, (float)currentPizza,(float)maxPizza);
+        UIManager.Instance.UpdateObjective(HexType.B, (float)currentDonut , (float)maxDonut);
+        UIManager.Instance.UpdateObjective(HexType.C, (float)currentBurgers , (float)maxBurgers);
 
         //Send Checkmark on UI for all completed
         //Also show text to show remaining items to be filled

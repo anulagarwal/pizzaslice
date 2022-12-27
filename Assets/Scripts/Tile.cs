@@ -98,9 +98,12 @@ public class Tile : MonoBehaviour
     {
     }
 
-    public async void A()
+    public void HideBase()
     {
-
+        if(baseHex!=null)
+        {
+            baseHex.SetActive(false);
+        }
     }
     public async void PlaceHexes(Tile st)
     {
@@ -109,7 +112,7 @@ public class Tile : MonoBehaviour
 
         GridManager.Instance.tempTiles.Clear();
 
-        await st.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count+1) * GridManager.Instance.yOffsetTile), transform.position.z), 0.1f).OnComplete(() => {
+        await st.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count) ), transform.position.z), 0.1f).OnComplete(() => {
 
             this.AddHex(st, true);
         }).AsyncWaitForCompletion();
@@ -125,7 +128,7 @@ public class Tile : MonoBehaviour
                 
                 
                 Tile b = st.GetNeighbor(i);
-                await b.transform.DOMove(new Vector3(GetNeighbor(i).transform.position.x, GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count +1) * GridManager.Instance.yOffsetTile), GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() => {
+                await b.transform.DOMove(new Vector3(GetNeighbor(i).transform.position.x, GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (GetNeighbor(i).hexes.Count)), GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() => {
 
                     this.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
                 }).AsyncWaitForCompletion();
@@ -143,7 +146,7 @@ public class Tile : MonoBehaviour
                         if (this.GetNeighbor(i).GetNeighbor(x) != null && this.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
                         {
                             Tile t = st.GetNeighbor(i).GetNeighbor(x);
-                            await t.transform.DOMove(new Vector3(this.GetNeighbor(i).GetNeighbor(x).transform.position.x, this.GetNeighbor(i).GetNeighbor(x).transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count+1) * GridManager.Instance.yOffsetTile), this.GetNeighbor(i).GetNeighbor(x).transform.position.z), 0.1f).OnComplete (()=> {
+                            await t.transform.DOMove(new Vector3(this.GetNeighbor(i).GetNeighbor(x).transform.position.x, this.GetNeighbor(i).GetNeighbor(x).transform.position.y + GridManager.Instance.baseYOffset + (1 * (GetNeighbor(i).GetNeighbor(x).hexes.Count)), this.GetNeighbor(i).GetNeighbor(x).transform.position.z), 0.1f).OnComplete (()=> {
                                 this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x), true);
                             }).AsyncWaitForCompletion();
                             t.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
@@ -162,17 +165,12 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void ShiftHexesToTile(Tile t)
+    public void ShiftHexesToTile()
     {
       
-        if(baseHex!=null && isHex)
-        {
-            baseHex.SetActive(false);
-        }
-      
+            baseHex.SetActive(false);              
             hexes.Clear();
-           // baseHex.SetActive(false);
-                     
+           // baseHex.SetActive(false);                     
                 UpdateState(TileType.Empty);      
 
     }
@@ -198,7 +196,7 @@ public class Tile : MonoBehaviour
         }        
     }
 
-    public void CheckForStack()
+   /* public void CheckForStack()
     {
         foreach (Tile tile in neighbors)
         {
@@ -233,7 +231,7 @@ public class Tile : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
     #endregion
 
     #region neighbors
@@ -342,7 +340,7 @@ public class Tile : MonoBehaviour
                 break;
             case TileType.Empty:
                 Highlight(origColor);
-                if (baseHex != null && !isHex)
+                if (baseHex != null)
                 {
                     baseHex.SetActive(false);
                 }

@@ -45,9 +45,14 @@ public class UIManager : MonoBehaviour
 
     [Header("Objective Boxes")]
     [SerializeField] Image burgerFill;
+    [SerializeField] Text burgerFillText;
+
     [SerializeField] Transform burgerPos;
 
+
     [SerializeField] Image pizzaFill;
+    [SerializeField] Text pizzaFillText;
+
     [SerializeField] Transform pizzaPos;
 
     [SerializeField] Image donutFill;
@@ -142,20 +147,21 @@ public class UIManager : MonoBehaviour
         levelReward.text ="+"+ v + "";
     }
 
-    public void UpdateObjective(HexType ht, float fillAmt)
+    public void UpdateObjective(HexType ht, float fillAmt, float max)
     {
         switch (ht)
         {
             case HexType.A:
-                goalSequence.AppendInterval(1.5f).Append(pizzaFill.DOFillAmount(fillAmt, 2f));
+                pizzaFill.DOFillAmount(fillAmt/max, 2f);
+                pizzaFillText.text = fillAmt + "/" + max;
                 break;
 
             case HexType.B:
-                goalSequence.AppendInterval(1.5f).Append(burgerFill.DOFillAmount(fillAmt, 2f));
+                burgerFill.DOFillAmount(fillAmt/max, 2f);
                 break;
 
             case HexType.C:
-                goalSequence.AppendInterval(1.5f).Append(donutFill.DOFillAmount(fillAmt, 2f));
+                donutFill.DOFillAmount(fillAmt/max, 2f);
                 break;
 
         }
@@ -168,19 +174,14 @@ public class UIManager : MonoBehaviour
         {
             case HexType.A:
                 p=  pizzaPos.position;
-                print(p);
                 break;
 
             case HexType.B:
                 p = burgerPos.position;
-                print(p);
-
                 break;
 
             case HexType.C:
                 p = donutPos.position;
-                print(p);
-
                 break;
 
         }

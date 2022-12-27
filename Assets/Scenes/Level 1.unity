@@ -323,8 +323,8 @@ MonoBehaviour:
   cellPrefab: {fileID: 8129483209377342727, guid: 0d0df008ebc3c4a70826ae54dd821967, type: 3}
   selectedTile: {fileID: 0}
   enteredTile: {fileID: 0}
-  yOffsetTile: 0.2
-  baseYOffset: 0.3
+  yOffsetTile: 0.3
+  baseYOffset: 0.5
   upScaleValue: 0.6
   tempTiles: []
 --- !u!4 &248312894
@@ -670,10 +670,10 @@ MonoBehaviour:
   maxBox: 2
   spawnIndex: 0
   tiles:
-  - {fileID: 220581059046902659, guid: f994295b2fba34f1d8af52621ad9c139, type: 3}
+  - {fileID: 220581059046902659, guid: c7b3ece8aff1e48c8b60d8c3b7f9ef40, type: 3}
+  - {fileID: 220581059046902659, guid: 549f803e5eaff41c1834f54a1d4f1958, type: 3}
+  - {fileID: 220581059046902659, guid: 3cab74292f0aa407b85b55db3c78085c, type: 3}
   - {fileID: 220581059046902659, guid: b399e6e94a06a4704bd63c110f9a47a1, type: 3}
-  - {fileID: 220581059046902659, guid: f994295b2fba34f1d8af52621ad9c139, type: 3}
-  - {fileID: 220581059046902659, guid: f994295b2fba34f1d8af52621ad9c139, type: 3}
   - {fileID: 220581059046902659, guid: f994295b2fba34f1d8af52621ad9c139, type: 3}
   - {fileID: 220581059046902659, guid: b399e6e94a06a4704bd63c110f9a47a1, type: 3}
   - {fileID: 220581059046902659, guid: f994295b2fba34f1d8af52621ad9c139, type: 3}
@@ -1096,6 +1096,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1442000482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4202027228103962856, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+  m_PrefabInstance: {fileID: 4986357266360583628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1593672200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,7 +1446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 275932748, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: maxPizza
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 275932748, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: maxBurgers
@@ -1552,6 +1563,14 @@ PrefabInstance:
       propertyPath: burgerPos
       value: 
       objectReference: {fileID: 1193008506}
+    - target: {fileID: 4986357266879418080, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+      propertyPath: pizzaFillText
+      value: 
+      objectReference: {fileID: 1442000482}
+    - target: {fileID: 4986357266879418080, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+      propertyPath: burgerFillText
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4986357266879418087, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
       propertyPath: m_Pivot.x
       value: 0

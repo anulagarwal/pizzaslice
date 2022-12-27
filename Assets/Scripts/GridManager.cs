@@ -206,8 +206,11 @@ public class GridManager : MonoBehaviour
 							{
 								for (int i = n.hexes.Count - 1; i >= 0; i--)
 								{
+									
+									await n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.2f).AsyncWaitForCompletion();
+
 									tile.AddHex(n.hexes[i], false);
-									await n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count+1) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.2f).AsyncWaitForCompletion();
+									n.hexes[i].HideBase();
 
 									VibrationManager.Instance.PlayHaptic();
 									SoundManager.Instance.Play(Sound.Pop);
@@ -226,18 +229,14 @@ public class GridManager : MonoBehaviour
 
 												for (int i = t.hexes.Count - 1; i >= 0; i--)
 												{
+													
+													await t.hexes[i].transform.DOMove(new Vector3(n.transform.position.x, n.transform.position.y + GridManager.Instance.baseYOffset + (1 * (n.hexes.Count) * GridManager.Instance.yOffsetTile), n.transform.position.z), 0.2f).AsyncWaitForCompletion();
 													n.AddHex(t.hexes[i], false);
-
-													await t.hexes[i].transform.DOMove(new Vector3(n.transform.position.x, n.transform.position.y + GridManager.Instance.baseYOffset + (1 * (n.hexes.Count+1) * GridManager.Instance.yOffsetTile), n.transform.position.z), 0.2f).AsyncWaitForCompletion();
-
+													t.hexes[i].HideBase();
 													VibrationManager.Instance.PlayHaptic();
 													SoundManager.Instance.Play(Sound.Pop);
 												}
-
-
-												t.ShiftHexesToTile(n);
-
-												
+												t.ShiftHexesToTile();												
 											}
 										}
 									}
@@ -249,16 +248,14 @@ public class GridManager : MonoBehaviour
 										VibrationManager.Instance.PlayHaptic();
 										LevelManager.Instance.AddItem(n.hexes[0].hexType);
 
-										await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexes[0].hexType), 0.3f).OnComplete(() => {
+										await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexes[0].hexType), 0.15f).OnComplete(() => {
 											Destroy(n.hexes[i].gameObject);
 										}).AsyncWaitForCompletion();
 									}
 									n.SellHexes();
 								}
 
-								n.ShiftHexesToTile(tile);
-
-
+								n.ShiftHexesToTile();
 							}
 						}
 					}
@@ -270,7 +267,7 @@ public class GridManager : MonoBehaviour
 					{
 						VibrationManager.Instance.PlayHaptic();
 						LevelManager.Instance.AddItem(tile.hexes[0].hexType);
-						await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexes[0].hexType), 0.3f).OnComplete(() => {
+						await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexes[0].hexType), 0.15f).OnComplete(() => {
 							Destroy(tile.hexes[i].gameObject);
 						}).AsyncWaitForCompletion();
 

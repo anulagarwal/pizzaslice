@@ -13,15 +13,19 @@ public class Selector : MonoBehaviour
         RaycastHit hit;
 
         if (GridManager.Instance.GetSelectionTile() != null) {
-            if (Physics.Raycast(start, direction * 100f, out hit))
+
+            
+            if (Physics.SphereCast(start, 0.15f, direction * 100f, out hit))
             {
-                if (hit.collider.GetComponent<Tile>() != null && hit.collider.tag=="Base")
+                if (hit.collider.GetComponent<Tile>() != null && hit.collider.tag=="Base" && hit.collider.GetComponent<Tile>().GetState() != TileType.Occupied)
                 {
                     if (GridManager.Instance.GetEnteredTile() != hit.collider.GetComponent<Tile>())
                     {
                         GridManager.Instance.SetEnteredTile(hit.collider.GetComponent<Tile>());
-                        hit.collider.GetComponent<Tile>().SetCanPlace(true);
-                        GridManager.Instance.CompareSelectedToEnteredTile();
+                        if (GridManager.Instance.CompareSelectedToEnteredTile())
+                        {
+                            hit.collider.GetComponent<Tile>().SetCanPlace(true);
+                        }
                         lastTile = hit.collider.GetComponent<Tile>();
 
                     }
