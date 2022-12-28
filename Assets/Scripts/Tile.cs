@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour
     {
         origPos = transform.position;
         if(hexMesh!=null)
-        origColor = hexMesh.material.color;
+       // origColor = hexMesh.material.color;
         if (baseHex != null && !isHex)
         {
             baseHex.SetActive(false);

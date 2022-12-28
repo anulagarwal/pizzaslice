@@ -394,7 +394,7 @@ PrefabInstance:
     - target: {fileID: 1169317473221373587, guid: 806fc641993fb4dba8ec4496ddcc108b, type: 3}
       propertyPath: baseHex
       value: 
-      objectReference: {fileID: 7275699901669473614}
+      objectReference: {fileID: 5519262288293341221}
     - target: {fileID: 1169317473221373587, guid: 806fc641993fb4dba8ec4496ddcc108b, type: 3}
       propertyPath: origPos.x
       value: -0.48310006
@@ -458,9 +458,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9656e640b896245518a727f5e586f768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7275699901669473614 stripped
+--- !u!1 &5519262288293341221 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7833519561298109904, guid: 806fc641993fb4dba8ec4496ddcc108b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4960259541427695803, guid: 806fc641993fb4dba8ec4496ddcc108b, type: 3}
   m_PrefabInstance: {fileID: 598479617986467998}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2347887774263052806
@@ -611,6 +611,10 @@ PrefabInstance:
     - target: {fileID: 7602732592400652947, guid: bf299a96b36354a6a883713e42e683f8, type: 3}
       propertyPath: origPos.x
       value: -0.8287
+      objectReference: {fileID: 0}
+    - target: {fileID: 7602732592400652947, guid: bf299a96b36354a6a883713e42e683f8, type: 3}
+      propertyPath: origPos.y
+      value: 0.08800003
       objectReference: {fileID: 0}
     - target: {fileID: 7602732592400652947, guid: bf299a96b36354a6a883713e42e683f8, type: 3}
       propertyPath: origPos.z
