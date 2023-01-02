@@ -196,42 +196,7 @@ public class Tile : MonoBehaviour
         }        
     }
 
-   /* public void CheckForStack()
-    {
-        foreach (Tile tile in neighbors)
-        {
-            if (tile != null)
-            {
-                if (tile.hexes.Count > 0)
-                {
-                    if (tile.hexes[0].hexType == hexes[0].hexType)
-                    {
-
-                        foreach (Tile t in tile.neighbors)
-                        {
-                            if (t != null && t!=tile)
-                            {
-                                if (t.hexes.Count > 0)
-                                {
-                                    if (t.hexes[0].hexType == tile.hexes[0].hexType)
-                                    {
-                                        t.ShiftHexesToTile(tile);
-                                        //Check if tile has hexes, if so, teleport all to this tile
-                                        //  tile.transform.DOMove(new Vector3(transform.position.x, t.transform.position.y * (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f);
-                                    }
-                                }
-                            }
-                        }
-                        tile.ShiftHexesToTile(this);
-
-
-                        //Check if tile has hexes, if so, teleport all to this tile
-                        //  tile.transform.DOMove(new Vector3(transform.position.x, t.transform.position.y * (1 * hexes.Count * GridManager.Instance.yOffsetTile), transform.position.z), 0.2f);
-                    }
-                }
-            }
-        }
-    }*/
+  
     #endregion
 
     #region neighbors

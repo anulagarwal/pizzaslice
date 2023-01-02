@@ -46,16 +46,17 @@ public class LevelManager : MonoBehaviour
     {
         switch (ht)
         {
+            //Currently adding all to pizza only
             case HexType.A:
                 currentPizza++;
                 break;
 
             case HexType.B:
-                currentBurgers++;
+                currentPizza++;
                 break;
 
             case HexType.C:
-                currentDonut++;
+                currentPizza++;
                 break;
         }
 

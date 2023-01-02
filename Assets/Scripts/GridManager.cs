@@ -159,6 +159,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
+	public List<Tile> GetCells()
+    {
+		return cells;
+    }
 	public Tile GetEnteredTile()
     {
 		return enteredTile;
@@ -243,6 +247,12 @@ public class GridManager : MonoBehaviour
 								}
 								if (n.hexes.Count >= 5)
 								{
+
+									for (int i = n.hexes.Count - 1; i >= 0; i--)
+									{
+										await n.hexes[i].transform.DOPunchScale(n.hexes[i].transform.localScale*1.5f, 0.15f).AsyncWaitForCompletion();
+									}
+
 									for (int i = n.hexes.Count - 1; i >= 0; i--)
 									{
 										VibrationManager.Instance.PlayHaptic();
@@ -265,6 +275,10 @@ public class GridManager : MonoBehaviour
 				{
 					for (int i = tile.hexes.Count - 1; i >= 0; i--)
 					{
+						await tile.hexes[i].transform.DOPunchScale(tile.hexes[i].transform.localScale * 1.5f, 0.1f).AsyncWaitForCompletion();
+					}
+					for (int i = tile.hexes.Count - 1; i >= 0; i--)
+					{
 						VibrationManager.Instance.PlayHaptic();
 						LevelManager.Instance.AddItem(tile.hexes[0].hexType);
 						await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexes[0].hexType), 0.15f).OnComplete(() => {
@@ -284,6 +298,14 @@ public class GridManager : MonoBehaviour
             if (t.hexes.Count >= 5)
             {
 				//t.SellHexes();
+            }
+        }
+        if (!SelectionManager.Instance.CheckForSpace())
+        {
+			foreach(GameObject g in SelectionManager.Instance.spawnedTiles)
+            {
+				g.transform.DOShakePosition(1f, 1);
+				//Initiate fail state
             }
         }
 
@@ -342,6 +364,40 @@ public class GridManager : MonoBehaviour
         }
 		return isPossible;
     }
+
+	public bool CompareSelectedToEnteredTile(Tile g, Tile e)
+	{
+		CleanSelection();
+		bool isPossible = false;
+		if (e.GetState() == TileType.Empty)
+		{
+			isPossible = true;
+			foreach (int i in g.GetNeighborIndex())
+			{
+				if (e.GetNeighbor(i) != null && e.GetNeighbor(i).GetState() == TileType.Empty)
+				{
+					isPossible = true;
+					foreach (int x in g.GetNeighbor(i).GetNeighborIndex())
+					{
+						if (e.GetNeighbor(i).GetNeighbor(x) != null && e.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
+						{
+							isPossible = true;
+						}
+						else
+						{
+							isPossible = false;
+						}
+					}
+				}
+				else
+				{
+					isPossible = false;
+				}
+			}
+		}
+		
+		return isPossible;
+	}
 
 	public void DeselectAll()
     {

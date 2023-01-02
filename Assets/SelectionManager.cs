@@ -11,7 +11,7 @@ public class SelectionManager : MonoBehaviour
     [Header("Component References")]
     [SerializeField] List<GameObject> tiles;
     [SerializeField] List<Transform> boxPoints;
-    [SerializeField] List<GameObject> spawnedTiles;
+    [SerializeField] public List<GameObject> spawnedTiles;
 
     public static SelectionManager Instance = null;
 
@@ -53,8 +53,31 @@ public class SelectionManager : MonoBehaviour
         {
             spawnIndex = 0;
         }
+        
     }
 
+    public bool CheckForSpace()
+    {
+        bool canPlace = false;
+        foreach(GameObject g in spawnedTiles)
+        {
+            SelectionTile t = g.GetComponent<SelectionTile>();
+            foreach(Tile b in GridManager.Instance.GetCells())
+            {
+                canPlace = GridManager.Instance.CompareSelectedToEnteredTile(t.primaryTile, b);
+                if (canPlace)
+                {
+                    break;
+                }
+            }
+            if (canPlace)
+            {
+                break;
+            }
+        }
+        return canPlace;
+    }
+    
     public void RemoveTile(GameObject g)
     {
         Spawn(boxPoints.Find(x => x.GetChild(0).gameObject == g));

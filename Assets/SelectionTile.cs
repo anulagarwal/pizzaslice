@@ -13,7 +13,7 @@ public class SelectionTile : Tile
 
 
     [Header("Component References")]
-    [SerializeField] Tile primaryTile;
+    [SerializeField] public Tile primaryTile;
     [SerializeField] GameObject selector;
 
 
