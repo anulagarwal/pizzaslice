@@ -272,18 +272,10 @@ public class Tile : MonoBehaviour
 
     public void SellHexes()
     {
-        hexType = hexes[0].hexType;             
-        if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
-        {
-            GameManager.Instance.WinLevel();
-        }
-        
-        
-        hexes.Clear();
-        
+        hexType = hexes[0].hexType;                            
+        hexes.Clear();        
         UpdateState(TileType.Empty);
         baseHex.SetActive(false);
-
     }
 
    

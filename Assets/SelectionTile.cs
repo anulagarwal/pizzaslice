@@ -10,7 +10,7 @@ public class SelectionTile : Tile
     [SerializeField] Vector3 downPos;
     [SerializeField] float minDistance=175f;
     bool canMove = false;
-
+    bool canSwitch = true;
 
     [Header("Component References")]
     [SerializeField] public Tile primaryTile;
@@ -91,8 +91,12 @@ public class SelectionTile : Tile
         }
         else if(Vector2.Distance(downPos, Input.mousePosition) < 15)
         {
-            Switch();
-            GridManager.Instance.DeselectTile();
+            if (canMove && primaryTile.GetNeighbors().Find(x=>x!=null)!=null)
+            {
+                Switch();
+                GameManager.Instance.AddMove(1);
+                GridManager.Instance.DeselectTile();
+            }
 
         }
         else
@@ -164,7 +168,6 @@ public class SelectionTile : Tile
             });
 
         }
-        
       
     }
 

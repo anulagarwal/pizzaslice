@@ -64,7 +64,8 @@ public enum HexType
     None,
     A,
     B,
-    C
+    C,
+    D
 }
 public enum HexDirection
 {

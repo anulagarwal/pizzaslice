@@ -77,7 +77,13 @@ public class SelectionManager : MonoBehaviour
         }
         return canPlace;
     }
-    
+    public void ActiveTiles(bool isActive)
+    {
+        foreach(GameObject g in spawnedTiles)
+        {
+            g.SetActive(isActive);
+        }
+    }
     public void RemoveTile(GameObject g)
     {
         Spawn(boxPoints.Find(x => x.GetChild(0).gameObject == g));

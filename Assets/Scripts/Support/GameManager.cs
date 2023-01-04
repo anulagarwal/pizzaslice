@@ -56,6 +56,10 @@ public class GameManager : MonoBehaviour
     public void AddMove(int v)
     {
         numberOfMoves += v;
+        if (GetComponent<TutorialManager>() != null)
+        {
+            GetComponent<TutorialManager>().NextStep();
+        }
     }
 
     public void WinLevel()

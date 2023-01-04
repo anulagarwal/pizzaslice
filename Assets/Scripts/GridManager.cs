@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Threading.Tasks;
+
 public class GridManager : MonoBehaviour
 {
 	[Header("Grid Generator Attributes")]
@@ -20,8 +22,15 @@ public class GridManager : MonoBehaviour
 
 	[SerializeField] public float upScaleValue;
 
-	public Sequence seq;
 	[SerializeField] public List<Tile> tempTiles;
+
+	[Header("Component References")]
+	[SerializeField] Transform fromBox;
+	[SerializeField] Transform toBox;
+	[SerializeField] Vector3 centerBox;
+
+
+	[SerializeField] public Box box;
 	public static GridManager Instance = null;
 
 
@@ -43,6 +52,8 @@ public class GridManager : MonoBehaviour
 			}
 		}
 		SetNeighbors();
+		centerBox = box.transform.position;
+		box.transform.position = fromBox.position;
 	}
 
 	Tile CreateCell(int x, int z)
@@ -182,6 +193,7 @@ public class GridManager : MonoBehaviour
 		{
 
 			 enteredTile.PlaceHexes(selectedTile);
+			GameManager.Instance.AddMove(1);
 			//tempTiles = enteredTile.CalculatePlacedHexes(selectedTile);
 			return true;
 		}
@@ -196,6 +208,7 @@ public class GridManager : MonoBehaviour
 
 	public async void CheckForStack()
     {
+		box.transform.position = fromBox.position;
 		foreach (Tile tile in tempTiles)
 		{
             if (tile.hexes.Count > 0)
@@ -247,22 +260,31 @@ public class GridManager : MonoBehaviour
 								}
 								if (n.hexes.Count >= 5)
 								{
+									SelectionManager.Instance.ActiveTiles(false);
+									box.transform.position = fromBox.position;
+									await box.transform.DOMove(centerBox, 0.5f).AsyncWaitForCompletion();
+									 //await box.transform.DOScale(new Vector3(1, 1, 1), 0.7f).AsyncWaitForCompletion();
 
 									for (int i = n.hexes.Count - 1; i >= 0; i--)
 									{
-										await n.hexes[i].transform.DOPunchScale(n.hexes[i].transform.localScale*1.5f, 0.15f).AsyncWaitForCompletion();
+										await n.hexes[i].transform.DOPunchScale(n.hexes[i].transform.localScale*1.5f, 0.05f).AsyncWaitForCompletion();
 									}
-
 									for (int i = n.hexes.Count - 1; i >= 0; i--)
 									{
 										VibrationManager.Instance.PlayHaptic();
 										LevelManager.Instance.AddItem(n.hexes[0].hexType);
 
-										await n.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(n.hexes[0].hexType), 0.15f).OnComplete(() => {
-											Destroy(n.hexes[i].gameObject);
+										await n.hexes[i].transform.DOMove(box.GetPosition(), 0.2f).OnComplete(() => {
+											box.AddFood(n.hexes[i].transform);
 										}).AsyncWaitForCompletion();
 									}
 									n.SellHexes();
+									await Task.Delay(1500);
+									//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
+									await box.transform.DOMove(toBox.position, 0.5f).AsyncWaitForCompletion();
+									box.Sanitize();
+									SelectionManager.Instance.ActiveTiles(true);
+
 								}
 
 								n.ShiftHexesToTile();
@@ -273,41 +295,54 @@ public class GridManager : MonoBehaviour
 
 				if (tile.hexes.Count >= 5)
 				{
+					SelectionManager.Instance.ActiveTiles(false);
+					//await box.transform.DOScale(new Vector3(1, 1, 1), 0.7f).AsyncWaitForCompletion();
+					box.transform.position = fromBox.position;
+					await box.transform.DOMove(centerBox, 0.5f).AsyncWaitForCompletion();
 					for (int i = tile.hexes.Count - 1; i >= 0; i--)
 					{
-						await tile.hexes[i].transform.DOPunchScale(tile.hexes[i].transform.localScale * 1.5f, 0.1f).AsyncWaitForCompletion();
+						await tile.hexes[i].transform.DOPunchScale(tile.hexes[i].transform.localScale * 1.5f, 0.05f).AsyncWaitForCompletion();
 					}
+
 					for (int i = tile.hexes.Count - 1; i >= 0; i--)
 					{
 						VibrationManager.Instance.PlayHaptic();
 						LevelManager.Instance.AddItem(tile.hexes[0].hexType);
-						await tile.hexes[i].transform.DOMove(UIManager.Instance.GetItemPos(tile.hexes[0].hexType), 0.15f).OnComplete(() => {
-							Destroy(tile.hexes[i].gameObject);
+						await tile.hexes[i].transform.DOMove(box.GetPosition(), 0.2f).OnComplete(() => {
+							box.AddFood(tile.hexes[i].transform);
 						}).AsyncWaitForCompletion();
 
 					}
 					tile.SellHexes();
+					await Task.Delay(1500);
+
+					//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
+					await box.transform.DOMove(toBox.position, 0.5f).AsyncWaitForCompletion();
+					box.Sanitize();
+					SelectionManager.Instance.ActiveTiles(true);
+
 				}
 
 			}
 			
 		}
 
-		foreach(Tile t in cells)
-        {
-            if (t.hexes.Count >= 5)
-            {
-				//t.SellHexes();
-            }
-        }
+		
         if (!SelectionManager.Instance.CheckForSpace())
         {
 			foreach(GameObject g in SelectionManager.Instance.spawnedTiles)
             {
-				g.transform.DOShakePosition(1f, 1);
+				g.transform.DOShakePosition(1f, 0.5f);
 				//Initiate fail state
             }
-        }
+			GameManager.Instance.LoseLevel();
+		}
+
+
+		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
+		{
+			GameManager.Instance.WinLevel();
+		}
 
 	}
 	public void CleanSelection()
