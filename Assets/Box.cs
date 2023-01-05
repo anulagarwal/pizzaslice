@@ -8,7 +8,11 @@ public class Box : MonoBehaviour
     [SerializeField] List<Transform> points;
 
     [Header("Component References")]
-    [SerializeField] List<Transform> food;
+    [SerializeField] public List<Transform> food;
+    [SerializeField] public Transform boxTop;
+    [SerializeField] public List<Transform> coinStack;
+
+
 
 
     // Start is called before the first frame update
@@ -79,5 +83,10 @@ public class Box : MonoBehaviour
             Destroy(t.gameObject);
         }
         food.Clear();
+        foreach (Transform t in coinStack)
+        {
+            t.localScale = Vector3.zero;
+            t.localPosition = Vector3.zero;
+        }
     }
 }

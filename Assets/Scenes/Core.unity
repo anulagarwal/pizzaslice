@@ -850,7 +850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: 0
-  maxLevels: 2
+  maxLevels: 5
 --- !u!4 &1744793809
 Transform:
   m_ObjectHideFlags: 0
@@ -881,7 +881,7 @@ MonoBehaviour:
   tips:
   - Use single plates to make space for other plates!
   - You can tap to switch the order of the plates!
-  waitTime: 5
+  waitTime: 1.5
   tipText: {fileID: 627063936}
   sh: {fileID: 1744793808}
 --- !u!1 &1771976918

@@ -33,6 +33,10 @@ public class Tile : MonoBehaviour
     [SerializeField] SpriteRenderer hexSprite;
     [SerializeField] MeshRenderer hexMesh;
     [SerializeField] GameObject baseHex = null;
+    [SerializeField] ParticleSystem baseVfx = null;
+    [SerializeField] ParticleSystem sellVfx = null;
+
+
 
 
 
@@ -89,6 +93,15 @@ public class Tile : MonoBehaviour
         return canPlace;
     }
 
+    public void PlayBaseVFX()
+    {
+        baseVfx.Play();
+    }
+
+    public void PlaySellVFX()
+    {
+        sellVfx.Play();
+    }
     public void SetCanPlace(bool v)
     {
         canPlace = v;
@@ -131,6 +144,7 @@ public class Tile : MonoBehaviour
                 await b.transform.DOMove(new Vector3(GetNeighbor(i).transform.position.x, GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (GetNeighbor(i).hexes.Count)), GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() => {
 
                     this.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
+
                 }).AsyncWaitForCompletion();
                 b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
                 VibrationManager.Instance.PlayHaptic();
@@ -277,7 +291,16 @@ public class Tile : MonoBehaviour
         UpdateState(TileType.Empty);
         baseHex.SetActive(false);
     }
-
+    public void SellHex(Tile h)
+    {
+       hexes[hexes.FindIndex(x=>x==h)] =null;
+        if (hexes.Count == 0)
+        {
+            hexes.Clear();
+            UpdateState(TileType.Empty);
+            baseHex.SetActive(false);
+        }
+    }
    
     public TileType GetState()
     {

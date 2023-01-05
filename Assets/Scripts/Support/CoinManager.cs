@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour
 {
+    [Header("Component References")]
+    [SerializeField] GameObject coin;
+    [SerializeField] List<GameObject> spawnedCoins;
     [Header("Attributes")]
     [SerializeField] int startCoins;
     [SerializeField] int currentCoins;
 
     [Header("Rewards")]
     [SerializeField] int levelReward;
+    public static CoinManager Instance = null;
+
+    private void Awake()
+    {
+        Application.targetFrameRate = 100;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +54,18 @@ public class CoinManager : MonoBehaviour
 
     #endregion
 
+    public GameObject SpawnCoin(Vector3 pos)
+    {
+        GameObject g = Instantiate(coin, pos, Quaternion.identity);
+        spawnedCoins.Add(g);
+        return g;
+    }
+
+    public void RemoveCoin(GameObject g)
+    {
+        spawnedCoins.Remove(g);
+        Destroy(g);
+    }
     #region Coin Getter Setter
     public void AddCoins(int v)
     {
