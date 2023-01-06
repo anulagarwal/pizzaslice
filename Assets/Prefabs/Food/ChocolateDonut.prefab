@@ -70,7 +70,7 @@ MonoBehaviour:
   hexMesh: {fileID: 9178614786571855436}
   baseHex: {fileID: 7232783151950251929}
   baseVfx: {fileID: 4346566845573852589}
-  stackVfx: {fileID: 0}
+  sellVfx: {fileID: 4346566845573852589}
 --- !u!1001 &5736976689983368125
 PrefabInstance:
   m_ObjectHideFlags: 0

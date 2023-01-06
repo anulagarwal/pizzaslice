@@ -217,60 +217,97 @@ public class GridManager : MonoBehaviour
 		await box.transform.DOMove(centerBox, 0.3f).AsyncWaitForCompletion();
 		await box.boxTop.DOLocalRotate(new Vector3(0, 0, 45), 0.75f).AsyncWaitForCompletion();
 
-		for (int i = tile.hexes.Count - 1; i >= 0; i--)
-		{
-			await tile.hexes[i].transform.DOPunchScale(tile.hexes[i].transform.localScale * 1.5f, 0.15f).AsyncWaitForCompletion();
-
-		}
 
 		for (int i = tile.hexes.Count - 1; i >= tile.hexes.Count - stackValue; i--)
 		{
 			VibrationManager.Instance.PlayHaptic();
 			LevelManager.Instance.AddItem(HexType.A);
 			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.2f);
-
-			await tile.hexes[i].transform.DOMove(box.GetPosition(), 0.2f).OnComplete(() => {
-				box.AddFood(tile.hexes[i].transform);
-			}).AsyncWaitForCompletion();
+			tile.hexes[i].transform.DOMove(box.GetPosition(), 1f);
+			box.AddFood(tile.hexes[i].transform);		
+			await Task.Delay(75);
 		}
-		//Add coins for remaining donuts
-		for(int i = tile.hexes.Count-1-stackValue; i >=0; i--)
-        {
-			VibrationManager.Instance.PlayHaptic();
-			LevelManager.Instance.AddItem(HexType.A);
-			tile.hexes[i].PlaySellVFX();
-			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.1f);
-			GameObject g = CoinManager.Instance.SpawnCoin(tile.hexes[i].transform.position);
-			await g.transform.DORotate(new Vector3(90, 0, 0), 0.2f).AsyncWaitForCompletion();
-			await g.transform.DOScale(new Vector3(35, 35, 35), 0.4f).AsyncWaitForCompletion();
-			g.GetComponentInChildren<ParticleSystem>().Play();
-			Destroy(tile.hexes[i].gameObject);
-			await Task.Delay(750);
-			await g.transform.DOMove(UICoinPos.position, 0.3f).OnComplete(() => {
-				CoinManager.Instance.RemoveCoin(g);
-			}).AsyncWaitForCompletion();
-
-		}
-
-		tile.SellHexes();
 		#region box Movement
 		await Task.Delay(750);
 		await box.boxTop.DOLocalRotate(new Vector3(0, 0, -75), 1f).AsyncWaitForCompletion();
 		await Task.Delay(750);
-		foreach (Transform t in box.coinStack)
-		{
-			await t.DOScale(new Vector3(40, 40, 40), 0.15f).AsyncWaitForCompletion();
-		}
-		foreach (Transform t in box.coinStack)
-		{
-			await t.DOMove(UICoinPos.position, 0.2f).AsyncWaitForCompletion();
-		}
+
 		//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
+
+		Sequence c = DOTween.Sequence();
+
+		foreach (Transform t in box.coinStack)
+		{
+			t.DOScale(new Vector3(40, 40, 40), 0.1f);
+			await Task.Delay(50);
+		}
+
+		foreach (Transform t in box.coinStack)
+		{
+			t.DOMove(UICoinPos.position, 0.3f);
+			await Task.Delay(100);
+		}
+
+		await Task.Delay(200);
+
+
+		box.transform.DOMove(toBox.position, 0.3f);
 		box.Sanitize();
 
-		await box.transform.DOMove(toBox.position, 0.3f).AsyncWaitForCompletion();
 		#endregion
+
+		//Add coins for remaining donuts
+		Sequence s = DOTween.Sequence();
+		List<GameObject> coins = new List<GameObject>();
+		for(int i = tile.hexes.Count-1-stackValue; i >=0; i--)
+        {
+			VibrationManager.Instance.PlayHaptic();
+			LevelManager.Instance.AddItem(HexType.A);
+
+			tile.hexes[i].PlaySellVFX();
+			await Task.Delay(75);
+			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.02f);			
+		}
+
+		for (int i = 0; i <= tile.hexes.Count - 1 - stackValue; i++)
+		{
+			GameObject g = CoinManager.Instance.SpawnCoin(tile.hexes[i].transform.position);
+			g.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
+			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
+			await Task.Delay(150);
+			g.GetComponentInChildren<ParticleSystem>().Play();
+			coins.Add(g);
+			Destroy(tile.hexes[i].gameObject);
+			
+		}
+		await Task.Delay(300);
+
+		foreach (GameObject g in coins)
+			{
+				g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
+				{
+					CoinManager.Instance.RemoveCoin(g);
+				});
+				await Task.Delay(150);
+			}
+		tile.SellHexes();
 		SelectionManager.Instance.ActiveTiles(true);
+
+	}
+
+	public async Task Stack(Tile n, Tile tile)
+    {
+		for (int i = n.hexes.Count - 1; i >= 0; i--)
+		{
+			n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.4f);
+			tile.AddHex(n.hexes[i], false);
+			n.hexes[i].PlayBaseVFX();
+			n.hexes[i].HideBase();
+			VibrationManager.Instance.PlayHaptic();
+			SoundManager.Instance.Play(Sound.Pop);
+			await Task.Delay(150);
+
+		}
 	}
 
 	public async void CheckForStack()
@@ -288,15 +325,7 @@ public class GridManager : MonoBehaviour
 						{
 							if (n.hexes[0].hexType == tile.hexes[0].hexType)
 							{
-								for (int i = n.hexes.Count - 1; i >= 0; i--)
-								{									
-									await n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.2f).AsyncWaitForCompletion();
-									tile.AddHex(n.hexes[i], false);
-									n.hexes[i].PlayBaseVFX();
-									n.hexes[i].HideBase();
-									VibrationManager.Instance.PlayHaptic();
-									SoundManager.Instance.Play(Sound.Pop);
-								}								
+								await Stack(n, tile);							
 
 								foreach (Tile t in n.neighbors)
 								{
@@ -306,15 +335,7 @@ public class GridManager : MonoBehaviour
 										{
 											if (t.hexes[0].hexType == n.hexes[0].hexType && t != tile)
 											{
-												for (int i = t.hexes.Count - 1; i >= 0; i--)
-												{													
-													await t.hexes[i].transform.DOMove(new Vector3(n.transform.position.x, n.transform.position.y + GridManager.Instance.baseYOffset + (1 * (n.hexes.Count) * GridManager.Instance.yOffsetTile), n.transform.position.z), 0.2f).AsyncWaitForCompletion();
-													n.AddHex(t.hexes[i], false);
-													t.hexes[i].PlayBaseVFX();
-													t.hexes[i].HideBase();
-													VibrationManager.Instance.PlayHaptic();
-													SoundManager.Instance.Play(Sound.Pop);
-												}
+												await Stack(t, n);
 												t.ShiftHexesToTile();												
 											}
 										}

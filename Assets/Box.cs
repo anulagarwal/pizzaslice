@@ -11,6 +11,8 @@ public class Box : MonoBehaviour
     [SerializeField] public List<Transform> food;
     [SerializeField] public Transform boxTop;
     [SerializeField] public List<Transform> coinStack;
+    [SerializeField] public List<Vector3> coinPos;
+
 
 
 
@@ -18,7 +20,10 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach(Transform t in coinStack)
+        {
+            coinPos.Add(t.localPosition);
+        }
     }
 
     // Update is called once per frame
@@ -86,7 +91,7 @@ public class Box : MonoBehaviour
         foreach (Transform t in coinStack)
         {
             t.localScale = Vector3.zero;
-            t.localPosition = Vector3.zero;
+            t.localPosition = coinPos[coinStack.FindIndex(x=>x==t)];
         }
     }
 }

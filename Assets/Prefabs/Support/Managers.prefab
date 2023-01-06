@@ -188,7 +188,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 58.543976
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -335,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c066a7182224e04bbf75ef57e6d14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coin: {fileID: 1119334947705530698, guid: 4af57cb1166fa434fa7856e37de719cf, type: 3}
+  spawnedCoins: []
   startCoins: 0
   currentCoins: 0
   levelReward: 0
