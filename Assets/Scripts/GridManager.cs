@@ -227,46 +227,15 @@ public class GridManager : MonoBehaviour
 			box.AddFood(tile.hexes[i].transform);		
 			await Task.Delay(75);
 		}
-		#region box Movement
-		await Task.Delay(750);
-		await box.boxTop.DOLocalRotate(new Vector3(0, 0, -75), 1f).AsyncWaitForCompletion();
-		await Task.Delay(750);
-
-		//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
-
-		Sequence c = DOTween.Sequence();
-
-		foreach (Transform t in box.coinStack)
-		{
-			t.DOScale(new Vector3(40, 40, 40), 0.1f);
-			await Task.Delay(50);
-		}
-
-		foreach (Transform t in box.coinStack)
-		{
-			t.DOMove(UICoinPos.position, 0.3f);
-			await Task.Delay(100);
-		}
-
-		await Task.Delay(200);
-
-
-		box.transform.DOMove(toBox.position, 0.3f);
-		box.Sanitize();
-
-		#endregion
-
-		//Add coins for remaining donuts
-		Sequence s = DOTween.Sequence();
 		List<GameObject> coins = new List<GameObject>();
-		for(int i = tile.hexes.Count-1-stackValue; i >=0; i--)
-        {
+		for (int i = tile.hexes.Count - 1 - stackValue; i >= 0; i--)
+		{
 			VibrationManager.Instance.PlayHaptic();
 			LevelManager.Instance.AddItem(HexType.A);
 
 			tile.hexes[i].PlaySellVFX();
 			await Task.Delay(75);
-			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.02f);			
+			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.02f);
 		}
 
 		for (int i = 0; i <= tile.hexes.Count - 1 - stackValue; i++)
@@ -278,19 +247,51 @@ public class GridManager : MonoBehaviour
 			g.GetComponentInChildren<ParticleSystem>().Play();
 			coins.Add(g);
 			Destroy(tile.hexes[i].gameObject);
-			
+
 		}
 		await Task.Delay(300);
 
 		foreach (GameObject g in coins)
+		{
+			g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
 			{
-				g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
-				{
-					CoinManager.Instance.RemoveCoin(g);
-				});
-				await Task.Delay(150);
-			}
+				CoinManager.Instance.RemoveCoin(g);
+			});
+			await Task.Delay(150);
+		}
 		tile.SellHexes();
+		#region box Movement
+		await Task.Delay(500);
+		await box.boxTop.DOLocalRotate(new Vector3(0, 0, -75), 1f).AsyncWaitForCompletion();
+		await Task.Delay(250);
+
+		//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
+
+		Sequence c = DOTween.Sequence();
+
+		foreach (Transform t in box.coinStack)
+		{
+			t.DOScale(new Vector3(40, 40, 40), 0.07f);
+			await Task.Delay(25);
+		}
+
+		box.box.DOScale(Vector3.zero, 0.4f);
+		foreach (Transform t in box.coinStack)
+		{
+			t.DOMove(UICoinPos.position, 0.3f);
+			await Task.Delay(50);
+		}
+
+		await Task.Delay(300);
+
+
+		box.transform.position = fromBox.position;
+		box.Sanitize();
+
+		#endregion
+
+		//Add coins for remaining donuts
+		
 		SelectionManager.Instance.ActiveTiles(true);
 
 	}

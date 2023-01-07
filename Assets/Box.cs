@@ -6,12 +6,16 @@ public class Box : MonoBehaviour
 {
     [Header("Attributes")]
     [SerializeField] List<Transform> points;
+    [SerializeField] public Vector3 origScale;
+
 
     [Header("Component References")]
     [SerializeField] public List<Transform> food;
     [SerializeField] public Transform boxTop;
     [SerializeField] public List<Transform> coinStack;
     [SerializeField] public List<Vector3> coinPos;
+    [SerializeField] public Transform box;
+
 
 
 
@@ -23,7 +27,9 @@ public class Box : MonoBehaviour
         foreach(Transform t in coinStack)
         {
             coinPos.Add(t.localPosition);
+            
         }
+        origScale = box.localScale;
     }
 
     // Update is called once per frame
@@ -92,6 +98,8 @@ public class Box : MonoBehaviour
         {
             t.localScale = Vector3.zero;
             t.localPosition = coinPos[coinStack.FindIndex(x=>x==t)];
+            
         }
+        box.localScale = origScale;
     }
 }

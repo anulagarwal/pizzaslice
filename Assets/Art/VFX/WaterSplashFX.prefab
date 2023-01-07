@@ -4974,7 +4974,7 @@ Transform:
   m_Children:
   - {fileID: 3215371834415325900}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &5190839551093988914
 ParticleSystem:
@@ -5228,8 +5228,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.4
+      scalar: 0.375
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5606,7 +5606,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 18.4
+    angle: 10.3
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
@@ -5692,7 +5692,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0.3
     randomPositionAmount: 0.3
     radius:
-      value: 0.52
+      value: 0.24
       mode: 0
       spread: 0
       speed:
