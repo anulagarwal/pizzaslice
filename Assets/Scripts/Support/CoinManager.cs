@@ -30,6 +30,7 @@ public class CoinManager : MonoBehaviour
     {
         startCoins = PlayerPrefs.GetInt("coins", startCoins);
         currentCoins = startCoins;
+        AddCoins(0);
     }
 
     // Update is called once per frame

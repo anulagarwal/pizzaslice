@@ -5060,7 +5060,8 @@ MonoBehaviour:
   winLevelText: {fileID: 4986357266531495787}
   loseLevelText: {fileID: 4986357265753078034}
   debugText: {fileID: 9212884234918535974}
-  allCurrentCoins: []
+  allCurrentCoins:
+  - {fileID: 199195348}
   multiplyReward: {fileID: 0}
   multiplyText: {fileID: 0}
   levelReward: {fileID: 0}

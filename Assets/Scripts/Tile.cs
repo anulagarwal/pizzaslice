@@ -24,6 +24,10 @@ public class Tile : MonoBehaviour
     [SerializeField] public HexType hexType;
     public Vector3 origPos;
     public Color origColor;
+    public Color origColorOut;
+    public Color occupiedColor;
+
+
 
 
 
@@ -56,7 +60,10 @@ public class Tile : MonoBehaviour
         else if(baseHex != null && isHex)
         {
             baseHex.SetActive(true);
-        }
+                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
+                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
+
+            }
 
     }
 
@@ -194,6 +201,9 @@ public class Tile : MonoBehaviour
     {
         //hexType = t.hexType;
         hexes.Add(t);
+       
+
+
         if (t.isHex)
         {
             t.baseHex.SetActive(false);
@@ -205,8 +215,12 @@ public class Tile : MonoBehaviour
         }
         if (hexes.Count > 0)
         {
+            hexType = t.hexType;
+            
+            occupiedColor = ColorManager.Instance.GetHexColor(hexType);
+
             UpdateState(TileType.Occupied);
-//            baseHex.SetActive(true);
+            //            baseHex.SetActive(true);
         }        
     }
 
@@ -246,12 +260,15 @@ public class Tile : MonoBehaviour
     {
         //hexSprite.color = c;
         hexMesh.material.color = c;
+        hexMesh.materials[1].color = c;
     }
 
     public void DeHighlight()
     {
       // hexSprite.color = Color.white;
-        hexMesh.material.color = origColor;
+        hexMesh.materials[1].color = origColor;
+        hexMesh.materials[0].color = origColorOut;
+
     }
 
 
@@ -312,7 +329,11 @@ public class Tile : MonoBehaviour
         switch (t)
         {
             case TileType.Occupied:
-                Highlight(origColor);
+                //Highlight(occupiedColor);
+                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
+
+                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
+
                 if (baseHex != null && !isHex)
                 {
                     baseHex.SetActive(true);
@@ -320,6 +341,8 @@ public class Tile : MonoBehaviour
                 break;
             case TileType.Empty:
                 Highlight(origColor);
+                hexMesh.materials[1].color = origColor;
+
                 if (baseHex != null)
                 {
                     baseHex.SetActive(false);

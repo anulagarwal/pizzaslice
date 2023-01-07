@@ -255,6 +255,7 @@ public class GridManager : MonoBehaviour
 		{
 			g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
 			{
+				CoinManager.Instance.AddCoins(1);
 				CoinManager.Instance.RemoveCoin(g);
 			});
 			await Task.Delay(150);
@@ -269,16 +270,22 @@ public class GridManager : MonoBehaviour
 
 		Sequence c = DOTween.Sequence();
 
+		
+
+		//box.box.DOScale(Vector3.zero, 0.4f);
+		SelectionManager.Instance.ActiveTiles(true);
+
+		await box.transform.DOMove(toBox.position, 0.2f).AsyncWaitForCompletion();
 		foreach (Transform t in box.coinStack)
 		{
 			t.DOScale(new Vector3(40, 40, 40), 0.07f);
-			await Task.Delay(25);
 		}
-
-		box.box.DOScale(Vector3.zero, 0.4f);
 		foreach (Transform t in box.coinStack)
 		{
-			t.DOMove(UICoinPos.position, 0.3f);
+			t.DOMove(UICoinPos.position, 0.3f).OnComplete(() => {
+
+				CoinManager.Instance.AddCoins(1);
+			}); ;
 			await Task.Delay(50);
 		}
 
@@ -292,7 +299,6 @@ public class GridManager : MonoBehaviour
 
 		//Add coins for remaining donuts
 		
-		SelectionManager.Instance.ActiveTiles(true);
 
 	}
 

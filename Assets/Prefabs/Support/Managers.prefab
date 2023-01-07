@@ -154,15 +154,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369014024}
-  m_LocalRotation: {x: 0.5928568, y: 0, z: 0, w: 0.80530787}
-  m_LocalPosition: {x: -0.38, y: 1.47, z: -7.5}
+  m_LocalRotation: {x: 0.56165016, y: 0, z: 0, w: 0.8273748}
+  m_LocalPosition: {x: -0.38, y: 0.85, z: -7.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9044062594721223010}
   m_Father: {fileID: 3267584594690214022}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 72.72, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 68.34, y: 0, z: 0}
 --- !u!20 &1369014026
 Camera:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 58.543976
+  field of view: 72.73435
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneWidth: 22.38
-  horizontalFoV: 35
+  horizontalFoV: 45
 --- !u!1 &3267584594690214023
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,11 +392,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hc:
   - ht: 1
-    col: {r: 0.7830189, g: 0, b: 0, a: 1}
+    col: {r: 0.4339623, g: 0.27327344, b: 0.11258457, a: 1}
   - ht: 2
-    col: {r: 0, g: 0.6886792, b: 0.051780358, a: 0.94509804}
+    col: {r: 0.6886792, g: 0.19166073, b: 0.197005, a: 1}
   - ht: 3
-    col: {r: 0, g: 0.31110793, b: 0.8113208, a: 1}
+    col: {r: 0.5471698, g: 0.2761659, b: 0.49952075, a: 1}
+  - ht: 4
+    col: {r: 0.8773585, g: 0.633188, b: 0.1448469, a: 1}
 --- !u!114 &275932748
 MonoBehaviour:
   m_ObjectHideFlags: 0

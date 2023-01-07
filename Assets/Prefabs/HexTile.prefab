@@ -126,12 +126,16 @@ MonoBehaviour:
   state: 0
   hexType: 0
   origPos: {x: 3.1840885, y: 0.8284622, z: 2.2420318}
-  origColor: {r: 1, g: 1, b: 1, a: 1}
+  origColor: {r: 0.29411766, g: 0.29411766, b: 0.29411766, a: 1}
+  origColorOut: {r: 0.35686275, g: 0.35686275, b: 0.35686275, a: 1}
+  occupiedColor: {r: 0.053266283, g: 0.15774605, b: 0.1981132, a: 1}
   hexes: []
   neighbors: []
   hexSprite: {fileID: 0}
   hexMesh: {fileID: 4420713819263690141}
   baseHex: {fileID: 2199217496120249788}
+  baseVfx: {fileID: 0}
+  sellVfx: {fileID: 0}
 --- !u!1001 &1612975696042182
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344,6 +348,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2444156683621475474, guid: 92d3753353aca4d59b801f4b755be240, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ca46d31f413243c49213289aaa73c25, type: 2}
+    - target: {fileID: 2444156683621475474, guid: 92d3753353aca4d59b801f4b755be240, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d05068279aeb74dbc9c8559a6dbba4be, type: 2}
     - target: {fileID: 3575945315502022653, guid: 92d3753353aca4d59b801f4b755be240, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -769,6 +781,10 @@ PrefabInstance:
     - target: {fileID: 3381896679837563098, guid: ba41312ab980845f3965f71828597ab2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381896679837563098, guid: ba41312ab980845f3965f71828597ab2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
