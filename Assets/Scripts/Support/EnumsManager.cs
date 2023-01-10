@@ -56,7 +56,8 @@ public enum PlayerType
 public enum TileType
 {    
     Empty,
-    Occupied
+    Occupied,
+    Blocked
 }
 
 public enum HexType

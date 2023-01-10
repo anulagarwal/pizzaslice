@@ -125,13 +125,45 @@ public class Tile : MonoBehaviour
             baseHex.SetActive(false);
         }
     }
-    public async void PlaceHexes(Tile st)
+
+    public async Task PlaceHex(Tile st, Tile to)
     {
-        List<Tile> tempSelect = new List<Tile>();
-        List<Task> task = new List<Task>();
 
+        foreach (int i in st.GetNeighborIndex())
+        {
+            if (to.GetNeighbor(i) != null && to.GetNeighbor(i).GetState() == TileType.Empty)
+            {
+
+
+                Tile b = st.GetNeighbor(i);
+                await b.transform.DOMove(new Vector3(to.GetNeighbor(i).transform.position.x, to.GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (to.GetNeighbor(i).hexes.Count)), to.GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() =>
+                {
+
+                    to.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
+
+                }).AsyncWaitForCompletion();
+                b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
+                VibrationManager.Instance.PlayHaptic();
+                SoundManager.Instance.Play(Sound.Pop);
+                GridManager.Instance.tempTiles.Add(to.GetNeighbor(i));
+
+                if (st.GetNeighbor(i).GetNeighborIndex().Count > 0)
+                {
+                    foreach (int x in st.GetNeighbor(i).GetNeighborIndex())
+                    {
+                       await PlaceHex(st.GetNeighbor(i), to.GetNeighbor(i));
+                    }
+
+                }
+            }
+        }
+
+
+    }
+
+        public async void PlaceHexes(Tile st)
+        {
         GridManager.Instance.tempTiles.Clear();
-
         await st.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count) ), transform.position.z), 0.1f).OnComplete(() => {
 
             this.AddHex(st, true);
@@ -140,46 +172,7 @@ public class Tile : MonoBehaviour
         VibrationManager.Instance.PlayHaptic();
         SoundManager.Instance.Play(Sound.Pop);
         GridManager.Instance.tempTiles.Add(this);
-        tempSelect.Add(this);
-        foreach (int i in st.GetNeighborIndex())
-        {
-            if (this.GetNeighbor(i) != null && this.GetNeighbor(i).GetState() == TileType.Empty)
-            {
-                
-                
-                Tile b = st.GetNeighbor(i);
-                await b.transform.DOMove(new Vector3(GetNeighbor(i).transform.position.x, GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (GetNeighbor(i).hexes.Count)), GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() => {
-
-                    this.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
-
-                }).AsyncWaitForCompletion();
-                b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
-                VibrationManager.Instance.PlayHaptic();
-                SoundManager.Instance.Play(Sound.Pop);
-                GridManager.Instance.tempTiles.Add(this.GetNeighbor(i));
-
-               
-                if (st.GetNeighbor(i).GetNeighborIndex().Count > 0)
-                {
-                    foreach (int x in st.GetNeighbor(i).GetNeighborIndex())
-                    {
-
-                        if (this.GetNeighbor(i).GetNeighbor(x) != null && this.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
-                        {
-                            Tile t = st.GetNeighbor(i).GetNeighbor(x);
-                            await t.transform.DOMove(new Vector3(this.GetNeighbor(i).GetNeighbor(x).transform.position.x, this.GetNeighbor(i).GetNeighbor(x).transform.position.y + GridManager.Instance.baseYOffset + (1 * (GetNeighbor(i).GetNeighbor(x).hexes.Count)), this.GetNeighbor(i).GetNeighbor(x).transform.position.z), 0.1f).OnComplete (()=> {
-                                this.GetNeighbor(i).GetNeighbor(x).AddHex(st.GetNeighbor(i).GetNeighbor(x), true);
-                            }).AsyncWaitForCompletion();
-                            t.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
-                            GridManager.Instance.tempTiles.Add(this.GetNeighbor(i).GetNeighbor(x));
-                            VibrationManager.Instance.PlayHaptic();
-                            SoundManager.Instance.Play(Sound.Pop);
-                        }
-
-                    }
-                }
-            }           
-        }
+      await PlaceHex(st, this);
         GridManager.Instance.CheckForStack();
             
        // CheckForStack();        
@@ -349,6 +342,9 @@ public class Tile : MonoBehaviour
                 }
                 break;
 
+            case TileType.Blocked:
+                gameObject.SetActive(false);
+                break;
 
         }
     }

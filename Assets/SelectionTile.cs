@@ -62,11 +62,14 @@ public class SelectionTile : Tile
             downPos = Input.mousePosition;
             GridManager.Instance.SetSelectedTile(primaryTile);
             selector.SetActive(true);
+            SelectionManager.Instance.SelectionHighlight(gameObject);
         }
     }
 
     private void OnMouseUp()
     {
+        SelectionManager.Instance.DeSelectionHighlight(gameObject);
+
         if (GridManager.Instance.GetSelectionTile() == primaryTile && GridManager.Instance.GetEnteredTile()!=null && Vector2.Distance(downPos, Input.mousePosition) > minDistance && canMove)
         {
             
@@ -79,6 +82,7 @@ public class SelectionTile : Tile
             }
             else
             {
+
                 transform.DOMove(origPos, 0.25f);
             }
 
@@ -105,9 +109,10 @@ public class SelectionTile : Tile
             GridManager.Instance.DeselectTile();
 
         }
+
     }
 
-    
+
 
     #endregion
 

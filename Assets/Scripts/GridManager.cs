@@ -32,6 +32,9 @@ public class GridManager : MonoBehaviour
 	[SerializeField] Transform toBox;
 	[SerializeField] Vector3 centerBox;
 	[SerializeField] Transform UICoinPos;
+	[SerializeField] List<Vector2> blockTiles;
+
+
 
 
 
@@ -56,6 +59,12 @@ public class GridManager : MonoBehaviour
 				cells.Add(CreateCell(x, z));
 			}
 		}
+
+		foreach(Vector2 v in blockTiles)
+        {
+			if(cells.Find(x => x.coordinates.X == v.x && x.coordinates.Z == v.y)!=null)
+				cells.Find(x => x.coordinates.X == v.x && x.coordinates.Z == v.y).UpdateState(TileType.Blocked);
+        }
 		SetNeighbors();
 		centerBox = box.transform.position;
 		box.transform.position = fromBox.position;
@@ -75,6 +84,7 @@ public class GridManager : MonoBehaviour
 		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 		cell.gameObject.name = "Tile " + cells.Count;
+		Vector2 v = new Vector2(x, z);
 
 		return cell;
 	}
@@ -395,9 +405,35 @@ public class GridManager : MonoBehaviour
 		}
 	}
 
-    #endregion
+/*	public bool CanEnter(Tile selected, Tile entered)
+    {
+		bool isPossible = false;
 
-    public bool CompareSelectedToEnteredTile()
+		foreach (int i in selected.GetNeighborIndex())
+		{
+			if (entered.GetNeighbor(i) != null && entered.GetNeighbor(i).GetState() == TileType.Empty)
+			{
+				isPossible = true;
+				tempSelect.Add(entered.GetNeighbor(i));
+
+				isPossible = CanEnter(selected.GetNeighbor(i), entered.GetNeighbor(i));
+				
+			}
+			else
+			{
+				isPossible = false;
+			}
+		}
+
+
+
+		return isPossible;
+    }
+	*/
+
+	#endregion
+
+	public bool CompareSelectedToEnteredTile()
     {
 		CleanSelection();
 		bool isPossible = false;
@@ -417,6 +453,20 @@ public class GridManager : MonoBehaviour
 						{
 							isPossible = true;
 							tempSelect.Add(enteredTile.GetNeighbor(i).GetNeighbor(x));
+
+							foreach (int y in selectedTile.GetNeighbor(i).GetNeighbor(x).GetNeighborIndex())
+							{
+								if (enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y) != null && enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y).GetState() == TileType.Empty)
+								{
+									isPossible = true;
+									tempSelect.Add(enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y));
+								}
+								else
+								{
+									isPossible = false;
+								}
+							}
+
 						}
 						else
 						{

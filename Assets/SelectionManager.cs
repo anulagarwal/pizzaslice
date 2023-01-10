@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class SelectionManager : MonoBehaviour
 {
     [Header("Attributes")]
     [SerializeField] int maxBox;
     [SerializeField] int spawnIndex;
+    [SerializeField] float highlightDelay;
+    [SerializeField] float startTime;
+    [SerializeField] bool isHighlight;
+
+
+
 
     [Header("Component References")]
     [SerializeField] List<GameObject> tiles;
     [SerializeField] List<Transform> boxPoints;
     [SerializeField] public List<GameObject> spawnedTiles;
+
 
     public static SelectionManager Instance = null;
 
@@ -32,14 +39,30 @@ public class SelectionManager : MonoBehaviour
     {
         for(int i =0; i< maxBox; i++)
         {
-            Spawn(boxPoints.Find(x => x.childCount == 0));
+            Spawn(boxPoints.Find(x => x.childCount == 1));
         }
+        isHighlight = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+        if(startTime + highlightDelay < Time.time && !isHighlight)
+        {
+
+            isHighlight = true;
+
+
+            if (CheckForSpace(boxPoints[0].GetChild(1).gameObject))
+            {
+                boxPoints[0].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo);
+            }
+
+            if (CheckForSpace(boxPoints[1].GetChild(1).gameObject))
+            {
+                boxPoints[1].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo);
+            }
+        }
     }
 
 
@@ -53,6 +76,8 @@ public class SelectionManager : MonoBehaviour
         {
             spawnIndex = 0;
         }
+        startTime = Time.time;
+        isHighlight = false;
         
     }
 
@@ -77,6 +102,22 @@ public class SelectionManager : MonoBehaviour
         }
         return canPlace;
     }
+    public bool CheckForSpace(GameObject g)
+    {
+        bool canPlace = false;
+       
+            SelectionTile t = g.GetComponent<SelectionTile>();
+            foreach (Tile b in GridManager.Instance.GetCells())
+            {
+                canPlace = GridManager.Instance.CompareSelectedToEnteredTile(t.primaryTile, b);
+                if (canPlace)
+                {
+                    break;
+                }
+            }           
+        
+        return canPlace;
+    }
     public void ActiveTiles(bool isActive)
     {
         foreach(GameObject g in spawnedTiles)
@@ -84,9 +125,19 @@ public class SelectionManager : MonoBehaviour
             g.SetActive(isActive);
         }
     }
+
+    public void SelectionHighlight(GameObject g)
+    {
+        boxPoints.Find(x => x.GetChild(1).gameObject == g).GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+        DOTween.KillAll();
+    }
+    public void DeSelectionHighlight(GameObject g)
+    {
+        boxPoints.Find(x => x.GetChild(1).gameObject == g).GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+    }
     public void RemoveTile(GameObject g)
     {
-        Spawn(boxPoints.Find(x => x.GetChild(0).gameObject == g));
+        Spawn(boxPoints.Find(x => x.GetChild(1).gameObject == g));
         g.transform.SetParent(null);
 
         //Destroy(g);
