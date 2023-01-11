@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
             GetComponent<TutorialManager>().NextStep();
         }
     }
-
+    
     public void WinLevel()
     {
         if (currentState == GameState.InGame)

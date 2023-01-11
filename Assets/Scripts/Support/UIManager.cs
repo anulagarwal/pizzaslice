@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Threading.Tasks;
+[System.Serializable]
+public class PowerupButton
+{
+    public PowerupType pt;
+    public Button b;
+    public Text t;
+
+}
 public class UIManager : MonoBehaviour
 {
     #region Properties
@@ -13,7 +22,20 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject PointText;
     [SerializeField] private GameObject AwesomeText;
-    [SerializeField] private GameObject JoyStick;  
+    [SerializeField] private GameObject JoyStick;
+
+    [SerializeField] private List<PowerupButton> powerups;
+    [SerializeField] private Image fillAmtGrey;
+    [SerializeField] private Text fillAmttext;
+    [SerializeField] private float fillAmt;
+    [SerializeField] private Transform radial;
+
+
+
+    [SerializeField] private Image unlocked;
+
+
+
 
     [Header("UI Panel")]
     [SerializeField] private GameObject mainMenuUIPanel = null;
@@ -26,6 +48,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text winLevelText = null;
     [SerializeField] private Text loseLevelText = null;
     [SerializeField] private Text debugText = null;
+    [SerializeField] private GameObject powerupInfo = null;
+
 
 
     [Header("Reward/Coins")]
@@ -106,6 +130,7 @@ public class UIManager : MonoBehaviour
                 gameplayUIPanel.SetActive(false);
                 gameOverWinUIPanel.SetActive(true);
                 gameOverLoseUIPanel.SetActive(false);
+                _ = UpdateFillImage();
                 break;
             case UIPanelState.GameLose:
                 mainMenuUIPanel.SetActive(false);
@@ -131,22 +156,73 @@ public class UIManager : MonoBehaviour
         inGameLevelText.text = "LEVEL " + level;
         winLevelText.text = "LEVEL " + level;
         loseLevelText.text = "LEVEL " + level;
-
     }
 
+    public async Task UpdateFillImage()
+    {
+        fillAmtGrey.fillAmount = 0;
+        fillAmttext.text = "0%";
+
+        await Task.Delay(500);
+
+        fillAmtGrey.DOFillAmount(fillAmt / 100, 2f).OnStepComplete(() => {
+            if (fillAmt == 100)
+            {
+                fillAmtGrey.transform.DOScale(Vector3.zero, 0.4f).OnComplete(() =>
+                {
+                    fillAmtGrey.gameObject.SetActive(false);
+                    unlocked.gameObject.SetActive(true);
+                    unlocked.transform.DOScale(new Vector3(1, 1, 1), 0.4f);
+                    radial.gameObject.SetActive(true);
+                    radial.DOScale(new Vector3(1, 1, 1), 1f);
+                    radial.DORotate(new Vector3(0, 0, 180), 2f).SetLoops(-1,LoopType.Yoyo);
+                });
+            }
+        }) ;
+        fillAmttext.text = "" + fillAmt + "%";
+
+       
+    }
     public void UpdateCurrentCoins(int v)
     {
         foreach(Text t in allCurrentCoins)
         {
             t.text = v + "";
         }
-    }
+        UpdatePowerupButtons(v);
 
+    }
+    public void UpdatePowerupButtons(int currentCoin)
+    {
+        foreach(PowerupButton pb in powerups)
+        {
+            if(PowerupManager.Instance.GetPowerupCost(pb.pt) <= currentCoin)
+            {
+                pb.b.interactable = true;
+                if(pb.pt == PowerupType.Bomb)
+                {
+                    if (PlayerPrefs.GetInt("bomb", 0) == 0)
+                    {
+                        EnablePowerupInfo();
+                        PlayerPrefs.SetInt("bomb", 1);
+                    }
+                }
+            }
+            else
+            {
+                pb.b.interactable = false;
+            }
+            pb.t.text = "" + PowerupManager.Instance.GetPowerupCost(pb.pt);
+        }
+    }
     public void UpdateLevelReward(int v)
     {
         levelReward.text ="+"+ v + "";
     }
-
+    public void EnablePowerupInfo()
+    {
+        powerupInfo.SetActive(true);
+    }
     public void UpdateObjective(HexType ht, float fillAmt, float max)
     {
         switch (ht)
@@ -163,7 +239,6 @@ public class UIManager : MonoBehaviour
             case HexType.C:
                 donutFill.DOFillAmount(fillAmt/max, 2f);
                 break;
-
         }
     }
 
@@ -201,6 +276,11 @@ public class UIManager : MonoBehaviour
     public void OnClickChangeButton()
     {
         GameManager.Instance.ChangeLevel();
+    }
+
+    public void OnClickPowerupButton()
+    {
+        GridManager.Instance.EnableBombGrid();
     }
 
     public void OnClickMove()

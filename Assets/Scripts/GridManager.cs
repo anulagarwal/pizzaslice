@@ -23,6 +23,14 @@ public class GridManager : MonoBehaviour
 
 	[SerializeField] public float upScaleValue;
 	[SerializeField] public float boxScaleValue;
+	[SerializeField] public float explosionForce;
+	[SerializeField] public float explosionRadius;
+	[SerializeField] public float explosionUpForce;
+
+	[SerializeField] public bool bomb;
+
+
+
 
 
 	[SerializeField] public List<Tile> tempTiles;
@@ -31,11 +39,15 @@ public class GridManager : MonoBehaviour
 	[SerializeField] Transform fromBox;
 	[SerializeField] Transform toBox;
 	[SerializeField] Vector3 centerBox;
-	[SerializeField] Transform UICoinPos;
+	[SerializeField] public Transform UICoinPos;
+	[SerializeField] public Transform UIBarPos;
+
+	[SerializeField] GameObject bombTile;
+
 	[SerializeField] List<Vector2> blockTiles;
 
 
-
+	public bool canMove = true;
 
 
 	[SerializeField] public Box box;
@@ -220,6 +232,44 @@ public class GridManager : MonoBehaviour
 		enteredTile = null;
 		CleanSelection();
     }
+	public void PlaceBomb(Tile tile)
+    {
+		GameObject g = Instantiate(bombTile, new Vector3(tile.transform.position.x ,tile.transform.position.y + GridManager.Instance.baseYOffset + (0), tile.transform.position.z),Quaternion.identity);
+		g.GetComponent<Bomb>().PlaceOnTile(tile);
+		PowerupManager.Instance.UsePowerup(PowerupType.Bomb);
+		EnableBombGrid();
+    }
+	public void EnableBombGrid()
+    {
+		if (bomb)
+		{
+			bomb = false;
+			foreach (Tile t in cells.FindAll(x => x != null && x.GetState() == TileType.Empty))
+			{
+				t.target.gameObject.SetActive(false);
+				t.target.transform.DOScale(new Vector3(0.25f,0.25f,0.25f), 0.4f);
+			}
+		}
+        else
+        {
+			bomb = true;
+			foreach (Tile t in cells.FindAll(x => x != null && x.GetState() == TileType.Empty))
+			{
+				Vector3 v = t.target.transform.localScale;
+				t.target.gameObject.SetActive(true);
+				t.target.transform.DOScale(v * 1.5f, 0.4f);
+			}
+		}
+
+    }
+	public void DisableBombGrid()
+    {
+		foreach (Tile t in cells.FindAll(x => x != null && x.GetState() == TileType.Empty))
+		{
+			t.target.gameObject.SetActive(false);
+		}
+		bomb = false;
+    }
 	public async Task SellFromBox(Tile tile)
     {
 		SelectionManager.Instance.ActiveTiles(false);
@@ -228,18 +278,23 @@ public class GridManager : MonoBehaviour
 		await box.boxTop.DOLocalRotate(new Vector3(0, 0, 45), 0.75f).AsyncWaitForCompletion();
 
 
-		for (int i = tile.hexes.Count - 1; i >= tile.hexes.Count - stackValue; i--)
-		{
-			VibrationManager.Instance.PlayHaptic();
-			LevelManager.Instance.AddItem(HexType.A);
-			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.2f);
-			tile.hexes[i].transform.DOMove(box.GetPosition(), 1f);
-			box.AddFood(tile.hexes[i].transform);		
-			await Task.Delay(75);
-		}
+	
+		
+			for (int i = tile.hexes.Count - 1; i >= tile.hexes.Count - stackValue; i--)
+			{
+				VibrationManager.Instance.PlayHaptic();
+				LevelManager.Instance.AddItem(HexType.A);
+				tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.2f);
+				tile.hexes[i].transform.DOMove(box.GetPosition(), 1f);
+				box.AddFood(tile.hexes[i].transform);
+				await Task.Delay(75);
+			}
+		
+
 		List<GameObject> coins = new List<GameObject>();
 		for (int i = tile.hexes.Count - 1 - stackValue; i >= 0; i--)
 		{
+			//To turn small 
 			VibrationManager.Instance.PlayHaptic();
 			LevelManager.Instance.AddItem(HexType.A);
 
@@ -249,7 +304,7 @@ public class GridManager : MonoBehaviour
 		}
 
 		for (int i = 0; i <= tile.hexes.Count - 1 - stackValue; i++)
-		{
+		{	//To spawn coins
 			GameObject g = CoinManager.Instance.SpawnCoin(tile.hexes[i].transform.position);
 			g.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
 			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
@@ -271,46 +326,80 @@ public class GridManager : MonoBehaviour
 			await Task.Delay(150);
 		}
 		tile.SellHexes();
-		#region box Movement
-		await Task.Delay(500);
-		await box.boxTop.DOLocalRotate(new Vector3(0, 0, -75), 1f).AsyncWaitForCompletion();
-		await Task.Delay(250);
-
-		//await box.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).AsyncWaitForCompletion();
-
-		Sequence c = DOTween.Sequence();
-
 		
+			#region box Movement
+			await Task.Delay(500);
+			await box.boxTop.DOLocalRotate(new Vector3(0, 0, -75), 1f).AsyncWaitForCompletion();
+			await Task.Delay(250);
 
-		//box.box.DOScale(Vector3.zero, 0.4f);
-		SelectionManager.Instance.ActiveTiles(true);
+			SelectionManager.Instance.ActiveTiles(true);
 
-		await box.transform.DOMove(toBox.position, 0.2f).AsyncWaitForCompletion();
-		foreach (Transform t in box.coinStack)
-		{
-			t.DOScale(new Vector3(40, 40, 40), 0.07f);
-		}
-		foreach (Transform t in box.coinStack)
-		{
-			t.DOMove(UICoinPos.position, 0.3f).OnComplete(() => {
+			await box.transform.DOMove(toBox.position, 0.2f).AsyncWaitForCompletion();
+			foreach (Transform t in box.coinStack)
+			{
+				t.DOScale(new Vector3(40, 40, 40), 0.07f);
+			}
+			foreach (Transform t in box.coinStack)
+			{
+				t.DOMove(UICoinPos.position, 0.3f).OnComplete(() =>
+				{
 
-				CoinManager.Instance.AddCoins(1);
-			}); ;
-			await Task.Delay(50);
-		}
+					CoinManager.Instance.AddCoins(1);
+				}); ;
+				await Task.Delay(50);
+			}
 
-		await Task.Delay(300);
+			await Task.Delay(300);
 
 
-		box.transform.position = fromBox.position;
-		box.Sanitize();
+			box.transform.position = fromBox.position;
+			box.Sanitize();
 
-		#endregion
-
-		//Add coins for remaining donuts
-		
-
+			#endregion		
+		//Add coins for remaining donuts		
 	}
+	public async Task SellDirectly(Tile tile)
+	{
+		for (int i = tile.hexes.Count - 1; i >= 0; i--)
+		{
+			VibrationManager.Instance.PlayHaptic();
+			tile.hexes[i].transform.DOScale(0.1f, 0.3f);
+			tile.hexes[i].PlaySellVFX();
+
+			tile.hexes[i].transform.DOMove(UIBarPos.position, 0.4f);
+			await Task.Delay(175);
+		}
+
+		await Task.Delay(150);
+
+		List<GameObject> coins = new List<GameObject>();
+		foreach(Tile t in tile.hexes)
+        {
+			await Task.Delay(175);
+			LevelManager.Instance.AddItem(HexType.A);
+			GameObject g = CoinManager.Instance.SpawnCoin(t.transform.position);
+			coins.Add(g);
+			g.transform.DORotate(new Vector3(0, 0, 0), 0.3f);
+			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
+			g.transform.DOMove(UICoinPos.position, 0.4f);
+			g.GetComponentInChildren<ParticleSystem>().Play();
+			CoinManager.Instance.AddCoins(1);
+			Destroy(t.gameObject);
+		}
+		await Task.Delay(600);
+
+		foreach(GameObject g in coins)
+        {
+			Destroy(g);
+        }
+		coins.Clear();
+
+		tile.SellHexes();
+
+
+		//Add coins for remaining donuts		
+	}
+
 
 	public async Task Stack(Tile n, Tile tile)
     {
@@ -330,6 +419,7 @@ public class GridManager : MonoBehaviour
 	public async void CheckForStack()
     {
 		box.transform.position = fromBox.position;
+		canMove = false;
 		foreach (Tile tile in tempTiles)
 		{
             if (tile.hexes.Count > 0)
@@ -360,7 +450,14 @@ public class GridManager : MonoBehaviour
 								}
 								if (n.hexes.Count >= stackValue)
 								{
-									await SellFromBox(n);
+									if (GameManager.Instance.GetCurrentLevel() < 5)
+									{
+										await SellFromBox(n);
+									}
+                                    else
+                                    {
+										await SellDirectly(n);
+                                    }
 								}
 
 								n.ShiftHexesToTile();
@@ -371,16 +468,23 @@ public class GridManager : MonoBehaviour
 
 				if (tile.hexes.Count >= stackValue)
 				{
-					await SellFromBox(tile);
-
+					if (GameManager.Instance.GetCurrentLevel() < 5)
+					{
+						await SellFromBox(tile);
+					}
+					else
+					{
+						await SellDirectly(tile);
+					}
 				}
 
 			}
 			
 		}
 
+		canMove = true;
 		
-        if (!SelectionManager.Instance.CheckForSpace())
+		if (!SelectionManager.Instance.CheckForSpace())
         {
 			foreach(GameObject g in SelectionManager.Instance.spawnedTiles)
             {
@@ -388,12 +492,18 @@ public class GridManager : MonoBehaviour
 				//Initiate fail state
             }
 			GameManager.Instance.LoseLevel();
+			canMove = false;
+
 		}
+
 
 		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
 		{
 			GameManager.Instance.WinLevel();
+			canMove = false;
 		}
+
+        
 
 	}
 	public void CleanSelection()
@@ -404,6 +514,17 @@ public class GridManager : MonoBehaviour
 				t.DeHighlight();
 		}
 	}
+
+	public void BombSurroundingTiles(Tile center)
+	{
+		//Fly all pancakes
+
+		foreach (Tile n in center.GetNeighbors().FindAll(x => x != null && x.hexes.Count > 0))
+		{
+			n.BombThis(center.transform.position);
+		}
+	}
+		
 
 /*	public bool CanEnter(Tile selected, Tile entered)
     {
@@ -438,25 +559,25 @@ public class GridManager : MonoBehaviour
 		CleanSelection();
 		bool isPossible = false;
 		List<Tile> tempSelect = new List<Tile>();
-		if (enteredTile.GetState() == TileType.Empty)
+		if (enteredTile.GetState() == TileType.Empty || enteredTile.GetState() == TileType.Frozen)
 		{
 			isPossible = true;
 			foreach (int i in selectedTile.GetNeighborIndex())
 			{
-				if (enteredTile.GetNeighbor(i) != null && enteredTile.GetNeighbor(i).GetState() == TileType.Empty)
+				if (enteredTile.GetNeighbor(i) != null && (enteredTile.GetNeighbor(i).GetState() == TileType.Empty || enteredTile.GetNeighbor(i).GetState() == TileType.Frozen))
 				{
 					isPossible = true;
 					tempSelect.Add(enteredTile.GetNeighbor(i));
 					foreach (int x in selectedTile.GetNeighbor(i).GetNeighborIndex())
 					{
-						if (enteredTile.GetNeighbor(i).GetNeighbor(x) != null && enteredTile.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
+						if (enteredTile.GetNeighbor(i).GetNeighbor(x) != null && (enteredTile.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty || enteredTile.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Frozen))
 						{
 							isPossible = true;
 							tempSelect.Add(enteredTile.GetNeighbor(i).GetNeighbor(x));
 
 							foreach (int y in selectedTile.GetNeighbor(i).GetNeighbor(x).GetNeighborIndex())
 							{
-								if (enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y) != null && enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y).GetState() == TileType.Empty)
+								if (enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y) != null && (enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y).GetState() == TileType.Empty || enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y).GetState() == TileType.Frozen))
 								{
 									isPossible = true;
 									tempSelect.Add(enteredTile.GetNeighbor(i).GetNeighbor(x).GetNeighbor(y));
@@ -495,17 +616,17 @@ public class GridManager : MonoBehaviour
 	{
 		CleanSelection();
 		bool isPossible = false;
-		if (e.GetState() == TileType.Empty)
+		if (e.GetState() == TileType.Empty || e.GetState() == TileType.Frozen)
 		{
 			isPossible = true;
 			foreach (int i in g.GetNeighborIndex())
 			{
-				if (e.GetNeighbor(i) != null && e.GetNeighbor(i).GetState() == TileType.Empty)
+				if (e.GetNeighbor(i) != null && (e.GetNeighbor(i).GetState() == TileType.Empty || e.GetNeighbor(i).GetState() == TileType.Frozen))
 				{
 					isPossible = true;
 					foreach (int x in g.GetNeighbor(i).GetNeighborIndex())
 					{
-						if (e.GetNeighbor(i).GetNeighbor(x) != null && e.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty)
+						if (e.GetNeighbor(i).GetNeighbor(x) != null && (e.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Empty || e.GetNeighbor(i).GetNeighbor(x).GetState() == TileType.Frozen))
 						{
 							isPossible = true;
 						}

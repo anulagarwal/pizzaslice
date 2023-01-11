@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Threading.Tasks;
+using TMPro;
 [System.Serializable]
 public class Food
 {
@@ -26,6 +27,7 @@ public class Tile : MonoBehaviour
     public Color origColor;
     public Color origColorOut;
     public Color occupiedColor;
+    public int frozenValue;
 
 
 
@@ -35,10 +37,16 @@ public class Tile : MonoBehaviour
     [SerializeField] public List<Tile> hexes;
     [SerializeField] public List<Tile> neighbors;
     [SerializeField] SpriteRenderer hexSprite;
+    [SerializeField] public SpriteRenderer target;
+
     [SerializeField] MeshRenderer hexMesh;
     [SerializeField] GameObject baseHex = null;
     [SerializeField] ParticleSystem baseVfx = null;
     [SerializeField] ParticleSystem sellVfx = null;
+    [SerializeField] TextMeshPro frozenText = null;
+    [SerializeField] Rigidbody rb = null;
+
+
 
 
 
@@ -63,35 +71,24 @@ public class Tile : MonoBehaviour
                 hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
                 hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
 
-            }
+        }
+
+        if (isHex)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
-
-        //if mouse button (left hand side) pressed instantiate a raycast
-        if (Input.GetMouseButton(0) && GridManager.Instance.GetSelectionTile()!=null)
+        if (GridManager.Instance.GetSelectionTile() != this && GridManager.Instance.canMove && GridManager.Instance.bomb && GetState() == TileType.Empty)
         {
-           /* //create a ray cast and set it to the mouses cursor position in game
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if(hit.collider == GetComponent<Collider>())
-                {
-                    GridManager.Instance.SetEnteredTile(this);
-                    canPlace = GridManager.Instance.CompareSelectedToEnteredTile();
-                }
-            }
-            else
-            {
-                canPlace = false;
-                GridManager.Instance.SetEnteredTile(null);
-            }*/
+            GridManager.Instance.PlaceBomb(this);
         }
     }
+
+
 
     #region Mouse Selection
 
@@ -131,18 +128,18 @@ public class Tile : MonoBehaviour
 
         foreach (int i in st.GetNeighborIndex())
         {
-            if (to.GetNeighbor(i) != null && to.GetNeighbor(i).GetState() == TileType.Empty)
+            if (to.GetNeighbor(i) != null && (to.GetNeighbor(i).GetState() == TileType.Empty || to.GetNeighbor(i).GetState() == TileType.Frozen))
             {
 
 
                 Tile b = st.GetNeighbor(i);
                 await b.transform.DOMove(new Vector3(to.GetNeighbor(i).transform.position.x, to.GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (to.GetNeighbor(i).hexes.Count)), to.GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() =>
                 {
+                    b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
 
                     to.GetNeighbor(i).AddHex(st.GetNeighbor(i), true);
 
                 }).AsyncWaitForCompletion();
-                b.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
                 VibrationManager.Instance.PlayHaptic();
                 SoundManager.Instance.Play(Sound.Pop);
                 GridManager.Instance.tempTiles.Add(to.GetNeighbor(i));
@@ -165,10 +162,10 @@ public class Tile : MonoBehaviour
         {
         GridManager.Instance.tempTiles.Clear();
         await st.transform.DOMove(new Vector3(transform.position.x, transform.position.y + GridManager.Instance.baseYOffset + (1 * (hexes.Count) ), transform.position.z), 0.1f).OnComplete(() => {
+            st.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
 
             this.AddHex(st, true);
         }).AsyncWaitForCompletion();
-        st.transform.DOScale(GridManager.Instance.upScaleValue, 0.2f);
         VibrationManager.Instance.PlayHaptic();
         SoundManager.Instance.Play(Sound.Pop);
         GridManager.Instance.tempTiles.Add(this);
@@ -182,39 +179,87 @@ public class Tile : MonoBehaviour
     public void ShiftHexesToTile()
     {
       
-            baseHex.SetActive(false);              
+            //baseHex.SetActive(false);              
             hexes.Clear();
            // baseHex.SetActive(false);                     
                 UpdateState(TileType.Empty);      
-
     }
 
+    public async void BombThis(Vector3 point)
+    {
+        foreach(Tile t in hexes)
+        {
+            t.transform.parent = null;
+            t.rb.isKinematic = false;
+            t.rb.useGravity = true;
+            t.rb.AddExplosionForce(GridManager.Instance.explosionForce, point, GridManager.Instance.explosionRadius, GridManager.Instance.explosionUpForce, ForceMode.Impulse);
+            t.transform.DORotate(Random.rotation.eulerAngles, 1f, RotateMode.Fast).SetLoops(-1).SetEase(Ease.Linear);
+
+        }
+        List<GameObject> coins = new List<GameObject>();
+        //Delay 2
+        await Task.Delay(1000);
+        foreach (Tile t in hexes)
+        {
+            GameObject g = CoinManager.Instance.SpawnCoin(t.transform.position);
+            g.transform.DORotate(new Vector3(90, 0, 0), 0.4f);
+            g.transform.DOScale(new Vector3(30, 30, 30), 0.4f);
+           
+            g.GetComponentInChildren<ParticleSystem>().Play();
+            coins.Add(g);
+            Destroy(t.gameObject);
+        }
+
+        foreach (GameObject g in coins)
+        {
+            g.transform.DOMove(GridManager.Instance.UICoinPos.position, 0.4f).OnComplete(() =>
+            {
+                LevelManager.Instance.AddItem(HexType.A);
+
+                CoinManager.Instance.AddCoins(1);
+                CoinManager.Instance.RemoveCoin(g);
+            });
+            await Task.Delay(150);
+        }
+
+        ShiftHexesToTile();
+    }
 
     public void AddHex(Tile t, bool move)
     {
         //hexType = t.hexType;
         hexes.Add(t);
-       
 
+        if (GetState() == TileType.Frozen)
+        {
+            frozenValue--;
 
-        if (t.isHex)
-        {
-            t.baseHex.SetActive(false);
-        }
-        t.transform.parent = transform;
-        if (move)
-        {
+            hexes.Remove(t);
+            Destroy(t.gameObject);
+            frozenText.text = "" + frozenValue;
+            UpdateState(TileType.Frozen);
+
+            if (frozenValue <= 0)
+            {
+                UpdateState(TileType.Empty);
+            }
            
         }
-        if (hexes.Count > 0)
-        {
-            hexType = t.hexType;
-            
-            occupiedColor = ColorManager.Instance.GetHexColor(hexType);
+       
+            if (t.isHex)
+            {
+                t.baseHex.SetActive(false);
+            }
+            t.transform.parent = transform;
+            if (hexes.Count > 0)
+            {
+                hexType = t.hexType;
 
-            UpdateState(TileType.Occupied);
-            //            baseHex.SetActive(true);
-        }        
+                occupiedColor = ColorManager.Instance.GetHexColor(hexType);
+                UpdateState(TileType.Occupied);
+                //            baseHex.SetActive(true);
+            }
+        
     }
 
   
@@ -326,6 +371,7 @@ public class Tile : MonoBehaviour
                 hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
 
                 hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
+                frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null && !isHex)
                 {
@@ -333,8 +379,10 @@ public class Tile : MonoBehaviour
                 }
                 break;
             case TileType.Empty:
-                Highlight(origColor);
+                hexMesh.materials[0].color = origColorOut;
+
                 hexMesh.materials[1].color = origColor;
+                frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null)
                 {
@@ -344,6 +392,10 @@ public class Tile : MonoBehaviour
 
             case TileType.Blocked:
                 gameObject.SetActive(false);
+                break;
+
+            case TileType.Frozen:
+                frozenText.gameObject.SetActive(true);
                 break;
 
         }

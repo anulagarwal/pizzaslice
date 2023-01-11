@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1613563251}
     m_Modifications:
+    - target: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+      propertyPath: m_Name
+      value: FX_Explosion_Rubble
+      objectReference: {fileID: 0}
     - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -149,11 +153,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
       propertyPath: m_LocalRotation.w
-      value: .71332258
+      value: 0.7133226
       objectReference: {fileID: 0}
     - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -.700835884
+      value: -0.7008359
       objectReference: {fileID: 0}
     - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
       propertyPath: m_LocalRotation.y
@@ -163,21 +167,17 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 19810594, guid: 079954accd64b32419ec069129c81273, type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 3
+    - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 19810594, guid: 079954accd64b32419ec069129c81273, type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 3
+    - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 19821056, guid: 079954accd64b32419ec069129c81273, type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19821056, guid: 079954accd64b32419ec069129c81273, type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 3
+    - target: {fileID: 402300, guid: 079954accd64b32419ec069129c81273, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

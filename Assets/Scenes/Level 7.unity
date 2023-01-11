@@ -950,6 +950,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -83
       objectReference: {fileID: 0}
+    - target: {fileID: 3673031777345838817, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+      propertyPath: m_Text
+      value: BLUEBERRY PANCAKE!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986357266879418080, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+      propertyPath: fillAmt
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4986357266879418080, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
       propertyPath: donutPos
       value: 
@@ -1054,6 +1062,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110162647378443035, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fadde302275cf4734adef18944a88cea, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a28ad5dbbd7374cdbbc161f4ec9dd99c, type: 3}

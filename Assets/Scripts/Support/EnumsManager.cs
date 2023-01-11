@@ -57,7 +57,8 @@ public enum TileType
 {    
     Empty,
     Occupied,
-    Blocked
+    Blocked,
+    Frozen
 }
 
 public enum HexType
@@ -67,6 +68,17 @@ public enum HexType
     B,
     C,
     D
+}
+
+public enum GridState
+{
+    Normal,
+    Bomb
+}
+
+public enum PowerupType
+{
+    Bomb
 }
 public enum HexDirection
 {

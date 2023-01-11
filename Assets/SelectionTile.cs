@@ -57,7 +57,7 @@ public class SelectionTile : Tile
 
     private void OnMouseDown()
     {
-        if (GridManager.Instance.GetSelectionTile() != primaryTile && canMove)
+        if (GridManager.Instance.GetSelectionTile() != primaryTile && canMove && GridManager.Instance.canMove)
         {
             downPos = Input.mousePosition;
             GridManager.Instance.SetSelectedTile(primaryTile);
@@ -68,7 +68,6 @@ public class SelectionTile : Tile
 
     private void OnMouseUp()
     {
-        SelectionManager.Instance.DeSelectionHighlight(gameObject);
 
         if (GridManager.Instance.GetSelectionTile() == primaryTile && GridManager.Instance.GetEnteredTile()!=null && Vector2.Distance(downPos, Input.mousePosition) > minDistance && canMove)
         {
@@ -76,9 +75,12 @@ public class SelectionTile : Tile
 
             if (GridManager.Instance.PlaceTile())
             {
+                SelectionManager.Instance.DeSelectionHighlight(gameObject);
+
                 SelectionManager.Instance.RemoveTile(gameObject);
                 Destroy(selector);
                 GetComponent<BoxCollider>().enabled = false;
+
             }
             else
             {

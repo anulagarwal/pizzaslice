@@ -18,6 +18,7 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] List<GameObject> tiles;
     [SerializeField] List<Transform> boxPoints;
     [SerializeField] public List<GameObject> spawnedTiles;
+    List<Tweener> tweens = new List<Tweener>();
 
 
     public static SelectionManager Instance = null;
@@ -55,13 +56,19 @@ public class SelectionManager : MonoBehaviour
 
             if (CheckForSpace(boxPoints[0].GetChild(1).gameObject))
             {
-                boxPoints[0].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo);
+                tweens.Add(boxPoints[0].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo));
             }
 
             if (CheckForSpace(boxPoints[1].GetChild(1).gameObject))
             {
-                boxPoints[1].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo);
+               tweens.Add(boxPoints[1].GetChild(0).GetComponent<SpriteRenderer>().DOColor(Color.green, 0.6f).SetLoops(-1, LoopType.Yoyo));
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {            
+                boxPoints[0].GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                boxPoints[1].GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;            
         }
     }
 
@@ -78,7 +85,11 @@ public class SelectionManager : MonoBehaviour
         }
         startTime = Time.time;
         isHighlight = false;
-        
+        foreach (Tweener tw in tweens)
+        {
+            tw.Kill();
+        }
+
     }
 
     public bool CheckForSpace()
@@ -129,7 +140,6 @@ public class SelectionManager : MonoBehaviour
     public void SelectionHighlight(GameObject g)
     {
         boxPoints.Find(x => x.GetChild(1).gameObject == g).GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-        DOTween.KillAll();
     }
     public void DeSelectionHighlight(GameObject g)
     {

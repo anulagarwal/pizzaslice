@@ -21,10 +21,16 @@ public class Selector : MonoBehaviour
                 {
                     if (GridManager.Instance.GetEnteredTile() != hit.collider.GetComponent<Tile>())
                     {
-                        GridManager.Instance.SetEnteredTile(hit.collider.GetComponent<Tile>());
-                        if (GridManager.Instance.CompareSelectedToEnteredTile())
+                        if (GridManager.Instance.CompareSelectedToEnteredTile(GridManager.Instance.GetSelectionTile(), hit.collider.GetComponent<Tile>()))
                         {
+                            GridManager.Instance.SetEnteredTile(hit.collider.GetComponent<Tile>());
+                            GridManager.Instance.CompareSelectedToEnteredTile();
+
                             hit.collider.GetComponent<Tile>().SetCanPlace(true);
+                        }
+                        else
+                        {
+                            GridManager.Instance.SetEnteredTile(null);
                         }
                         lastTile = hit.collider.GetComponent<Tile>();
 
