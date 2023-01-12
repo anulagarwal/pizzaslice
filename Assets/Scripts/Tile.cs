@@ -366,10 +366,10 @@ public class Tile : MonoBehaviour
         {
             case TileType.Occupied:
                 //Highlight(occupiedColor);
-                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
+                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
 
-                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
-
+                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
+                print(ColorManager.Instance.GetHexColor(hexes[0].hexType));
                 frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null && !isHex)
