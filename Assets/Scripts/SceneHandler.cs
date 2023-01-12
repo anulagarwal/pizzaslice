@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneHandler : MonoBehaviour
@@ -10,7 +9,7 @@ public class SceneHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentLevel = PlayerPrefs.GetInt("level", 1);
+        currentLevel = PlayerPrefs.GetInt("level", 0);
 
 
         if (currentLevel > maxLevels)

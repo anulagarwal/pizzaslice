@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -30,14 +29,13 @@ public class Tile : MonoBehaviour
     public int frozenValue;
 
 
-
-
-
     [Header("Component References")]
     [SerializeField] public List<Tile> hexes;
     [SerializeField] public List<Tile> neighbors;
     [SerializeField] SpriteRenderer hexSprite;
     [SerializeField] public SpriteRenderer target;
+    [SerializeField] public Animator fingerTap;
+
 
     [SerializeField] MeshRenderer hexMesh;
     [SerializeField] GameObject baseHex = null;
@@ -45,14 +43,6 @@ public class Tile : MonoBehaviour
     [SerializeField] ParticleSystem sellVfx = null;
     [SerializeField] TextMeshPro frozenText = null;
     [SerializeField] Rigidbody rb = null;
-
-
-
-
-
-
-
-
 
 
     // Start is called before the first frame update
@@ -251,13 +241,10 @@ public class Tile : MonoBehaviour
                 t.baseHex.SetActive(false);
             }
             t.transform.parent = transform;
-            if (hexes.Count > 0)
+            if (hexes.Count > 0 && state != TileType.Occupied)
             {
                 hexType = t.hexType;
-
-                occupiedColor = ColorManager.Instance.GetHexColor(hexType);
                 UpdateState(TileType.Occupied);
-                //            baseHex.SetActive(true);
             }
         
     }
@@ -276,6 +263,17 @@ public class Tile : MonoBehaviour
         return neighbors;
     }
 
+    public int GetNeigborsWithHexes()
+    {
+        if (neighbors.FindAll(x => x != null && x.hexes.Count > 0)!=null)
+        {
+            return neighbors.FindAll(x => x != null && x.hexes.Count > 0).Count;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public List<int> GetNeighborIndex()
     {
         List<int> i = new List<int>();
@@ -371,6 +369,7 @@ public class Tile : MonoBehaviour
                 hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
 
                 hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
+
                 frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null && !isHex)

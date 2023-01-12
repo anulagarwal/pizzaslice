@@ -73,11 +73,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   hexSprite: {fileID: 0}
+  target: {fileID: 0}
   hexMesh: {fileID: 1893570807914566650}
   baseHex: {fileID: 92232456465527343}
   baseVfx: {fileID: 4569693450840843208}
   sellVfx: {fileID: 8801242879568952748}
   frozenText: {fileID: 0}
+  rb: {fileID: 1433552972230314235}
 --- !u!54 &1433552972230314235
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,6 +151,10 @@ PrefabInstance:
     - target: {fileID: 1787428490636485679, guid: 05fdcfbf0b60b45889c22df4d05aeb10, type: 3}
       propertyPath: m_Name
       value: Pancake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787428490636485679, guid: 05fdcfbf0b60b45889c22df4d05aeb10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -648,7 +654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 22fa54e1d7df28b498bbe69a670c1b25, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

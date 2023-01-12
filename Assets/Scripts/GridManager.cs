@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 using UnityEngine;
 using DG.Tweening;
 using System.Threading.Tasks;
@@ -237,8 +239,15 @@ public class GridManager : MonoBehaviour
 		GameObject g = Instantiate(bombTile, new Vector3(tile.transform.position.x ,tile.transform.position.y + GridManager.Instance.baseYOffset + (0), tile.transform.position.z),Quaternion.identity);
 		g.GetComponent<Bomb>().PlaceOnTile(tile);
 		PowerupManager.Instance.UsePowerup(PowerupType.Bomb);
+
 		EnableBombGrid();
-    }
+		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
+		{
+			GameManager.Instance.WinLevel();
+			canMove = false;
+		}
+
+	}
 	public void EnableBombGrid()
     {
 		if (bomb)
@@ -363,30 +372,29 @@ public class GridManager : MonoBehaviour
 		for (int i = tile.hexes.Count - 1; i >= 0; i--)
 		{
 			VibrationManager.Instance.PlayHaptic();
-			tile.hexes[i].transform.DOScale(0.1f, 0.3f);
+			tile.hexes[i].transform.DOScale(0.1f, 0.5f);
 			tile.hexes[i].PlaySellVFX();
 
-			tile.hexes[i].transform.DOMove(UIBarPos.position, 0.4f);
-			await Task.Delay(175);
+			tile.hexes[i].transform.DOMove(UIBarPos.position, 0.5f);
+			await Task.Delay(75);
+			LevelManager.Instance.AddItem(HexType.A);
 		}
 
-		await Task.Delay(150);
 
 		List<GameObject> coins = new List<GameObject>();
 		foreach(Tile t in tile.hexes)
         {
-			await Task.Delay(175);
-			LevelManager.Instance.AddItem(HexType.A);
+			await Task.Delay(75);
 			GameObject g = CoinManager.Instance.SpawnCoin(t.transform.position);
 			coins.Add(g);
-			g.transform.DORotate(new Vector3(0, 0, 0), 0.3f);
-			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
+			g.transform.DORotate(new Vector3(0, 0, 0), 0.4f);
+			g.transform.DOScale(new Vector3(35, 35, 35), 0.4f);
 			g.transform.DOMove(UICoinPos.position, 0.4f);
 			g.GetComponentInChildren<ParticleSystem>().Play();
-			CoinManager.Instance.AddCoins(1);
+			CoinManager.Instance.AddCoins(2);
 			Destroy(t.gameObject);
 		}
-		await Task.Delay(600);
+		await Task.Delay(200);
 
 		foreach(GameObject g in coins)
         {
@@ -491,6 +499,8 @@ public class GridManager : MonoBehaviour
 				g.transform.DOShakePosition(1f, 0.5f);
 				//Initiate fail state
             }
+
+			await Task.Delay(2000);
 			GameManager.Instance.LoseLevel();
 			canMove = false;
 
@@ -525,7 +535,16 @@ public class GridManager : MonoBehaviour
 		}
 	}
 		
+	public void GetHighestTileNeighbor()
+    {
+		List<int> i = new List<int>();
+		foreach(Tile t in cells)
+		{
+			i.Add(t.GetNeigborsWithHexes());
+        }
 
+//		cells[i.IndexOf(i.Max())].fingerTap.Play();
+    }
 /*	public bool CanEnter(Tile selected, Tile entered)
     {
 		bool isPossible = false;

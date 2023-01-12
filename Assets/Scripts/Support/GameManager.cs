@@ -36,8 +36,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currentLevel = PlayerPrefs.GetInt("level", 1);       
-        UIManager.Instance.UpdateLevel(currentLevel);
+        currentLevel = PlayerPrefs.GetInt("level", 0);       
+        UIManager.Instance.UpdateLevel(currentLevel+1);
         currentState = GameState.Main;
         StartLevel();
     }

@@ -406,11 +406,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   hexSprite: {fileID: 0}
+  target: {fileID: 0}
+  fingerTap: {fileID: 0}
   hexMesh: {fileID: 7847060730887067529}
   baseHex: {fileID: 8639769239099504220}
   baseVfx: {fileID: 5366457631225878610}
   sellVfx: {fileID: 5366457631225878610}
   frozenText: {fileID: 0}
+  rb: {fileID: 7348120233280267845}
 --- !u!54 &7348120233280267845
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1207,7 +1210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.216
+      value: 0.107
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1245,13 +1248,37 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b223dedc4f9e05b4baafd80dd019f201, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2da4911d6d9f1ce40b5308c2a78ca779, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: d69b1e2674970174cb2e73c66f57db5f, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 74002eb395fe49d4ca7507b4ea3feaf0, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f800c067b4229040acc8a57bcf8378f, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
+      propertyPath: m_Materials.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: ba2a138e09be04744afe9c663326ded1, type: 2}
     - target: {fileID: 919132149155446097, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
       propertyPath: m_Name
       value: Chocolate_Donut
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0cc0e912bfc3a4244bac5f82c6dc539c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1792,6 +1819,10 @@ PrefabInstance:
     - target: {fileID: 1787428490636485679, guid: 05fdcfbf0b60b45889c22df4d05aeb10, type: 3}
       propertyPath: m_Name
       value: Pancake 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787428490636485679, guid: 05fdcfbf0b60b45889c22df4d05aeb10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

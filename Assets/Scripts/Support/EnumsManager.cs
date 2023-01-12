@@ -67,7 +67,8 @@ public enum HexType
     A,
     B,
     C,
-    D
+    D,
+    E
 }
 
 public enum GridState
