@@ -213,6 +213,7 @@ public class Tile : MonoBehaviour
         }
 
         ShiftHexesToTile();
+        //GridManager.Instance.CheckForWin();
     }
 
     public void AddHex(Tile t, bool move)
@@ -295,7 +296,7 @@ public class Tile : MonoBehaviour
     public void Highlight(Color c)
     {
         //hexSprite.color = c;
-        hexMesh.material.color = c;
+        hexMesh.materials[0].color = c;
         hexMesh.materials[1].color = c;
     }
 
@@ -369,7 +370,6 @@ public class Tile : MonoBehaviour
                 hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
 
                 hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
-                print(ColorManager.Instance.GetHexColor(hexes[0].hexType));
                 frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null && !isHex)

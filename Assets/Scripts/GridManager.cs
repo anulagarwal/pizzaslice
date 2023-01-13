@@ -15,7 +15,7 @@ public class GridManager : MonoBehaviour
 	public int stackValue = 6;
 	public Tile cellPrefab;
 
-	List<Tile> cells = new List<Tile>();
+	public List<Tile> cells = new List<Tile>();
 
 	[Header("Attributes")]
 	[SerializeField] Tile selectedTile;
@@ -66,6 +66,11 @@ public class GridManager : MonoBehaviour
 		Instance = this;
 		//cells = new Tile[height * width];
 
+	}
+
+	void Start()
+    {
+
 		for (int z = 0; z < height; z++)
 		{
 			for (int x = 0; x < width; x++)
@@ -74,11 +79,11 @@ public class GridManager : MonoBehaviour
 			}
 		}
 
-		foreach(Vector2 v in blockTiles)
-        {
-			if(cells.Find(x => x.coordinates.X == v.x && x.coordinates.Z == v.y)!=null)
+		foreach (Vector2 v in blockTiles)
+		{
+			if (cells.Find(x => x.coordinates.X == v.x && x.coordinates.Z == v.y) != null)
 				cells.Find(x => x.coordinates.X == v.x && x.coordinates.Z == v.y).UpdateState(TileType.Blocked);
-        }
+		}
 		SetNeighbors();
 		centerBox = box.transform.position;
 		box.transform.position = fromBox.position;
@@ -174,12 +179,7 @@ public class GridManager : MonoBehaviour
 
 	}
 
-	
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -241,6 +241,13 @@ public class GridManager : MonoBehaviour
 		PowerupManager.Instance.UsePowerup(PowerupType.Bomb);
 
 		EnableBombGrid();
+
+		
+	}
+
+	public void CheckForWin()
+    {
+
 		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
 		{
 			GameManager.Instance.WinLevel();
@@ -268,6 +275,7 @@ public class GridManager : MonoBehaviour
 				t.target.gameObject.SetActive(true);
 				t.target.transform.DOScale(v * 1.5f, 0.4f);
 			}
+			PowerupManager.Instance.ActivateBombTutorial(true);
 		}
 
     }
@@ -525,14 +533,17 @@ public class GridManager : MonoBehaviour
 		}
 	}
 
-	public void BombSurroundingTiles(Tile center)
+	public  void BombSurroundingTiles(Tile center)
 	{
 		//Fly all pancakes
 
 		foreach (Tile n in center.GetNeighbors().FindAll(x => x != null && x.hexes.Count > 0))
 		{
-			n.BombThis(center.transform.position);
+			 n.BombThis(center.transform.position);
 		}
+
+
+		Invoke("CheckForWin", 3.5f);
 	}
 		
 	public void GetHighestTileNeighbor()

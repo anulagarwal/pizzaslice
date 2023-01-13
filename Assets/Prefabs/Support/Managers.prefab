@@ -394,15 +394,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hc:
   - ht: 1
-    col: {r: 0.4339623, g: 0.27327344, b: 0.11258457, a: 1}
+    col: {r: 0.3207547, g: 0.1808028, b: 0.040850837, a: 1}
   - ht: 2
-    col: {r: 0.5566038, g: 0.38556412, b: 0, a: 1}
+    col: {r: 0.7830189, g: 0, b: 0.23078677, a: 1}
   - ht: 3
-    col: {r: 0.5471698, g: 0.2761659, b: 0.49952075, a: 1}
+    col: {r: 0.3773585, g: 0.17977929, b: 0.34066522, a: 1}
   - ht: 4
     col: {r: 0.34545666, g: 0.108668566, b: 0.6226415, a: 1}
   - ht: 5
-    col: {r: 1, g: 0.8140702, b: 0.4481132, a: 1}
+    col: {r: 0.6037736, g: 0.49649933, b: 0.28195086, a: 1}
 --- !u!114 &275932748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,9 +445,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61df6214c6e9b4694a10c801aa184772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBombTutorial: 0
   powerups:
   - pt: 0
-    cost: 180
+    cost: 150
+  bombTutorial: {fileID: 0}
 --- !u!1 &4561152569347054985
 GameObject:
   m_ObjectHideFlags: 0

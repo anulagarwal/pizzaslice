@@ -10,6 +10,8 @@ public class PowerupButton
 {
     public PowerupType pt;
     public Button b;
+    public Image l;
+
     public Text t;
 
 }
@@ -198,20 +200,22 @@ public class UIManager : MonoBehaviour
         {
             if(PowerupManager.Instance.GetPowerupCost(pb.pt) <= currentCoin)
             {
-                pb.b.interactable = true;
-                if(pb.pt == PowerupType.Bomb)
-                {
-                    if (PlayerPrefs.GetInt("bomb", 0) == 0)
-                    {
-                        EnablePowerupInfo();
-                        PlayerPrefs.SetInt("bomb", 1);
-                    }
-                }
+                pb.b.interactable = true;              
             }
             else
             {
                 pb.b.interactable = false;
             }
+
+            if (PlayerPrefs.GetInt("bomb", 0) == 0)
+            {
+                pb.l.gameObject.SetActive(true);
+            }
+            else
+            {
+                pb.l.gameObject.SetActive(false);
+            }
+
             pb.t.text = "" + PowerupManager.Instance.GetPowerupCost(pb.pt);
         }
     }

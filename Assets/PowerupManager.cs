@@ -23,8 +23,13 @@ public class PowerupManager : MonoBehaviour
         Instance = this;
     }
 
+    [Header("Attributes")]
+    [SerializeField] bool isBombTutorial = false;
+
     [Header("Component References")]
     [SerializeField] List<Powerup> powerups;
+    [SerializeField] GameObject bombTutorial;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,5 +50,15 @@ public class PowerupManager : MonoBehaviour
     public void UsePowerup(PowerupType pt)
     {
         CoinManager.Instance.SubtractCoins(powerups.Find(x => x.pt == pt).cost);
+        if (isBombTutorial)
+        {
+            ActivateBombTutorial(false);
+            PlayerPrefs.SetInt("bomb", 1);
+        }
+    }
+
+    public void ActivateBombTutorial(bool enabled)
+    {
+        bombTutorial.SetActive(enabled);       
     }
 }
