@@ -394,15 +394,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hc:
   - ht: 1
-    col: {r: 0.3207547, g: 0.1808028, b: 0.040850837, a: 1}
+    col: {r: 1, g: 1, b: 1, a: 1}
   - ht: 2
-    col: {r: 0.7830189, g: 0, b: 0.23078677, a: 1}
+    col: {r: 1, g: 1, b: 1, a: 1}
   - ht: 3
-    col: {r: 0.3773585, g: 0.17977929, b: 0.34066522, a: 1}
+    col: {r: 1, g: 1, b: 1, a: 1}
   - ht: 4
-    col: {r: 0.34545666, g: 0.108668566, b: 0.6226415, a: 1}
+    col: {r: 1, g: 1, b: 1, a: 1}
   - ht: 5
-    col: {r: 0.6037736, g: 0.49649933, b: 0.28195086, a: 1}
+    col: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &275932748
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 0}
   hexSprite: {fileID: 0}
   target: {fileID: 0}
+  fingerTap: {fileID: 0}
   hexMesh: {fileID: 4250941837559873082}
   baseHex: {fileID: 2449568300598140911}
   baseVfx: {fileID: 4634308904426009274}
@@ -264,15 +265,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5190839551093988914, guid: ed68e48ba976d4226948545119a0895b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.09827148
-      objectReference: {fileID: 0}
-    - target: {fileID: 5190839551093988914, guid: ed68e48ba976d4226948545119a0895b, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5190839551093988914, guid: ed68e48ba976d4226948545119a0895b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.26506197
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190839551093988914, guid: ed68e48ba976d4226948545119a0895b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.990566
+      value: 0.509434
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

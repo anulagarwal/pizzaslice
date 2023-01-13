@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
 
 
     [SerializeField] private Image unlocked;
+    [SerializeField] private GameObject bombTutorial;
+
 
 
 
@@ -111,6 +113,14 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Public Core Functions
+
+    public void EnableBombtutorial()
+    {
+        bombTutorial.SetActive(true);
+        bombTutorial.transform.localScale = Vector3.zero;
+        bombTutorial.transform.DOScale(Vector3.one, 0.5f);
+
+    }
     public void SwitchUIPanel(UIPanelState state)
     {
         switch (state)
@@ -198,22 +208,34 @@ public class UIManager : MonoBehaviour
     {
         foreach(PowerupButton pb in powerups)
         {
-            if(PowerupManager.Instance.GetPowerupCost(pb.pt) <= currentCoin)
+            if (PowerupManager.Instance.GetPowerupCost(pb.pt) <= currentCoin)
             {
-                pb.b.interactable = true;              
-            }
-            else
-            {
-                pb.b.interactable = false;
-            }
 
-            if (PlayerPrefs.GetInt("bomb", 0) == 0)
-            {
-                pb.l.gameObject.SetActive(true);
+                if (PlayerPrefs.GetInt("bomb", 0) == 0)
+                {
+                    pb.l.gameObject.SetActive(true);
+                    pb.b.interactable = false;
+
+                }
+                else
+                {
+                    pb.l.gameObject.SetActive(false);
+                    pb.b.interactable = true;
+                }
             }
             else
             {
-                pb.l.gameObject.SetActive(false);
+                if (PlayerPrefs.GetInt("bomb", 0) == 0)
+                {
+                    pb.l.gameObject.SetActive(true);
+                    pb.b.interactable = false;
+
+                }
+                else
+                {
+                    pb.l.gameObject.SetActive(false);
+                    pb.b.interactable = false;
+                }
             }
 
             pb.t.text = "" + PowerupManager.Instance.GetPowerupCost(pb.pt);

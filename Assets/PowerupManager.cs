@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 [System.Serializable]
 public class Powerup
 {
@@ -33,7 +33,10 @@ public class PowerupManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (bombTutorial)
+        {
+           // UIManager.Instance.EnableBombtutorial();
+        }
     }
 
     // Update is called once per frame
@@ -59,6 +62,6 @@ public class PowerupManager : MonoBehaviour
 
     public void ActivateBombTutorial(bool enabled)
     {
-        bombTutorial.SetActive(enabled);       
+        bombTutorial.SetActive(enabled);
     }
 }

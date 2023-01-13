@@ -765,6 +765,14 @@ PrefabInstance:
       propertyPath: field of view
       value: 72.73435
       objectReference: {fileID: 0}
+    - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369014027, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.31
+      objectReference: {fileID: 0}
     - target: {fileID: 3267584594690214022, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -815,7 +823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307435946243135192, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: powerups.Array.data[0].cost
-      value: 1
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
