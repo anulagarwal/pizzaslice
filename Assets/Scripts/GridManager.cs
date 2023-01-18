@@ -466,7 +466,7 @@ public class GridManager : MonoBehaviour
 								}
 								if (n.hexes.Count >= stackValue)
 								{
-									if (GameManager.Instance.GetCurrentLevel() < 5)
+									if (GameManager.Instance.GetCurrentLevel() < 0)
 									{
 										await SellFromBox(n);
 									}
@@ -484,7 +484,7 @@ public class GridManager : MonoBehaviour
 
 				if (tile.hexes.Count >= stackValue)
 				{
-					if (GameManager.Instance.GetCurrentLevel() < 5)
+					if (GameManager.Instance.GetCurrentLevel() < 0)
 					{
 						await SellFromBox(tile);
 					}
@@ -499,30 +499,33 @@ public class GridManager : MonoBehaviour
 		}
 
 		canMove = true;
-		
-		if (!SelectionManager.Instance.CheckForSpace())
-        {
-			foreach(GameObject g in SelectionManager.Instance.spawnedTiles)
-            {
+
+
+		await CheckLose();
+
+		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
+		{
+			GameManager.Instance.WinLevel();
+			canMove = false;
+		}        
+
+	}
+
+	public async Task CheckLose()
+    {
+		if (!SelectionManager.Instance.CheckForSpace() && CoinManager.Instance.GetCurrentCoins() < PowerupManager.Instance.GetPowerupCost(PowerupType.Bomb))
+		{
+			foreach (GameObject g in SelectionManager.Instance.spawnedTiles)
+			{
 				g.transform.DOShakePosition(1f, 0.5f);
 				//Initiate fail state
-            }
+			}
 
 			await Task.Delay(2000);
 			GameManager.Instance.LoseLevel();
 			canMove = false;
 
 		}
-
-
-		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
-		{
-			GameManager.Instance.WinLevel();
-			canMove = false;
-		}
-
-        
-
 	}
 	public void CleanSelection()
     {

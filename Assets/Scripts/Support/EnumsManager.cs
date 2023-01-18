@@ -81,6 +81,13 @@ public enum PowerupType
 {
     Bomb
 }
+
+
+public enum UnlockType
+{
+    DarkChocolateDonut,
+    BlueberryDonut
+}
 public enum HexDirection
 {
     NE, E, SE, SW, W, NW

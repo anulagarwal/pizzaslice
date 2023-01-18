@@ -533,7 +533,7 @@ PrefabInstance:
       objectReference: {fileID: 1119334947705530698, guid: 4af57cb1166fa434fa7856e37de719cf, type: 3}
     - target: {fileID: 275932748, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: maxPizza
-      value: 18
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3267584594690214022, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: m_RootOrder

@@ -39,6 +39,10 @@ public class CoinManager : MonoBehaviour
         
     }
 
+    public int GetCurrentCoins()
+    {
+        return currentCoins;
+    }
     #region Level Rewards
 
     public void AddToLevelReward(int v)

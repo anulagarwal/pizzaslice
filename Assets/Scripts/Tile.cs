@@ -57,10 +57,21 @@ public class Tile : MonoBehaviour
         }
         else if(baseHex != null && isHex)
         {
-            baseHex.SetActive(true);
-                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexType);
-                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexType);
+                baseHex.SetActive(true);
 
+                if (hexMesh.materials[0] != null)
+                {
+                    Material tempMaterial1 = new Material(hexMesh.materials[0]);
+                    tempMaterial1.color = ColorManager.Instance.GetHexColor(hexType);
+                    hexMesh.materials[0] = tempMaterial1;
+                }
+
+                if (hexMesh.materials[1] != null)
+                {
+                    Material tempMaterial2 = new Material(hexMesh.materials[1]);
+                    tempMaterial2.color = ColorManager.Instance.GetHexColor(hexType);
+                    hexMesh.materials[1] = tempMaterial2;
+                }
         }
 
         if (isHex)
@@ -298,13 +309,32 @@ public class Tile : MonoBehaviour
         //hexSprite.color = c;
         hexMesh.materials[0].color = c;
         hexMesh.materials[1].color = c;
+
+        var tempMaterial1 = new Material(hexMesh.sharedMaterials[0]);
+        tempMaterial1.color =c;
+        hexMesh.sharedMaterials[0] = tempMaterial1;
+
+        var tempMaterial2 = new Material(hexMesh.sharedMaterials[1]);
+        tempMaterial2.color = c;
+        hexMesh.sharedMaterials[1] = tempMaterial2;
+
     }
 
     public void DeHighlight()
     {
-      // hexSprite.color = Color.white;
-        hexMesh.materials[1].color = origColor;
-        hexMesh.materials[0].color = origColorOut;
+        // hexSprite.color = Color.white;
+        if (hexMesh != null)
+        {
+            if (hexMesh.materials[1] != null)
+            {
+                hexMesh.materials[1].color = origColor;
+            }
+
+            if (hexMesh.materials[0] != null)
+            {
+                hexMesh.materials[0].color = origColorOut;
+            }
+        }
 
     }
 
@@ -366,10 +396,15 @@ public class Tile : MonoBehaviour
         switch (t)
         {
             case TileType.Occupied:
-                //Highlight(occupiedColor);
-                hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
+                //Highlight(occupiedColor);              
+                var tempMaterial1 = new Material(hexMesh.materials[0]);
+                tempMaterial1.color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
+                hexMesh.materials[0] = tempMaterial1;
 
-                hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
+                var tempMaterial2 = new Material(hexMesh.materials[1]);
+                tempMaterial2.color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
+                hexMesh.materials[1] = tempMaterial2;
+
                 frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null && !isHex)
@@ -378,9 +413,16 @@ public class Tile : MonoBehaviour
                 }
                 break;
             case TileType.Empty:
-                hexMesh.materials[0].color = origColorOut;
+               
 
-                hexMesh.materials[1].color = origColor;
+                var tempMaterial1a = new Material(hexMesh.materials[0]);
+                tempMaterial1a.color = origColorOut;
+                hexMesh.materials[0] = tempMaterial1a;
+
+                var tempMaterial2b = new Material(hexMesh.materials[1]);
+                tempMaterial2b.color = origColor;
+                hexMesh.materials[1] = tempMaterial2b;
+
                 frozenText.gameObject.SetActive(false);
 
                 if (baseHex != null)

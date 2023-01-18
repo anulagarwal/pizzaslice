@@ -142,7 +142,9 @@ public class UIManager : MonoBehaviour
                 gameplayUIPanel.SetActive(false);
                 gameOverWinUIPanel.SetActive(true);
                 gameOverLoseUIPanel.SetActive(false);
-                _ = UpdateFillImage();
+                radial.gameObject.SetActive(true);
+                radial.DOScale(new Vector3(1, 1, 1), 1f);
+                radial.DORotate(new Vector3(0, 0, 180), 2f).SetLoops(-1, LoopType.Yoyo);
                 break;
             case UIPanelState.GameLose:
                 mainMenuUIPanel.SetActive(false);
@@ -170,9 +172,9 @@ public class UIManager : MonoBehaviour
         loseLevelText.text = "LEVEL " + level;
     }
 
-    public async Task UpdateFillImage()
+    public void UpdateFillImage()
     {
-        fillAmtGrey.fillAmount = 0;
+        /*fillAmtGrey.fillAmount = 0;
         fillAmttext.text = "0%";
 
         await Task.Delay(500);
@@ -185,14 +187,12 @@ public class UIManager : MonoBehaviour
                     fillAmtGrey.gameObject.SetActive(false);
                     unlocked.gameObject.SetActive(true);
                     unlocked.transform.DOScale(new Vector3(1, 1, 1), 0.4f);
-                    radial.gameObject.SetActive(true);
-                    radial.DOScale(new Vector3(1, 1, 1), 1f);
-                    radial.DORotate(new Vector3(0, 0, 180), 2f).SetLoops(-1,LoopType.Yoyo);
+                  
                 });
             }
         }) ;
         fillAmttext.text = "" + fillAmt + "%";
-
+        */
        
     }
     public void UpdateCurrentCoins(int v)

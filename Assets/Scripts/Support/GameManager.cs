@@ -116,6 +116,13 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Core");       
     }
 
+    public void ChangeLevel(int addLevel)
+    {
+        currentLevel += addLevel;
+        PlayerPrefs.SetInt("level", currentLevel);
+        SceneManager.LoadScene("Core");
+    }
+
     #endregion
 
 

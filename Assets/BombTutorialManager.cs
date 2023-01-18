@@ -30,6 +30,10 @@ public class BombTutorialManager : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
+        if (PlayerPrefs.GetInt("bomb", 0) == 1)
+        {
+            GameManager.Instance.ChangeLevel(1);
+        }
         await Task.Delay(1500);
         bombIconOriginalPos = bombIcon.position;
         await BombMove();
