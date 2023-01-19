@@ -96,6 +96,7 @@ namespace Momo
             MaxSdk.InitializeSdk();
             
             LionAnalytics.GameStart();
+           
             LionDebugger.Hide();
             
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);

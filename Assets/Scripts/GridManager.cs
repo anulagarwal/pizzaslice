@@ -466,7 +466,7 @@ public class GridManager : MonoBehaviour
 								}
 								if (n.hexes.Count >= stackValue)
 								{
-									if (GameManager.Instance.GetCurrentLevel() < 0)
+									if (GameManager.Instance.GetCurrentLevel() < 99)
 									{
 										await SellFromBox(n);
 									}
@@ -484,7 +484,7 @@ public class GridManager : MonoBehaviour
 
 				if (tile.hexes.Count >= stackValue)
 				{
-					if (GameManager.Instance.GetCurrentLevel() < 0)
+					if (GameManager.Instance.GetCurrentLevel() < 99)
 					{
 						await SellFromBox(tile);
 					}

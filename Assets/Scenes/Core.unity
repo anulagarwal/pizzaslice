@@ -990,7 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: 0
-  maxLevels: 13
+  maxLevels: 12
 --- !u!4 &1744793809
 Transform:
   m_ObjectHideFlags: 0
