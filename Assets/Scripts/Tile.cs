@@ -26,12 +26,24 @@ public class Tile : MonoBehaviour
     public Color origColor;
     public Color origColorOut;
     public Color occupiedColor;
+    public Color lockedColor;
+    public Color lockHighColor;
+    public Color lockLowColor;
+
+
+    [SerializeField] public int lockCost = 100;
+
     public int frozenValue;
 
 
     [Header("Component References")]
     [SerializeField] public List<Tile> hexes;
     [SerializeField] public List<Tile> neighbors;
+    [SerializeField] public GameObject lockObj;
+    [SerializeField] public TextMeshPro lockText;
+
+
+
     [SerializeField] SpriteRenderer hexSprite;
     [SerializeField] public SpriteRenderer target;
     [SerializeField] public Animator fingerTap;
@@ -70,11 +82,37 @@ public class Tile : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
+    private async void OnMouseDown()
     {
         if (GridManager.Instance.GetSelectionTile() != this && GridManager.Instance.canMove && GridManager.Instance.bomb && GetState() == TileType.Empty)
         {
             GridManager.Instance.PlaceBomb(this);
+        }
+
+        if(GridManager.Instance.GetSelectionTile() != this && GridManager.Instance.canMove && GetState() == TileType.Blocked)
+        {
+            if (CoinManager.Instance.SubtractCoinsPossible(lockCost))
+            {
+                lockObj.transform.DOScale(Vector3.zero, 3f);
+
+                List<GameObject> g = new List<GameObject>();
+                for (int i = 0; i < lockCost; i++)
+                {
+                    g.Add(CoinManager.Instance.SpawnCoin(GridManager.Instance.UICoinPos.transform.position));
+                    g[i].transform.DOMove(transform.position, 1f).OnComplete(()=> {
+                        CoinManager.Instance.SubtractCoins(1);
+                    });
+                    g[i].transform.DOScale(Vector3.one/10, 1f).OnComplete(() => {
+                        CoinManager.Instance.RemoveCoin(g[i]);
+                        Destroy(g[i]);
+                    });
+                    await Task.Delay(25);
+                }
+                
+                g.Clear();
+
+                UpdateState(TileType.Empty);
+            }
         }
     }
 
@@ -167,12 +205,23 @@ public class Tile : MonoBehaviour
 
 
     public void ShiftHexesToTile()
-    {
-      
+    {      
             //baseHex.SetActive(false);              
             hexes.Clear();
            // baseHex.SetActive(false);                     
-                UpdateState(TileType.Empty);      
+            UpdateState(TileType.Empty);      
+    }
+
+    public void CheckIfLockedValue()
+    {
+        if(lockCost<= CoinManager.Instance.GetCoins())
+        {
+            lockText.faceColor = lockLowColor;
+        }
+        else
+        {
+            lockText.faceColor = lockHighColor;
+        }
     }
 
     public async void BombThis(Vector3 point)
@@ -302,9 +351,17 @@ public class Tile : MonoBehaviour
 
     public void DeHighlight()
     {
-      // hexSprite.color = Color.white;
-        hexMesh.materials[1].color = origColor;
-        hexMesh.materials[0].color = origColorOut;
+        // hexSprite.color = Color.white;
+        if (GetState() == TileType.Empty || GetState() == TileType.Occupied)
+        {
+            hexMesh.materials[1].color = origColor;
+            hexMesh.materials[0].color = origColorOut;
+        }
+        else if (GetState() == TileType.Blocked)
+        {
+            hexMesh.materials[1].color = lockedColor;
+            hexMesh.materials[0].color = lockedColor;
+        }
 
     }
 
@@ -367,6 +424,7 @@ public class Tile : MonoBehaviour
         {
             case TileType.Occupied:
                 //Highlight(occupiedColor);
+                lockObj.SetActive(false);
                 hexMesh.materials[0].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
 
                 hexMesh.materials[1].color = ColorManager.Instance.GetHexColor(hexes[0].hexType);
@@ -378,8 +436,8 @@ public class Tile : MonoBehaviour
                 }
                 break;
             case TileType.Empty:
+                lockObj.SetActive(false);
                 hexMesh.materials[0].color = origColorOut;
-
                 hexMesh.materials[1].color = origColor;
                 frozenText.gameObject.SetActive(false);
 
@@ -390,7 +448,10 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.Blocked:
-                gameObject.SetActive(false);
+                lockObj.SetActive(true);
+                hexMesh.materials[0].color = lockedColor;
+                hexMesh.materials[1].color = lockedColor;
+                lockText.text = "" + lockCost;
                 break;
 
             case TileType.Frozen:

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class Box : MonoBehaviour
 {
     [Header("Attributes")]
@@ -11,10 +11,8 @@ public class Box : MonoBehaviour
 
     [Header("Component References")]
     [SerializeField] public List<Transform> food;
-    [SerializeField] public Transform boxTop;
-    [SerializeField] public List<Transform> coinStack;
-    [SerializeField] public List<Vector3> coinPos;
-    [SerializeField] public Transform box;
+    [SerializeField] public TextMeshPro sign;
+
 
 
 
@@ -23,13 +21,8 @@ public class Box : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        foreach(Transform t in coinStack)
-        {
-            coinPos.Add(t.localPosition);
-            
-        }
-        origScale = box.localScale;
+    {       
+        UpdateSign();
     }
 
     // Update is called once per frame
@@ -60,7 +53,10 @@ public class Box : MonoBehaviour
 
         food.Add(t);
     }
-
+    public void UpdateSign()
+    {
+        sign.text = LevelManager.Instance.GetRemaining()+"";
+    }
     
     public Vector3 GetPosition()
     {
@@ -83,7 +79,7 @@ public class Box : MonoBehaviour
 
         Vector3 z = Vector3.zero;
         z = points[i].position;
-
+        z = new Vector3(z.x, z.y + GridManager.Instance.baseYOffset, z.z);
         return z;
     }
 
@@ -94,12 +90,6 @@ public class Box : MonoBehaviour
             Destroy(t.gameObject);
         }
         food.Clear();
-        foreach (Transform t in coinStack)
-        {
-            t.localScale = Vector3.zero;
-            t.localPosition = coinPos[coinStack.FindIndex(x=>x==t)];
-            
-        }
-        box.localScale = origScale;
+        UpdateSign();
     }
 }

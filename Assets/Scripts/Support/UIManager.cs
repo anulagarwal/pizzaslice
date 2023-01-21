@@ -54,6 +54,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text debugText = null;
     [SerializeField] private GameObject powerupInfo = null;
 
+    [SerializeField] List<DonutUnlock> unlocks;
+    [SerializeField] List<Image> levelProgressionBoxes;
+    [SerializeField] Image highLightImage;
+
+
 
 
     [Header("Reward/Coins")]
@@ -199,7 +204,7 @@ public class UIManager : MonoBehaviour
     {
         foreach(Text t in allCurrentCoins)
         {
-            t.text = v + "";
+            t.text= v + "";
         }
         UpdatePowerupButtons(v);
 

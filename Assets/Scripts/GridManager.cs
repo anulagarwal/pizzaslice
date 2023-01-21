@@ -47,6 +47,8 @@ public class GridManager : MonoBehaviour
 	[SerializeField] GameObject bombTile;
 
 	[SerializeField] List<Vector2> blockTiles;
+	[SerializeField] List<Transform> deliveryPlates;
+
 
 
 	public bool canMove = true;
@@ -86,7 +88,7 @@ public class GridManager : MonoBehaviour
 		}
 		SetNeighbors();
 		centerBox = box.transform.position;
-		box.transform.position = fromBox.position;
+		CheckForLockedValue();
 	}
 
 	Tile CreateCell(int x, int z)
@@ -287,7 +289,7 @@ public class GridManager : MonoBehaviour
 		}
 		bomb = false;
     }
-	public async Task SellFromBox(Tile tile)
+	/*public async Task SellFromBox(Tile tile)
     {
 		SelectionManager.Instance.ActiveTiles(false);
 		box.transform.position = fromBox.position;
@@ -374,6 +376,93 @@ public class GridManager : MonoBehaviour
 
 			#endregion		
 		//Add coins for remaining donuts		
+	}*/
+
+	public async Task SellToPlates(Tile tile)
+	{
+		SelectionManager.Instance.ActiveTiles(false);
+	
+
+
+		for (int i = tile.hexes.Count - 1; i >= tile.hexes.Count - stackValue; i--)
+		{
+			VibrationManager.Instance.PlayHaptic();
+			LevelManager.Instance.AddItem(HexType.A);
+			tile.hexes[i].transform.DOMove(box.GetPosition(), 1f);
+			box.AddFood(tile.hexes[i].transform);
+
+			await Task.Delay(75);
+
+		}
+
+
+		List<GameObject> coins = new List<GameObject>();
+		for (int i = tile.hexes.Count - 1 - stackValue; i >= 0; i--)
+		{
+			//To turn small 
+			VibrationManager.Instance.PlayHaptic();
+			LevelManager.Instance.AddItem(HexType.A);
+
+			tile.hexes[i].PlaySellVFX();
+			await Task.Delay(75);
+			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.02f);
+		}
+
+		for (int i = 0; i <= tile.hexes.Count - 1 - stackValue; i++)
+		{   //To spawn coins
+			GameObject g = CoinManager.Instance.SpawnCoin(tile.hexes[i].transform.position);
+			g.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
+			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
+			g.GetComponentInChildren<ParticleSystem>().Play();
+			coins.Add(g);
+			Destroy(tile.hexes[i].gameObject);
+
+		}
+		await Task.Delay(300);
+
+		foreach (GameObject g in coins)
+		{
+			g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
+			{
+				CoinManager.Instance.AddCoins(1);
+				CoinManager.Instance.RemoveCoin(g);
+			});
+			await Task.Delay(150);
+		}
+		tile.SellHexes();
+		coins.Clear();
+		#region box Movement
+		
+
+		SelectionManager.Instance.ActiveTiles(true);
+
+		
+		foreach(Transform t in box.food)
+        {
+			t.DOScale(Vector3.zero, 0.5f);
+			await Task.Delay(175);
+			GameObject g = CoinManager.Instance.SpawnCoin(t.position);
+			g.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
+			g.transform.DOScale(new Vector3(25, 25, 25), 0.3f);
+			g.GetComponentInChildren<ParticleSystem>().Play();
+			coins.Add(g);
+        }
+
+		foreach (GameObject g in coins)
+		{
+			g.transform.DOMove(UICoinPos.position, 0.4f).OnComplete(() =>
+			{
+				CoinManager.Instance.AddCoins(1);
+				CoinManager.Instance.RemoveCoin(g);
+			});
+			await Task.Delay(150);
+		}
+		coins.Clear();
+
+		box.Sanitize();
+
+		#endregion
+		//Add coins for remaining donuts		
 	}
 	public async Task SellDirectly(Tile tile)
 	{
@@ -432,9 +521,19 @@ public class GridManager : MonoBehaviour
 		}
 	}
 
+	public void CheckForLockedValue()
+	{
+		if (cells.Find(x => x.GetState() == TileType.Blocked) != null)
+		{
+			foreach (Tile t in cells.FindAll(x => x.GetState() == TileType.Blocked))
+			{
+				t.CheckIfLockedValue();
+			}
+		}
+	}
+
 	public async void CheckForStack()
     {
-		box.transform.position = fromBox.position;
 		canMove = false;
 		foreach (Tile tile in tempTiles)
 		{
@@ -468,7 +567,7 @@ public class GridManager : MonoBehaviour
 								{
 									if (GameManager.Instance.GetCurrentLevel() < 5)
 									{
-										await SellFromBox(n);
+										await SellToPlates(n);
 									}
                                     else
                                     {
@@ -486,7 +585,7 @@ public class GridManager : MonoBehaviour
 				{
 					if (GameManager.Instance.GetCurrentLevel() < 5)
 					{
-						await SellFromBox(tile);
+						await SellToPlates(tile);
 					}
 					else
 					{
@@ -499,29 +598,53 @@ public class GridManager : MonoBehaviour
 		}
 
 		canMove = true;
-		
-		if (!SelectionManager.Instance.CheckForSpace())
-        {
-			foreach(GameObject g in SelectionManager.Instance.spawnedTiles)
-            {
-				g.transform.DOShakePosition(1f, 0.5f);
-				//Initiate fail state
-            }
-
-			await Task.Delay(2000);
-			GameManager.Instance.LoseLevel();
-			canMove = false;
-
-		}
-
 
 		if (LevelManager.Instance.currentPizza >= LevelManager.Instance.maxPizza)
 		{
 			GameManager.Instance.WinLevel();
 			canMove = false;
+			return;
 		}
 
-        
+		if (!SelectionManager.Instance.CheckForSpace() && CoinManager.Instance.GetCoins() >= PowerupManager.Instance.GetPowerupCost(PowerupType.Bomb))
+        {
+			if (cells.Find(x => x.GetState() == TileType.Blocked) == null)
+			{
+				
+
+				foreach (GameObject g in SelectionManager.Instance.spawnedTiles)
+				{
+					g.transform.DOShakePosition(1f, 0.5f);
+					//Initiate fail state
+				}
+
+				await Task.Delay(2000);
+				GameManager.Instance.LoseLevel();
+				canMove = false;
+				return;
+			}
+			if (cells.Find(x => x.GetState() == TileType.Blocked) != null)
+			{
+
+				if(cells.Find(x => x.GetState() == TileType.Blocked).lockCost > CoinManager.Instance.GetCoins())
+                {
+
+					foreach (GameObject g in SelectionManager.Instance.spawnedTiles)
+					{
+						g.transform.DOShakePosition(1f, 0.5f);
+						//Initiate fail state
+					}
+
+					await Task.Delay(2000);
+					GameManager.Instance.LoseLevel();
+					canMove = false;
+					return;
+				}
+			}
+		}
+
+
+		     
 
 	}
 	public void CleanSelection()

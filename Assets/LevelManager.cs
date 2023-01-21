@@ -34,12 +34,19 @@ public class LevelManager : MonoBehaviour
         UIManager.Instance.UpdateObjective(HexType.A, 0, maxPizza);
         UIManager.Instance.UpdateObjective(HexType.B, 0, maxBurgers);
         UIManager.Instance.UpdateObjective(HexType.C, 0, maxDonut);
+
+        maxPizza = Mathf.FloorToInt(maxPizza / GridManager.Instance.stackValue) * GridManager.Instance.stackValue;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public int GetRemaining()
+    {
+        return (maxPizza - currentPizza) / GridManager.Instance.stackValue;
     }
 
     public void AddItem(HexType ht)

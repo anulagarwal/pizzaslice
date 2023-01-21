@@ -73,6 +73,12 @@ public class CoinManager : MonoBehaviour
         currentCoins += v;
         PlayerPrefs.SetInt("coins", currentCoins);
         UIManager.Instance.UpdateCurrentCoins(currentCoins);
+        GridManager.Instance.CheckForLockedValue();
+
+    }
+    public int GetCoins()
+    {
+        return currentCoins;
     }
 
     public bool SubtractCoins(int v)
@@ -82,7 +88,21 @@ public class CoinManager : MonoBehaviour
             currentCoins -= v;
             PlayerPrefs.SetInt("coins", currentCoins);
             UIManager.Instance.UpdateCurrentCoins(currentCoins);
+            GridManager.Instance.CheckForLockedValue();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 
+    }
+
+
+    public bool SubtractCoinsPossible(int v)
+    {
+        if (currentCoins - v > 0)
+        {            
             return true;
         }
         else
