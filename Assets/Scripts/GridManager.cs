@@ -423,7 +423,7 @@ public class GridManager : MonoBehaviour
 			Destroy(tile.hexes[i].gameObject);
 
 		}
-		await Task.Delay(300);
+		await Task.Delay(100);
 
 		foreach (GameObject g in coins)
 		{
@@ -432,7 +432,7 @@ public class GridManager : MonoBehaviour
 				CoinManager.Instance.AddCoins(1);
 				CoinManager.Instance.RemoveCoin(g);
 			});
-			await Task.Delay(150);
+			await Task.Delay(75);
 		}
 		tile.SellHexes();
 		coins.Clear();
@@ -445,7 +445,7 @@ public class GridManager : MonoBehaviour
 		foreach(Transform t in box.food)
         {
 			t.DOScale(Vector3.zero, 0.5f);
-			await Task.Delay(175);
+			await Task.Delay(75);
 			GameObject g = CoinManager.Instance.SpawnCoin(t.position);
 			g.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
 			g.transform.DOScale(new Vector3(25, 25, 25), 0.3f);
@@ -513,18 +513,35 @@ public class GridManager : MonoBehaviour
 
 	public async Task Stack(Tile n, Tile tile)
     {
+		int x = tile.hexes.Count;
+		box.HighlightTilesTill(tile.hexes.Count);
+
 		for (int i = n.hexes.Count - 1; i >= 0; i--)
 		{
+			await Task.Delay(150);
 			n.hexes[i].transform.DOMove(new Vector3(tile.transform.position.x, tile.transform.position.y + GridManager.Instance.baseYOffset + (1 * (tile.hexes.Count) * GridManager.Instance.yOffsetTile), tile.transform.position.z), 0.4f);
 			tile.AddHex(n.hexes[i], false);
 			n.hexes[i].PlayBaseVFX();
 			n.hexes[i].HideBase();
 			VibrationManager.Instance.PlayHaptic();
 			SoundManager.Instance.Play(Sound.Pop);
-			await Task.Delay(150);
-
+			x++;
+			if (x <= stackValue)
+			{
+				box.HighlightTilesTill(x);
+			}
 		}
+
+        if (x >= stackValue)
+        {
+
+        }
+        else
+        {
+		
+        }
 	}
+
 
 	public void CheckForLockedValue()
 	{
@@ -572,9 +589,12 @@ public class GridManager : MonoBehaviour
 								{
 									if (GameManager.Instance.GetCurrentLevel() < 5)
 									{
+
 										await SellToPlates(n);
+										box.Dehighlight();
+
 									}
-                                    else
+									else
                                     {
 										await SellDirectly(n);
                                     }
@@ -588,9 +608,12 @@ public class GridManager : MonoBehaviour
 
 				if (tile.hexes.Count >= stackValue)
 				{
-					if (GameManager.Instance.GetCurrentLevel() < 5)
+					if (GameManager.Instance.GetCurrentLevel() < 99)
 					{
+
 						await SellToPlates(tile);
+						box.Dehighlight();
+
 					}
 					else
 					{
@@ -601,6 +624,8 @@ public class GridManager : MonoBehaviour
 			}
 			
 		}
+		await Task.Delay(500);
+		box.Dehighlight();
 
 		canMove = true;
 

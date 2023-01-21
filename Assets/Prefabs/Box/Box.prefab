@@ -203,7 +203,6 @@ Transform:
   m_Children:
   - {fileID: 5571259761696719367}
   - {fileID: 3588329576431868365}
-  - {fileID: 7398646807184455783}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -228,24 +227,13 @@ MonoBehaviour:
   - {fileID: 4990033509395845807}
   origScale: {x: 0, y: 0, z: 0}
   food: []
-  boxTop: {fileID: 0}
-  coinStack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  coinPos: []
-  box: {fileID: 0}
+  tiles:
+  - {fileID: 7691387866310229118}
+  - {fileID: 1332750698880223821}
+  - {fileID: 878560401684808627}
+  - {fileID: 3869669040800910628}
+  - {fileID: 8774346559228920165}
+  - {fileID: 3207076148077527194}
   sign: {fileID: 8548542102418510949}
 --- !u!1 &2760371415777598055
 GameObject:
@@ -258,6 +246,7 @@ GameObject:
   - component: {fileID: 4604095379327868534}
   - component: {fileID: 5493649820638639461}
   - component: {fileID: 2899646456709173001}
+  - component: {fileID: 1332750698880223821}
   m_Layer: 0
   m_Name: Plate1 (1)
   m_TagString: Untagged
@@ -273,7 +262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2760371415777598055}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.99, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: -1.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -331,6 +320,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1332750698880223821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760371415777598055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3478861273729850778
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +349,7 @@ GameObject:
   - component: {fileID: 4254975073384367904}
   - component: {fileID: 910693442294155397}
   - component: {fileID: 3118630135380081743}
+  - component: {fileID: 7691387866310229118}
   m_Layer: 0
   m_Name: Plate1
   m_TagString: Untagged
@@ -357,7 +365,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3478861273729850778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.94, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: -2.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -415,6 +423,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7691387866310229118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3478861273729850778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4912970073999184765
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +452,7 @@ GameObject:
   - component: {fileID: 5785289189725291098}
   - component: {fileID: 8313810893879357599}
   - component: {fileID: 4066665513929723640}
+  - component: {fileID: 878560401684808627}
   m_Layer: 0
   m_Name: Plate1 (2)
   m_TagString: Untagged
@@ -441,7 +468,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4912970073999184765}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: -0.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -499,6 +526,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &878560401684808627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4912970073999184765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5171382122757424827
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,13 +567,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5171382122757424827}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.31, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.57, z: 0.86}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1957097128174863061}
-  m_Father: {fileID: 985353246997021860}
+  m_Father: {fileID: 3588329576431868365}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5365283033604640831
@@ -557,7 +602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5365283033604640831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.83, y: 0.64, z: 1.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -626,6 +671,7 @@ GameObject:
   - component: {fileID: 8792505201781524709}
   - component: {fileID: 7589151296278882435}
   - component: {fileID: 5311856268783208849}
+  - component: {fileID: 8774346559228920165}
   m_Layer: 0
   m_Name: Plate1 (4)
   m_TagString: Untagged
@@ -641,7 +687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5686439208230610682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.78, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: 1.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -699,6 +745,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8774346559228920165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686439208230610682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6141822959728559616
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +774,7 @@ GameObject:
   - component: {fileID: 3335544004130720678}
   - component: {fileID: 6842870165612563057}
   - component: {fileID: 7358297081370719019}
+  - component: {fileID: 3869669040800910628}
   m_Layer: 0
   m_Name: Plate1 (3)
   m_TagString: Untagged
@@ -725,7 +790,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6141822959728559616}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.95, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: 0.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -783,6 +848,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3869669040800910628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6141822959728559616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7271632276483865262
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,6 +877,7 @@ GameObject:
   - component: {fileID: 4990033509395845807}
   - component: {fileID: 7832644367528846143}
   - component: {fileID: 6793989031400044747}
+  - component: {fileID: 3207076148077527194}
   m_Layer: 0
   m_Name: Plate1 (5)
   m_TagString: Untagged
@@ -809,7 +893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7271632276483865262}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.94, y: 2.4790003, z: -4.9800005}
+  m_LocalPosition: {x: 2.5, y: 0.15900041, z: -0.09000064}
   m_LocalScale: {x: 43.667023, y: 0.85653627, z: 43.667023}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -867,6 +951,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3207076148077527194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7271632276483865262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e717dee0d90f467a8c33f1782acd75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outMat: {fileID: 0}
+  inMat: {fileID: 0}
+  highlightColor: {r: 0.4275974, g: 0.98039216, b: 0, a: 1}
+  highlightColorOut: {r: 0.21599971, g: 0.5372549, b: 0, a: 1}
+  originalColorOut: {r: 0, g: 0, b: 0, a: 0}
+  originalColorIn: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7493647232107122160
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,10 +993,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7493647232107122160}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.82857144, y: -3.3142858, z: 6.9857144}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.4285715, y: 1.4285715, z: 1.4285715}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7398646807184455783}
   - {fileID: 4254975073384367904}
   - {fileID: 4604095379327868534}
   - {fileID: 5785289189725291098}

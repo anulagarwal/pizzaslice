@@ -11,6 +11,8 @@ public class Box : MonoBehaviour
 
     [Header("Component References")]
     [SerializeField] public List<Transform> food;
+    [SerializeField] public List<PlacementTile> tiles;
+
     [SerializeField] public TextMeshPro sign;
 
 
@@ -57,7 +59,23 @@ public class Box : MonoBehaviour
     {
         sign.text = LevelManager.Instance.GetRemaining()+"";
     }
-    
+
+    public void HighlightTilesTill(int x)
+    {
+        for (int i = 0; i< x; i++)
+        {
+            tiles[i].HighLight();
+
+        }       
+    }
+
+    public void Dehighlight()
+    {
+        foreach(PlacementTile t in tiles)
+        {
+            t.Reset();
+        }
+    }
     public Vector3 GetPosition()
     {
         int currentLevel = food.Count;
