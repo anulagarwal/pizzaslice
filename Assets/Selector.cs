@@ -15,7 +15,7 @@ public class Selector : MonoBehaviour
         if (GridManager.Instance.GetSelectionTile() != null) {
 
             
-            if (Physics.SphereCast(start, 0.15f, direction * 100f, out hit))
+          /*  if (Physics.SphereCast(start, 0.15f, direction * 100f, out hit))
             {
                 if (hit.collider.GetComponent<Tile>() != null && hit.collider.tag=="Base" && hit.collider.GetComponent<Tile>().GetState() != TileType.Occupied)
                 {
@@ -46,7 +46,41 @@ public class Selector : MonoBehaviour
                         lastTile = null;
                     }
                 }
+            }*/
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        print(collider.name);
+        if (collider.GetComponent<Tile>() != null && collider.tag == "Base" && collider.GetComponent<Tile>().GetState() != TileType.Occupied)
+        {
+            if (GridManager.Instance.GetEnteredTile() != collider.GetComponent<Tile>())
+            {
+                if (GridManager.Instance.CompareSelectedToEnteredTile(GridManager.Instance.GetSelectionTile(), collider.GetComponent<Tile>()))
+                {
+                    GridManager.Instance.SetEnteredTile(collider.GetComponent<Tile>());
+                    GridManager.Instance.CompareSelectedToEnteredTile();
+
+                    collider.GetComponent<Tile>().SetCanPlace(true);
+                }
+                else
+                {
+                    GridManager.Instance.SetEnteredTile(null);
+                }
+                lastTile = collider.GetComponent<Tile>();
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (GridManager.Instance.GetEnteredTile() != null && lastTile != null)
+        {
+            GridManager.Instance.SetEnteredTile(null);
+            GridManager.Instance.CleanSelection();
+            lastTile.SetCanPlace(false);
+            lastTile = null;
         }
     }
 

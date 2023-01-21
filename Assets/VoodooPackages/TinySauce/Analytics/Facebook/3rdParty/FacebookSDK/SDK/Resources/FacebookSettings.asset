@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 22d4a4870db89229bd51d5377b63afcf
+  - 
   appIds:
-  - 562994818534908
+  - 0
   appLabels:
-  - Donuts Please!
+  - App Name
   cookie: 1
   logging: 1
   status: 1

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4478985532063761705}
   - component: {fileID: 4453305239856062733}
+  - component: {fileID: 9218673216332587764}
+  - component: {fileID: -6507784891444113099}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Primary
@@ -30,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4453305239856062733
 MonoBehaviour:
@@ -45,3 +47,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastTile: {fileID: 0}
+--- !u!65 &9218673216332587764
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5300755649463792783}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 150.3412, z: 0.15}
+  m_Center: {x: 0, y: -75.17438, z: 0}
+--- !u!54 &-6507784891444113099
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5300755649463792783}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

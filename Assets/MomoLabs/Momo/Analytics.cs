@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
 using DevToDev.Analytics;
-using LionStudios.Suite.Analytics;
-using LionStudios.Suite.Debugging;
 namespace Momo
 {
     
@@ -47,13 +45,7 @@ namespace Momo
 
             //Check if app opened on a new day - check when was last time opened
             //If opened on a new day, track day and level number
-            MaxSdk.SetSdkKey("TMz8cpx6TOmmFb5Krb8TvSP3p1yx_iTxJeBg0OwWbTrb5iT6RPm0vAzF5dcp6ARaCGl0TEZyMb4UQQASIewAQW");
-            MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
-            MaxSdk.SetVerboseLogging(true);
-            MaxSdk.InitializeSdk();
-
-            LionAnalytics.GameStart();
-            LionDebugger.Hide();
+          
 
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);
@@ -103,7 +95,6 @@ namespace Momo
         public void StartLevel(int levelNumber)
         {
             TinySauce.OnGameStarted(levelNumber + "");
-            LionAnalytics.LevelStart(levelNumber, 0, 0);
 
             level = levelNumber;
         }
@@ -111,13 +102,11 @@ namespace Momo
         public void WinLevel()
         {
             TinySauce.OnGameFinished(true,0);
-            LionAnalytics.LevelComplete(level, 0, 0, null);
         }
 
         public void LoseLevel()
         {
             TinySauce.OnGameFinished(false, 0);
-            LionAnalytics.LevelFail(level, 0, 0);
         }
 
         public void TrackSession(SessionData sd)
@@ -132,7 +121,6 @@ namespace Momo
             parameters.Add(key: "sessionNumber", value: sd.sessionNumber);
             parameters.Add(key: "sessionLength", value: sd.sessionLength);
             parameters.Add(key: "sessionLevel", value: sd.lastLevel);
-            DTDAnalytics.CustomEvent(eventName: "session", parameters: parameters);
 
         }
 
@@ -148,7 +136,6 @@ namespace Momo
             parameters.Add(key: "levelNumber", value: ld.levelNumber);
             parameters.Add(key: "moves", value: ld.numberOfMoves);
             parameters.Add(key: "time", value: ld.timeSpent);
-            DTDAnalytics.CustomEvent(eventName: "level", parameters: parameters);
         }
 
         public void TrackDay(DayData dd)
@@ -161,7 +148,6 @@ namespace Momo
             var parameters = new DTDCustomEventParameters();
             parameters.Add(key: "dayNumber", value: dd.DayNumber);
             parameters.Add(key: "numberOfSessions", value: dd.numberOfSessions);
-            DTDAnalytics.CustomEvent(eventName: "day", parameters: parameters);
 
             TinySauce.TrackCustomEvent("level", d);
         }
