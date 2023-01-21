@@ -401,8 +401,6 @@ public class GridManager : MonoBehaviour
 		{
 			//To turn small 
 			VibrationManager.Instance.PlayHaptic();
-			LevelManager.Instance.AddItem(HexType.A);
-
 			tile.hexes[i].PlaySellVFX();
 			await Task.Delay(75);
 			tile.hexes[i].transform.DOScale(GridManager.Instance.boxScaleValue, 0.02f);
@@ -415,6 +413,13 @@ public class GridManager : MonoBehaviour
 			g.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
 			g.GetComponentInChildren<ParticleSystem>().Play();
 			coins.Add(g);
+
+			await Task.Delay(75);
+			GameObject x = CoinManager.Instance.SpawnCoin(tile.hexes[i].transform.position);
+			x.transform.DORotate(new Vector3(90, 0, 0), 0.3f);
+			x.transform.DOScale(new Vector3(35, 35, 35), 0.3f);
+			x.GetComponentInChildren<ParticleSystem>().Play();
+			coins.Add(x);
 			Destroy(tile.hexes[i].gameObject);
 
 		}
