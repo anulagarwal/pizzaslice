@@ -37,7 +37,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image unlocked;
     [SerializeField] private GameObject bombTutorial;
 
+    [SerializeField] private GameObject settingsBox;
 
+    [SerializeField] private Sprite enabledVibration;
+    [SerializeField] private Sprite disabledVibration;
+    [SerializeField] private Sprite disabledSFX;
+    [SerializeField] private Sprite enabledSFX;
+    [SerializeField] private Button SFX;
+    [SerializeField] private Button vibration;
 
 
 
@@ -105,6 +112,25 @@ public class UIManager : MonoBehaviour
     {
         //SwitchControls(Controls.Touch);
         goalSequence = DOTween.Sequence();
+
+        if (PlayerPrefs.GetInt("vibrate", 1)==0)
+        {
+            vibration.image.sprite = disabledVibration;
+        }
+        else
+        {
+            vibration.image.sprite = enabledVibration;
+        }
+
+        if (PlayerPrefs.GetInt("sound", 1) == 0)
+        {
+            SFX.image.sprite = disabledSFX;
+        }
+        else
+        {
+            SFX.image.sprite = enabledSFX;
+
+        }
     }
     #endregion
 
@@ -298,6 +324,40 @@ public class UIManager : MonoBehaviour
     public void OnClickChangeButton()
     {
         GameManager.Instance.ChangeLevel();
+    }
+
+    public void OnClickSFXButton()
+    {
+        if (PlayerPrefs.GetInt("sound", 1) == 1)
+        {
+            PlayerPrefs.SetInt("sound", 0);
+            SFX.image.sprite = disabledSFX;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("sound", 1);
+            SFX.image.sprite = enabledSFX;
+        }
+    }
+
+    public void OnClickVibrateButton()
+    {
+
+        if (PlayerPrefs.GetInt("vibrate", 1) == 1)
+        {
+            PlayerPrefs.SetInt("vibrate", 0);
+            vibration.image.sprite = disabledVibration;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("vibrate", 1);
+            vibration.image.sprite = enabledVibration;
+        }
+    }
+
+    public void OnClickSettingsButton()
+    {
+        settingsBox.SetActive(!settingsBox.activeSelf);
     }
 
     public void OnClickPowerupButton()

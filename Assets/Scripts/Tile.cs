@@ -131,8 +131,6 @@ public class Tile : MonoBehaviour
         {
             if (to.GetNeighbor(i) != null && (to.GetNeighbor(i).GetState() == TileType.Empty || to.GetNeighbor(i).GetState() == TileType.Frozen))
             {
-
-
                 Tile b = st.GetNeighbor(i);
                 await b.transform.DOMove(new Vector3(to.GetNeighbor(i).transform.position.x, to.GetNeighbor(i).transform.position.y + GridManager.Instance.baseYOffset + (1 * (to.GetNeighbor(i).hexes.Count)), to.GetNeighbor(i).transform.position.z), 0.1f).OnComplete(() =>
                 {

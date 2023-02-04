@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameAnalyticsSDK;
-using Facebook.Unity;
 
-using LionStudios.Suite.Analytics;
-using LionStudios.Suite.Debugging;
+
 namespace Momo
 {
     
@@ -31,19 +28,7 @@ namespace Momo
             if (objs.Length > 1)
             {
                 Destroy(this.gameObject);
-            }
-
-
-            if (!FB.IsInitialized)
-            {
-                // Initialize the Facebook SDK
-                FB.Init(InitCallback, OnHideUnity);
-            }
-            else
-            {
-                // Already initialized, signal an app activation App Event
-                FB.ActivateApp();
-            }
+            }         
 
             Application.targetFrameRate = 100;
             if (Instance != null && Instance != this)
@@ -54,50 +39,17 @@ namespace Momo
 
             DontDestroyOnLoad(this.gameObject);           
         }
-        private void InitCallback()
-        {
-            if (FB.IsInitialized)
-            {
-                // Signal an app activation App Event
-                FB.ActivateApp();
-                // Continue with Facebook SDK
-                // ...
-            }
-            else
-            {
-                Debug.Log("Failed to Initialize the Facebook SDK");
-            }
-        }
+        
 
-        private void OnHideUnity(bool isGameShown)
-        {
-            if (!isGameShown)
-            {
-                // Pause the game - we will need to hide
-              //  Time.timeScale = 0;
-            }
-            else
-            {
-                // Resume the game - we're getting focus again
-               // Time.timeScale = 1;
-            }
-        }
 
 
         private void Start()
         {
 
-            GameAnalytics.Initialize();
             //Check if app opened on a new day - check when was last time opened
             //If opened on a new day, track day and level number
-            MaxSdk.SetSdkKey("TMz8cpx6TOmmFb5Krb8TvSP3p1yx_iTxJeBg0OwWbTrb5iT6RPm0vAzF5dcp6ARaCGl0TEZyMb4UQQASIewAQW");
-            MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
-            MaxSdk.SetVerboseLogging(true);
-            MaxSdk.InitializeSdk();
-            
-            LionAnalytics.GameStart();
-           
-            LionDebugger.Hide();
+         
+          
             
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);
@@ -146,31 +98,32 @@ namespace Momo
 
         public void StartLevel(int levelNumber)
         {
-         //   TinySauce.OnGameStarted(levelNumber + "");
-            LionAnalytics.LevelStart(levelNumber, 0, 0);
+        //    TinySauce.OnGameStarted(levelNumber + "");
+         //   LionAnalytics.LevelStart(levelNumber, 0, 0);
 
             level = levelNumber;
         }
 
         public void UseBomb()
         {
-            LionAnalytics.SkillUsed("1", "bomb", true, "none");
+         //   LionAnalytics.SkillUsed("1", "bomb", true, "none");
+         
         }
 
         public void UseSwitch()
         {
-            LionAnalytics.SkillUsed("0", "switch", true, "none");
+         //   LionAnalytics.SkillUsed("0", "switch", true, "none");
         }
         public void WinLevel()
         {
-        //    TinySauce.OnGameFinished(true,0);
-            LionAnalytics.LevelComplete(level, 0, 0, null);
+      //      TinySauce.OnGameFinished(true,0);
+        //    LionAnalytics.LevelComplete(level, 0, 0, null);
         }
 
         public void LoseLevel()
         {
-         //   TinySauce.OnGameFinished(false, 0);
-            LionAnalytics.LevelFail(level, 0, 0);
+      //      TinySauce.OnGameFinished(false, 0);
+         //   LionAnalytics.LevelFail(level, 0, 0);
         }
 
         public void TrackSession(SessionData sd)

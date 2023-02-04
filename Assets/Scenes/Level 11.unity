@@ -347,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4133007954077249167, guid: bd161975e92e7450381a95d99f281162, type: 3}
       propertyPath: height
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4133007954077249167, guid: bd161975e92e7450381a95d99f281162, type: 3}
       propertyPath: stackValue

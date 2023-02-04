@@ -40,7 +40,10 @@ public class SoundManager : MonoBehaviour
 
     public void Play( Sound type)
     {
-        source.clip = sounds.Find(x => x.type == type).sound;
-        source.Play();
+        if (PlayerPrefs.GetInt("sound", 1) == 1)
+        {
+            source.clip = sounds.Find(x => x.type == type).sound;
+            source.Play();
+        }
     }
 }

@@ -132,6 +132,8 @@ public class SelectionTile : Tile
         t2 = t1.neighbors[t1.GetNeighborIndex()[0]];
         if (t2.GetNeighborIndex().Count > 0)
         {
+            
+
             t3 = t2.neighbors[t2.GetNeighborIndex()[0]];
             canMove = false;
             primaryTile = t3;
@@ -153,10 +155,12 @@ public class SelectionTile : Tile
                 canMove = true;
 
             });
+            Momo.Analytics.Instance.UseSwitch();
         }
         else
         {
-          
+		   
+
             canMove = false;
             primaryTile = t2;
             GridManager.Instance.SetSelectedTile(primaryTile);
@@ -173,7 +177,7 @@ public class SelectionTile : Tile
                 canMove = true;
 
             });
-
+            Momo.Analytics.Instance.UseSwitch();
         }
       
     }

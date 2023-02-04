@@ -544,7 +544,7 @@ public class GridManager : MonoBehaviour
 		{
 			 n.BombThis(center.transform.position);
 		}
-
+		Momo.Analytics.Instance.UseBomb();
 
 		Invoke("CheckForWin", 3.5f);
 	}

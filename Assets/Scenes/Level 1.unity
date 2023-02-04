@@ -347,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4133007954077249167, guid: bd161975e92e7450381a95d99f281162, type: 3}
       propertyPath: height
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4970638799306085351, guid: bd161975e92e7450381a95d99f281162, type: 3}
       propertyPath: m_LocalScale.x
@@ -743,7 +743,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 275932748, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: maxPizza
-      value: 18
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1369014026, guid: f5db4eb6cdc624983bc0f79d85c6731d, type: 3}
       propertyPath: field of view
