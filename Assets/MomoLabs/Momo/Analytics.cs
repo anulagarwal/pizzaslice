@@ -12,6 +12,7 @@ namespace Momo
         [SerializeField] int dayNumber;
         [SerializeField] int level;
         [SerializeField] float sessionTime;
+        
         int lastLevel; 
 
         bool isPaused;
@@ -98,7 +99,8 @@ namespace Momo
 
         public void StartLevel(int levelNumber)
         {
-        //    TinySauce.OnGameStarted(levelNumber + "");
+            
+            TinySauce.OnGameStarted(levelNumber + "");
          //   LionAnalytics.LevelStart(levelNumber, 0, 0);
 
             level = levelNumber;
@@ -106,23 +108,25 @@ namespace Momo
 
         public void UseBomb()
         {
-         //   LionAnalytics.SkillUsed("1", "bomb", true, "none");
-         
+            //   LionAnalytics.SkillUsed("1", "bomb", true, "none");
+            TinySauce.TrackCustomEvent("bomb");
         }
 
         public void UseSwitch()
         {
-         //   LionAnalytics.SkillUsed("0", "switch", true, "none");
+            //   LionAnalytics.SkillUsed("0", "switch", true, "none");
+            TinySauce.TrackCustomEvent("switch");
+
         }
-        public void WinLevel()
+        public void WinLevel(int levelNumber)
         {
-      //      TinySauce.OnGameFinished(true,0);
+            TinySauce.OnGameFinished(true, 0);            
         //    LionAnalytics.LevelComplete(level, 0, 0, null);
         }
 
         public void LoseLevel()
         {
-      //      TinySauce.OnGameFinished(false, 0);
+           TinySauce.OnGameFinished(false, 0);
          //   LionAnalytics.LevelFail(level, 0, 0);
         }
 

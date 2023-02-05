@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 275932748}
   - component: {fileID: 861409067}
   - component: {fileID: 7307435946243135192}
-  - component: {fileID: 4567776869126569588}
+  - component: {fileID: 4168346658367603276}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -451,7 +451,7 @@ MonoBehaviour:
   - pt: 0
     cost: 150
   bombTutorial: {fileID: 0}
---- !u!114 &4567776869126569588
+--- !u!114 &4168346658367603276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3267584594690214023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131f66b87bae14d45bf167c69239aeb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f78671f76929468bb75204daa37e6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4561152569347054985
