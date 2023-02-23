@@ -30,7 +30,7 @@ MonoBehaviour:
   secretKey:
   - 9311e6877bdcd914e46ea207cec32252b132f847
   Build:
-  - 0.6
+  - 0.1
   SelectedPlatformOrganization:
   - 
   SelectedPlatformStudio:
@@ -41,19 +41,17 @@ MonoBehaviour:
   SelectedOrganization: 00000000
   SelectedStudio: 00000000
   SelectedGame: 00000000
-  NewVersion: 7.3.24
-  Changes: '7.3.24
-
-    - fixed fps script for when pausing game'
+  NewVersion: 
+  Changes: 
   SignUpOpen: 1
-  StudioName: Momo Games
-  GameName: Donuts Please!
+  StudioName: 
+  GameName: 
   OrganizationName: 
   OrganizationIdentifier: 
-  EmailGA: anulagarwal12@gmail.com
+  EmailGA: 
   IntroScreen: 0
-  InfoLogEditor: 0
-  InfoLogBuild: 0
+  InfoLogEditor: 1
+  InfoLogBuild: 1
   VerboseLogBuild: 0
   UseManualSessionHandling: 0
   SendExampleGameDataToMyGame: 0
@@ -83,16 +81,16 @@ MonoBehaviour:
   iosIcon: {fileID: 0}
   macIcon: {fileID: 0}
   windowsPhoneIcon: {fileID: 0}
-  UsePlayerSettingsBuildNumber: 1
+  UsePlayerSettingsBuildNumber: 0
   SubmitErrors: 1
   NativeErrorReporting: 0
   MaxErrorCount: 10
-  SubmitFpsAverage: 1
-  SubmitFpsCritical: 1
+  SubmitFpsAverage: 0
+  SubmitFpsCritical: 0
   IncludeGooglePlay: 1
-  FpsCriticalThreshold: 30
+  FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1
-  PlatformFoldOut: 
+  PlatformFoldOut: 01
   CustomDimensions01FoldOut: 0
   CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 0

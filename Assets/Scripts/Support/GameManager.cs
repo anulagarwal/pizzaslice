@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             pld.Init(currentLevel, 1, false, numberOfMoves, levelLength);
             PlayerManager.Instance.AddLevelData(pld);
             //Send Data
-            Analytics.Instance.LoseLevel();
+            Analytics.Instance.LoseLevel(currentLevel);
         }
     }
 

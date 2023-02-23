@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GameAnalyticsSDK;
 
 namespace Momo
 {
@@ -49,8 +49,8 @@ namespace Momo
 
             //Check if app opened on a new day - check when was last time opened
             //If opened on a new day, track day and level number
-         
-          
+
+            GameAnalytics.Initialize();
             
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);
@@ -99,35 +99,39 @@ namespace Momo
 
         public void StartLevel(int levelNumber)
         {
-            
-            TinySauce.OnGameStarted(levelNumber + "");
-         //   LionAnalytics.LevelStart(levelNumber, 0, 0);
 
+            //  TinySauce.OnGameStarted(levelNumber + "");
+            //   LionAnalytics.LevelStart(levelNumber, 0, 0);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "" + levelNumber);
             level = levelNumber;
         }
 
         public void UseBomb()
         {
             //   LionAnalytics.SkillUsed("1", "bomb", true, "none");
-            TinySauce.TrackCustomEvent("bomb");
+        //    TinySauce.TrackCustomEvent("bomb");
         }
 
         public void UseSwitch()
         {
             //   LionAnalytics.SkillUsed("0", "switch", true, "none");
-            TinySauce.TrackCustomEvent("switch");
+          //  TinySauce.TrackCustomEvent("switch");
 
         }
         public void WinLevel(int levelNumber)
         {
-            TinySauce.OnGameFinished(true, 0);            
-        //    LionAnalytics.LevelComplete(level, 0, 0, null);
+            //   TinySauce.OnGameFinished(true, 0);            
+            //    LionAnalytics.LevelComplete(level, 0, 0, null);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "" + levelNumber);
+
         }
 
-        public void LoseLevel()
+        public void LoseLevel(int levelNumber)
         {
-           TinySauce.OnGameFinished(false, 0);
-         //   LionAnalytics.LevelFail(level, 0, 0);
+            //  TinySauce.OnGameFinished(false, 0);
+            //   LionAnalytics.LevelFail(level, 0, 0);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "" + levelNumber);
+
         }
 
         public void TrackSession(SessionData sd)
