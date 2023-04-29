@@ -16,7 +16,9 @@
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
-      <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+      <meta-data android:name="com.google.android.gms.version" android:value="11.2.0" />
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="562994818534908" />
+      <meta-data android:name="com.facebook.sdk.ClientToken" android:value="22d4a4870db89229bd51d5377b63afcf" />
     </activity>
     <!-- FULLSCREEN FIX -->
     <meta-data android:name="android.max_aspect" android:value="2.16" />

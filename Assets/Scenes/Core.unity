@@ -745,65 +745,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290895008}
   m_CullTransparentMesh: 1
---- !u!1001 &1364862420
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542079152808594925, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
-      propertyPath: m_Name
-      value: MondayOFF
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
 --- !u!1 &1428302953
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: 0
-  maxLevels: 12
+  maxLevels: 14
 --- !u!4 &1744793809
 Transform:
   m_ObjectHideFlags: 0
@@ -950,7 +891,7 @@ MonoBehaviour:
   tips:
   - Use single plates to make space for other plates!
   - You can tap to switch the order of the plates!
-  waitTime: 1.5
+  waitTime: 1
   tipText: {fileID: 627063936}
   sh: {fileID: 1744793808}
 --- !u!1 &1771976918
@@ -1029,6 +970,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771976918}
   m_CullTransparentMesh: 1
+--- !u!1001 &1823315840
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594923, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542079152808594925, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
+      propertyPath: m_Name
+      value: MondayOFF
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1c62203b4035a4f2d982bb33f4859d49, type: 3}
 --- !u!1001 &6265432050727231007
 PrefabInstance:
   m_ObjectHideFlags: 0

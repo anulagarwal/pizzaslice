@@ -513,7 +513,7 @@ public class GridManager : MonoBehaviour
 
 	public async Task CheckLose()
     {
-		if (!SelectionManager.Instance.CheckForSpace() && CoinManager.Instance.GetCurrentCoins() < PowerupManager.Instance.GetPowerupCost(PowerupType.Bomb))
+		if (!SelectionManager.Instance.CheckForSpace() && CoinManager.Instance.GetCurrentCoins() < PowerupManager.Instance.GetPowerupCost(PowerupType.Bomb) )
 		{
 			foreach (GameObject g in SelectionManager.Instance.spawnedTiles)
 			{

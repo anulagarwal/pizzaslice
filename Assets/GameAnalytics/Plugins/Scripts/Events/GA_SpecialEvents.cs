@@ -30,9 +30,6 @@ namespace GameAnalyticsSDK.Events
         private static int _criticalFpsCount = 0;
 
         private static int _fpsWaitTimeMultiplier = 1;
-        private static float _lastPauseStartTime;
-        private static float _pauseDurationAvg;
-        private static float _pauseDurationCrit;
 
         #endregion
 
@@ -42,32 +39,6 @@ namespace GameAnalyticsSDK.Events
         {
             StartCoroutine(SubmitFPSRoutine());
             StartCoroutine(CheckCriticalFPSRoutine());
-        }
-
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (GameAnalytics.SettingsGA == null
-                || !GameAnalytics.SettingsGA.SubmitFpsAverage && !GameAnalytics.SettingsGA.SubmitFpsCritical)
-            {
-                return;
-            }
-            
-            if (pauseStatus)
-            {
-                _lastPauseStartTime = Time.realtimeSinceStartup;
-            }
-            else
-            {
-                if (GameAnalytics.SettingsGA.SubmitFpsAverage)
-                {
-                    _pauseDurationAvg += Time.realtimeSinceStartup - _lastPauseStartTime;
-                }
-
-                if (GameAnalytics.SettingsGA.SubmitFpsCritical)
-                {
-                    _pauseDurationCrit += Time.realtimeSinceStartup - _lastPauseStartTime;
-                }
-            }
         }
 
         private IEnumerator SubmitFPSRoutine()
@@ -110,8 +81,7 @@ namespace GameAnalyticsSDK.Events
             //average FPS
             if (GameAnalytics.SettingsGA != null && GameAnalytics.SettingsGA.SubmitFpsAverage)
             {
-                float timeSinceUpdate = Time.unscaledTime - _lastUpdateAvg - _pauseDurationAvg;
-                _pauseDurationAvg = 0f;
+                float timeSinceUpdate = Time.unscaledTime - _lastUpdateAvg;
 
                 if (timeSinceUpdate > 1.0f)
                 {
@@ -141,8 +111,7 @@ namespace GameAnalyticsSDK.Events
             //critical FPS
             if (GameAnalytics.SettingsGA != null && GameAnalytics.SettingsGA.SubmitFpsCritical)
             {
-                float timeSinceUpdate = Time.unscaledTime - _lastUpdateCrit - _pauseDurationCrit;
-                _pauseDurationCrit = 0f;
+                float timeSinceUpdate = Time.unscaledTime - _lastUpdateCrit;
 
                 if (timeSinceUpdate >= 1.0f)
                 {

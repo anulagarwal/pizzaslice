@@ -72,6 +72,10 @@ public class GameManager : MonoBehaviour
             currentState = GameState.Win;
             confetti.SetActive(true);
             PlayerPrefs.SetInt("level", currentLevel + 1);
+            if ( currentLevel > 5)
+            {
+                AdManager.Instance.ShowInterstitial();
+            }
             currentLevel++;
 
             foreach(MonoBehaviour m in objectsToDisable)
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
                     PlayerPrefs.SetInt("review", 1);
                 }
             }
+           
             PlayerManager.Instance.AddLevelData(pld);
             //Send Data
             Analytics.Instance.WinLevel(currentLevel -1);
@@ -110,6 +115,12 @@ public class GameManager : MonoBehaviour
             levelLength = Time.time - levelStartTime;
             PlayerLevelData pld = new PlayerLevelData();
             pld.Init(currentLevel, 1, false, numberOfMoves, levelLength);
+
+            if ( currentLevel>5)
+            {
+                AdManager.Instance.ShowInterstitial();
+            }
+
             PlayerManager.Instance.AddLevelData(pld);
             //Send Data
             Analytics.Instance.LoseLevel(currentLevel);

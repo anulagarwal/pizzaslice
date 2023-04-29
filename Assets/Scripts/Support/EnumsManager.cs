@@ -68,7 +68,9 @@ public enum HexType
     B,
     C,
     D,
-    E
+    E,
+    F,
+    G
 }
 
 public enum GridState
@@ -87,6 +89,20 @@ public enum UnlockType
 {
     DarkChocolateDonut,
     BlueberryDonut
+}
+
+public enum PatternType
+{
+    Single,
+    DoubleHorizontal,
+    DoubleDiagonal,
+    TripleHorizontal,
+    TripleDiagonal,
+    TripleRHorizontal,
+    Triangle,
+    UpRight,
+    UpLeft,
+    RightDown
 }
 public enum HexDirection
 {

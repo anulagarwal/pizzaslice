@@ -1,13 +1,62 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "4378a9c6",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "4378a9c6",
+        "name": "com.momo.stack",
+        "processId": 30188,
         "exited": false
     },
-    "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_SelectedPriority": 4,
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.google.android.apps.docs",
+            "processId": 10510,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.android.settings",
+            "processId": 32031,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "net.oneplus.launcher",
+            "processId": 17140,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.momo.stack",
+            "processId": 22794,
+            "exited": true
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.momo.stack",
+            "processId": 25952,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.momo.stack",
+            "processId": 30180,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.momo.stack",
+            "processId": 30184,
+            "exited": false
+        },
+        {
+            "deviceId": "4378a9c6",
+            "name": "com.momo.stack",
+            "processId": 30188,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {

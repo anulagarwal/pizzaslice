@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
-
 namespace Momo
 {
     
@@ -51,7 +50,7 @@ namespace Momo
             //If opened on a new day, track day and level number
 
             GameAnalytics.Initialize();
-            
+           
             appSessionCount = PlayerPrefs.GetInt("appSession", 0);
             level = PlayerPrefs.GetInt("level", 1);
           
@@ -109,13 +108,19 @@ namespace Momo
         public void UseBomb()
         {
             //   LionAnalytics.SkillUsed("1", "bomb", true, "none");
-        //    TinySauce.TrackCustomEvent("bomb");
+            //    TinySauce.TrackCustomEvent("bomb");
+            int s = PlayerPrefs.GetInt("bombuse", 1);
+            PlayerPrefs.SetInt("bombuse", s++);
+            GameAnalytics.NewDesignEvent("Switch", 85);
         }
 
         public void UseSwitch()
         {
             //   LionAnalytics.SkillUsed("0", "switch", true, "none");
-          //  TinySauce.TrackCustomEvent("switch");
+            //  TinySauce.TrackCustomEvent("switch");
+            int s = PlayerPrefs.GetInt("switchuse", 1);
+            PlayerPrefs.SetInt("switchuse", s++);
+            GameAnalytics.NewDesignEvent("Switch", 85);
 
         }
         public void WinLevel(int levelNumber)

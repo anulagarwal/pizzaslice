@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using AppodealAds.Unity.Api;
-//using AppodealAds.Unity.Common;
+using AppodealAds.Unity.Api;
+using AppodealAds.Unity.Common;
 
 
-public class AdManager : MonoBehaviour
+public class AdManager  : MonoBehaviour,  IBannerAdListener
 {
     public static AdManager Instance = null;
     [Header("Attributes")]
@@ -18,7 +18,7 @@ public class AdManager : MonoBehaviour
 
     bool isRewardedGD;
 
-    /*
+    
     private void Awake()
     {
         Application.targetFrameRate = 100;
@@ -27,15 +27,7 @@ public class AdManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(adNetwork == AdType.GD)
-        {
-            GameDistribution.OnResumeGame += OnResumeGame;
-            GameDistribution.OnPauseGame += OnPauseGame;
-            GameDistribution.OnPreloadRewardedVideo += OnPreloadRewardedVideo;
-            GameDistribution.OnRewardedVideoSuccess += OnRewardedVideoSuccess;
-            GameDistribution.OnRewardedVideoFailure += OnRewardedVideoFailure;
-            GameDistribution.OnRewardGame += OnRewardGame;
-        }
+       
         Instance = this;
     }
 
@@ -43,11 +35,11 @@ public class AdManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Appodeal.initialize(key, Appodeal.REWARDED_VIDEO, true);
         Appodeal.initialize(key, Appodeal.INTERSTITIAL, true);
-        Appodeal.initialize(key, Appodeal.BANNER_BOTTOM, true);
-        
-
+        Appodeal.initialize(key, Appodeal.BANNER_BOTTOM, this);
+        Appodeal.setSmartBanners(true);
+        LoadInterstitial();
+        LoadBanner();
     }
 
     #region Load ads
@@ -63,7 +55,6 @@ public class AdManager : MonoBehaviour
                 break;
 
             case AdType.GD:
-                GameDistribution.Instance.PreloadRewardedAd();
                 break;
 
         }
@@ -72,33 +63,15 @@ public class AdManager : MonoBehaviour
 
     public void LoadInterstitial()
     {
-        switch (adNetwork)
-        {
-            case AdType.Appodeal:
+        
                 Appodeal.setAutoCache(Appodeal.INTERSTITIAL, false);
                 Appodeal.cache(Appodeal.INTERSTITIAL);
-                break;
-
-            case AdType.GD:
-
-                break;
-
-        }
+           
     }
 
     public void LoadBanner()
-    {
-        switch (adNetwork)
-        {
-            case AdType.Appodeal:
-                Appodeal.initialize(key, Appodeal.BANNER_BOTTOM, true);
-                break;
-
-            case AdType.GD:
-                
-                break;
-
-        }
+    {       
+      Appodeal.show(Appodeal.BANNER_BOTTOM);                        
     }
     #endregion
 
@@ -170,7 +143,6 @@ public class AdManager : MonoBehaviour
                 break;
 
             case AdType.GD:
-                GameDistribution.Instance.ShowRewardedAd();
 
 
                 break;
@@ -182,22 +154,12 @@ public class AdManager : MonoBehaviour
     {
        
 
-        switch (adNetwork)
-        {
-            case AdType.Appodeal:
                 if (Appodeal.isLoaded(Appodeal.INTERSTITIAL))
                 {
                     Appodeal.show(Appodeal.INTERSTITIAL);
                 }
-                break;
-
-            case AdType.GD:
-                GameDistribution.Instance.ShowAd();
-
-
-                break;
-
-        }
+            
+        
 
     }
 
@@ -304,7 +266,39 @@ public class AdManager : MonoBehaviour
             isRewardedGD = false;
         }
     }
+
+    public void onBannerLoaded(int height, bool isPrecache)
+    {
+        LoadBanner();
+        throw new System.NotImplementedException();
+
+    }
+
+    public void onBannerFailedToLoad()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void onBannerShown()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void onBannerShowFailed()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void onBannerClicked()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void onBannerExpired()
+    {
+        throw new System.NotImplementedException();
+    }
     #endregion
-    */
+
 
 }

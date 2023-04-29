@@ -15,6 +15,8 @@ public class SelectionTile : Tile
     [Header("Component References")]
     [SerializeField] public Tile primaryTile;
     [SerializeField] GameObject selector;
+    [SerializeField] List<Transform> points;
+
 
 
 
@@ -117,6 +119,13 @@ public class SelectionTile : Tile
 
 
     #endregion
+
+    public void Spawn()
+    {
+
+
+
+    }
 
 
     public void Switch()

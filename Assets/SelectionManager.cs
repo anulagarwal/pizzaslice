@@ -2,6 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
+[System.Serializable]
+
+public class PatternObject
+{
+    public PatternType pt;
+    public GameObject obj;
+}
+[System.Serializable]
+
+public class TileObject
+{
+    public TileType t;
+    public GameObject g;
+}
+
+[System.Serializable]
+public class SpawnTile
+{
+    public PatternType pattern;
+    public TileType tile1;
+    public TileType tile2;
+    public TileType tile3;
+}
 public class SelectionManager : MonoBehaviour
 {
     [Header("Attributes")]
@@ -11,10 +35,11 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] float startTime;
     [SerializeField] bool isHighlight;
 
-
-
-
     [Header("Component References")]
+    [SerializeField] List<TileObject> tileObjects;
+    [SerializeField] List<PatternObject> PatternObjects;
+
+
     [SerializeField] List<GameObject> tiles;
     [SerializeField] List<Transform> boxPoints;
     [SerializeField] public List<GameObject> spawnedTiles;

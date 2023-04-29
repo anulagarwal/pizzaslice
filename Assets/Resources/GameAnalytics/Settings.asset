@@ -26,11 +26,11 @@ MonoBehaviour:
   UserMessagesFailed: 0
   CustomArea: 
   gameKey:
-  - 9d3182a2d51a4d1cc75774e9dcde03b5
+  - e5414b19c80c4a15d697bd5a8c14f7df
   secretKey:
-  - 9311e6877bdcd914e46ea207cec32252b132f847
+  - c88acc96d3d2eac180bc4234d9b2d66b544c06c4
   Build:
-  - 0.1
+  - 0.9
   SelectedPlatformOrganization:
   - 
   SelectedPlatformStudio:
@@ -50,8 +50,8 @@ MonoBehaviour:
   OrganizationIdentifier: 
   EmailGA: 
   IntroScreen: 0
-  InfoLogEditor: 1
-  InfoLogBuild: 1
+  InfoLogEditor: 0
+  InfoLogBuild: 0
   VerboseLogBuild: 0
   UseManualSessionHandling: 0
   SendExampleGameDataToMyGame: 0
@@ -81,14 +81,14 @@ MonoBehaviour:
   iosIcon: {fileID: 0}
   macIcon: {fileID: 0}
   windowsPhoneIcon: {fileID: 0}
-  UsePlayerSettingsBuildNumber: 0
+  UsePlayerSettingsBuildNumber: 1
   SubmitErrors: 1
   NativeErrorReporting: 0
   MaxErrorCount: 10
   SubmitFpsAverage: 0
-  SubmitFpsCritical: 0
+  SubmitFpsCritical: 1
   IncludeGooglePlay: 1
-  FpsCriticalThreshold: 20
+  FpsCriticalThreshold: 30
   FpsCirticalSubmitInterval: 1
   PlatformFoldOut: 01
   CustomDimensions01FoldOut: 0
